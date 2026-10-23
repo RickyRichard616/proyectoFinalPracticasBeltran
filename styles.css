@@ -1,0 +1,122 @@
+/* 1. Reset básico y fuente general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #2a2c3b;
+    color: #d88220;
+}
+
+/* 2. Estilo para el Header (Barra superior) */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: #494c55; /* Fondo de la barra superior */
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-header {
+    height: 40px;       /* Podés subirlo o bajarlo según prefieras */
+    width: auto;        /* Mantiene la proporción original para que no se deforme */
+    display: block;
+}
+
+/* Textos y elementos del header en color b58248 */
+header a, header button, header span, header select {
+    color: #b58248;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* 3. Estilo para las líneas divisorias (hr) */
+hr {
+    border: none;
+    height: 10px;
+    background-color: #181d27;
+    width: 100%;
+}
+
+/* 4. Estilo para el Footer (Pie de página) */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #494c55; /* Fondo del pie de página */
+}
+
+/* Textos, enlaces y elementos del footer en color b58248 */
+footer a, footer p, footer span {
+    color: #b58248;
+    text-decoration: none;
+}
+
+.logo-footer {
+    height: 40px;       /* Altura para el footer */
+    width: auto;        /* Mantiene la proporción original */
+    display: block;
+}
+
+/* Menú desplegable sencillo y sutil */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    background: transparent;
+    color: #b58248;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.dropdown-btn:hover {
+    opacity: 0.8;
+}
+
+/* Submenú flotante que aparece al pasar el cursor */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #494c55;
+    min-width: 180px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.dropdown-menu a {
+    color: #b58248;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+}
+
+.dropdown-menu a:hover {
+    background-color: #3b3d45;
+}
+
+/* Desplegar al pasar el mouse */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}

@@ -1,11 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="Images/logopag.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inicio</title>
 </head>
 <body>
-    <p>Hello Richiburgers</p>
+
+    <!-- 1. PRIMERA VISTA: HEADER / BARRA SUPERIOR -->
+    <header>
+        <!-- Logo (1) -->
+        <div>
+            <a href="index.html">
+               <img src="Images/logopag.png" alt="Logo de la Marca" class="logo-header">
+            </a>
+        </div>
+
+        <!-- Navegacion y accesos -->
+        <nav>
+    <div class="dropdown">
+        <button class="dropdown-btn">Locales ▾</button>
+        <div class="dropdown-menu">
+            <a href="locales.html#taberna">La Taberna Medieval</a>
+            <a href="locales.html#cyberpunk">El Calabozo Cyberpunk</a>
+            <a href="locales.html#scifi">La Cantina Sci-Fi</a>
+        </div>
+    </div>
+    <div>
+        <a href="perfil.html">Iniciar Sesión</a>
+    </div>
+    <div>
+        <a href="perfil.html">Registro</a>
+    </div>
+    <div>
+        <a href="perfil.html">
+            <span>[ 2 ]</span>
+        </a>
+    </div>
+</nav>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL - SECCIÓN 1: BIENVENIDA Y PRESENTACIÓN -->
+    <main>
+        <section>
+            <center>
+                <div style="background-color: #363b5d;">
+                    <h1  style="margin: 1%; ">BIENVENIDOS</h1>
+                    <h2>Somos La pinta Don Dice</h2>
+                </div>
+            </center>
+            <div>
+
+                
+                <p>Queremos ofrecer una oferta de rol de mesa personalizada y para toda la familia!</p>
+                <p>¿Estas interesado en aprender sobre el rol de mesa y tener tu primer experiencia?</p>
+            </div>
+        </section>
+
+
+        <!-- 2. SEGUNDA VISTA (Al scrollear): ¿QUÉ ES EL ROL? Y RESPUESTAS (Rta1 - Rta5) -->
+        <section>
+            <h2>¿Qué es el rol?</h2>
+            
+            <div>
+                <div>
+                    <h3>Rta1</h3>
+                    <p>Explicación o concepto inicial sobre el rol de mesa.</p>
+                </div>
+                <div>
+                    <h3>Rta2</h3>
+                    <p>Detalle sobre la dinámica de juego y narración.</p>
+                </div>
+                <div>
+                    <h3>Rta3</h3>
+                    <p>Información sobre los dados y las hojas de personaje.</p>
+                </div>
+                <div>
+                    <h3>Rta4</h3>
+                    <p>El papel del Director de Juego (Game Master).</p>
+                </div>
+                <div>
+                    <h3>Rta5</h3>
+                    <p>La experiencia social y comunitaria de las partidas.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 3. TERCERA VISTA (Al scrollear más): LOCALES, LOGO PLANO, RESUMEN Y FLECHAS -->
+        <section>
+            <h2>Nuestros Locales Temáticos</h2>
+            
+            <div>
+                <!-- Logo del local con color plano de fondo (1) -->
+                <div style="background-color: #cccccc;">
+                    <span>[ 1 ] Logo Local</span>
+                </div>
+
+                <!-- Resumen de la temática del local -->
+                <div>
+                    <h3>Resumen Local 1, 2 o 3</h3>
+                    <p>Breve descripción de la ambientación, estética y propuesta del local seleccionado.</p>
+                    
+                    <!-- Botones de navegación / flechas -->
+                    <div>
+                        <button>&lt;</button>
+                        <button>&gt;</button>
+                    </div>
+                </div>
+
+                <!-- Imagen de referencia lateral (Img Ref) -->
+                <div>
+                    <span>[ Img Ref ]</span>
+                </div>
+            </div>
+        </section>
+
+        
+
+        <!-- 4. FINAL DEL SCROLL: TEXTO GRANDE Y BOTONES DE ACCIÓN -->
+        <section>
+            <div>
+                <h2>¿Quieres formar parte de esta experiencia?</h2>
+                <p>Toma un turno ahora mismo, registrandote en la pagina</p>
+            </div>
+
+            <div>
+                <!-- Botón de Turnos -->
+                <a href="perfil.html">
+                    <button>Turnos</button>
+                </a>
+
+                <!-- Botón de Crear usuario -->
+                <a href="perfil.html">
+                    <button>Crear usuario</button>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIE DE PÁGINA (FOOTER) -->
+    <footer>
+        <!-- Logo (1) -->
+        <div>
+            <a href="index.html">
+                <img src="Images/logopag.png" alt="Logo de la Marca" class="logo-footer">
+            </a>
+        </div>
+
+        <!-- Enlaces centrales -->
+        <div>
+            <span>-</span>
+            <span>-</span>
+        </div>
+
+        <!-- Información de contacto y redes -->
+        <div>
+            <p>Correo</p>
+            <p>Número</p>
+            <div>
+                <span>[📷]</span>
+                <span>[❌]</span>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
