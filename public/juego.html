@@ -346,10 +346,10 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         accionUsuario: accionElegida,
-                        zonaActual: gameState.zone,
-                        tiempoRestante: gameState.timeRemainingMinutes,
-                        salud: gameState.hp,
-                        mente: gameState.mental
+                        zonaActual: estadoJuego.zonaActual,
+                        tiempoRestante: estadoJuego.tiempoRestanteMinutos,
+                        salud: estadoJuego.salud,
+                        mente: estadoJuego.mente
                     })
                 });
 
