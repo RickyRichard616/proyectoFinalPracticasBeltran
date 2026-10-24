@@ -305,64 +305,8 @@
             tiempoRestanteMinutos: 120, // 2 horas de tiempo límite in-game
             salud: 100,
             mente: 100,
-            partidaTerminada: false,
-            nodoActualIndex: 0
+            partidaTerminada: false
         };
-
-        /* 
-          ÁRBOL NARRATIVO DE PRUEBA
-          Simula los datos que posteriormente por backend vamos a conectar con la API de IA.
-
-          Por IA deberemos recibir un JSON con esta misma estructura mediante AJAX.
-        */
-        const arbolNarrativo = [
-            {
-                zona: "Sótano de la Mansión",
-                narracion: "Despiertas en una habitación oscura y húmeda. El aire es denso y escuchas pasos distantes arriba. Frente a ti hay una puerta de madera vieja, una ventana con rejas y un baúl cubierto de polvo.",
-                opciones: [
-                    { texto: "Forzar la puerta de madera", tiempoCosto: 20, saludCosto: 10, menteCosto: 0, siguienteNodo: 1 },
-                    { texto: "Inspeccionar el baúl polvoriento", tiempoCosto: 15, saludCosto: 0, menteCosto: 15, siguienteNodo: 2 },
-                    { texto: "Intentar mirar por la ventana", tiempoCosto: 10, saludCosto: 0, menteCosto: 5, siguienteNodo: 3 }
-                ]
-            },
-            /* Nodo 1: Pasillo */
-            {
-                zona: "Pasillo Principal",
-                narracion: "Logras derribar la puerta sufriendo algunos rasguños. Estás en un pasillo largo iluminado por antorchas. Un guardia camina de espaldas al fondo.",
-                opciones: [
-                    { texto: "Atacar al guardia por la espalda", tiempoCosto: 15, saludCosto: 25, menteCosto: 5, siguienteNodo: 4 },
-                    { texto: "Esconderte tras una columna", tiempoCosto: 30, saludCosto: 0, menteCosto: 10, siguienteNodo: 4 },
-                    { texto: "Buscar un conducto de ventilación", tiempoCosto: 40, saludCosto: 5, menteCosto: 20, siguienteNodo: 4 }
-                ]
-            },
-            /* Nodo 2: Baúl */
-            {
-                zona: "Sótano de la Mansión",
-                narracion: "Abres el baúl y encuentras una extraña gema brillante. Al tocarla, una visión perturbadora asalta tu mente, pero te otorga valor.",
-                opciones: [
-                    { texto: "Usar la gema para romper la puerta", tiempoCosto: 15, saludCosto: 5, menteCosto: 10, siguienteNodo: 1 },
-                    { texto: "Guardar la gema e intentar la puerta normal", tiempoCosto: 20, saludCosto: 10, menteCosto: 5, siguienteNodo: 1 },
-                    { texto: "Buscar otra salida oculta tras el baúl", tiempoCosto: 35, saludCosto: 0, menteCosto: 15, siguienteNodo: 4 }
-                ]
-            },
-            /* Nodo 3: Ventana */
-            {
-                zona: "Sótano de la Mansión",
-                narracion: "Miras por la ventana. Ves la luna llena y notas que estás en una torre elevada. La brisa nocturna te despeja, pero perdiste tiempo.",
-                opciones: [
-                    { texto: "Volver a la puerta de madera", tiempoCosto: 10, saludCosto: 0, menteCosto: 0, siguienteNodo: 1 },
-                    { texto: "Gritar pidiendo ayuda", tiempoCosto: 15, saludCosto: 0, menteCosto: 25, siguienteNodo: 1 },
-                    { texto: "Intentar forzar los barrotes", tiempoCosto: 30, saludCosto: 20, menteCosto: 10, siguienteNodo: 1 }
-                ]
-            },
-            /* Nodo 4: Victoria */
-            {
-                zona: "Salida del Edificio",
-                narracion: "¡Felicidades! Has logrado cruzar el último portón y escapar con vida antes de que el tiempo se agotara.",
-                esVictoria: true,
-                opciones: []
-            }
-        ];
 
         let opcionesActuales = [];
 
@@ -384,33 +328,50 @@
             estadoJuego.salud = 100;
             estadoJuego.mente = 100;
             estadoJuego.partidaTerminada = false;
-            estadoJuego.nodoActualIndex = 0;
 
             bannerEstado.style.display = "none";
             contenedorAcciones.style.display = "flex";
             espacioNarrador.innerHTML = "";
 
-            cargarNodo(0);
+            enviarAccionAI("");
         }
 
-        // Cargar un nodo narrativo
-        function cargarNodo(indiceNodo) {
-            enviarAccionAI(indiceNodo);
+        async function enviarAccionAI(accionElegida) {
+            deshabilitarBotones("true");
+            agregarTextoNarrador("El narrador esta escribiendo los sucesos...");
 
-            const nodo = arbolNarrativo[indiceNodo];
-            
-            estadoJuego.zonaActual = nodo.zona;
-            opcionesActuales = nodo.opciones || [];
+            try{
+                const respuesta = await fetch('https://landing-site-fufr.onrender.com/api/jugar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accionUsuario: accionElegida,
+                        zonaActual: gameState.zone,
+                        tiempoRestante: gameState.timeRemainingMinutes,
+                        salud: gameState.hp,
+                        mente: gameState.mental
+                    })
+                });
 
-            actualizarInterfaz();
-            agregarTextoNarrador(nodo.narracion);
+                const datosNarrador = await respuesta.json();
+                
+                espacioNarrador.removeChild(espacioNarrador.lastChild);
 
-            if (nodo.esVictoria) {
-                finalizarPartida("¡VICTORIA! Has completado el desafío con éxito.", true);
-                return;
+                if(datosNarrador.zona){
+                    estadoJuego.zonaActual = datosNarrador.zona;
+                }
+
+                actualizarInterfaz();
+                agregarTextoNarrador(datosNarrador.narracion);
+
+                opcionesActuales = datosNarrador.opciones || [];
+                actualizarBotonesOpciones();
+            } catch (error) {
+                console.error("Error al conectar con la IA: ", error);
+                espacioNarrador.removeChild(espacioNarrador.lastChild);
+                agregarTextoNarrador("Error de conexion con el narrador. Intentelo de nuevo mas tarde.");
+                deshabilitarBotones(false);
             }
-
-            actualizarBotonesOpciones();
         }
 
         // Refrescar los indicadores visuales (1, 2 y 3)
@@ -463,6 +424,13 @@
             }
         }
 
+        function deshabilitarBotones(bloquear){
+            for(let i = 0; i < 3; i++){
+                let boton = document.getElementById("boton-opcion-" + i);
+                boton.disabled = bloquear;
+            }
+        }
+
         // Manejar la elección del usuario
         function seleccionarOpcion(indiceOpcion) {
             if (estadoJuego.partidaTerminada) return;
@@ -494,8 +462,7 @@
                 return;
             }
 
-            // Avanzar al siguiente nodo
-            cargarNodo(opcionElegida.siguienteNodo);
+            enviarAccionAI(opcionElegida.texto);
         }
 
         // Finalizar partida (Victoria o Derrota)
@@ -520,25 +487,6 @@
             reiniciarJuego();
         };
 
-        async function enviarAccionAI(accionElegida) {
-            const respuesta = await fetch('https://tu-backend.onrender.com/api/jugar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    accionUsuario: accionElegida,
-                    zonaActual: gameState.zone,
-                    tiempoRestante: gameState.timeRemainingMinutes,
-                    salud: gameState.hp,
-                    mente: gameState.mental
-                })
-            });
-
-            const datosNarrador = await respuesta.json();
-            
-            // Actualizas tu interfaz con los datos que devolvió Gemini
-            console.log("Nueva narración:", datosNarrador.narracion);
-            console.log("Nuevas opciones:", datosNarrador.opciones);
-        }
     </script>
 
 </body>
