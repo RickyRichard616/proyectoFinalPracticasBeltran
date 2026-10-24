@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const mysql = require('mysql2/promise');
 // importando libreria de googleAI
 const { GoogleGenAI } = require('@google/genai');
 
@@ -10,6 +11,18 @@ const PORT = process.env.PORT || 3000;
 // Habilitar CORS y lectura de JSON
 app.use(cors());
 app.use(express.json());
+
+// Establecer coneccion con la base de datos
+const pool = mysql.createPool({
+    host: process.env.DB_HOST,          // Host provisto por tu servicio (ej. Aiven)
+    user: process.env.DB_USER,          // Usuario (ej. avnadmin)
+    password: process.env.DB_PASSWORD,  // Contraseña de la base de datos
+    database: process.env.DB_NAME,      // Nombre de la base de datos (rol_y_locales_db)
+    port: process.env.DB_PORT || 3306,  // Puerto de MySQL
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
 
 // 1. Servir los archivos frontend (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
