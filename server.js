@@ -53,7 +53,7 @@ app.post('/api/jugar', async (req, res) => {
             const crearPrompt = `Inventa un desafío de rol diario único con un título de premisa atractivo, un tipo de cupón de recompensa (id_tipo_cupon del 1 al 5) y una introducción narrativa inicial. Responde estrictamente en formato JSON: {"tituloPremisa": "...", "idTipoCupoRecompensa": 1, "narracionInicial": "..."}`;
             const iaRespuesta = await ai.models.generateContent({
                 model: 'gemini-flash-lite-latest',
-                contents: promptCreacion,
+                contents: crearPrompt,
                 config: { responseMimeType: "application/json" }
             });
             const iaDatos = JSON.parse(iaRespuesta.text);
