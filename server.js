@@ -83,8 +83,8 @@ app.post('/api/jugar', async (req, res) => {
 
         if(filasIntentos.length === 0){
             await pool.query(
-                'INSERT INTO usuario_intentos_desafio (id_usuario, id_desafio_diario, estado) VALUES (?, ?, "en_curso")',
-                [idUsuario, desafioActual.id_desafio_diario]
+                'INSERT INTO usuario_intentos_desafio (id_usuario, id_desafio_diario, estado) VALUES (?, ?, ?)',
+                [idUsuario, desafioActual.id_desafio_diario, 'en_curso']
             );
         }
 
