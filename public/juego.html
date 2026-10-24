@@ -416,7 +416,13 @@
                 if (opcion) {
                     boton.style.display = "flex";
                     textoSpan.textContent = (i + 1) + ". " + opcion.texto;
-                    costoSpan.textContent = "Tiempo: -" + opcion.tiempoCosto + " min | Salud: -" + opcion.saludCosto + " | Mente: -" + opcion.menteCosto;
+                    
+                    // Protegemos la lectura comprobando diferentes variantes que la IA pueda enviar
+                    let tCosto = opcion.tiempoCosto ?? opcion.tiempoCoste ?? opcion.timeCost ?? 0;
+                    let sCosto = opcion.saludCosto ?? opcion.saludCoste ?? opcion.hpCost ?? 0;
+                    let mCosto = opcion.menteCosto ?? opcion.menteCoste ?? opcion.mentalCost ?? 0;
+
+                    costoSpan.textContent = "Tiempo: -" + tCosto + " min | Salud: -" + sCosto + " | Mente: -" + mCosto;
                     boton.disabled = false;
                 } else {
                     boton.style.display = "none";
@@ -438,10 +444,15 @@
             let opcionElegida = opcionesActuales[indiceOpcion];
             if (!opcionElegida) return;
 
-            // Consumir recursos
-            estadoJuego.tiempoRestanteMinutos -= opcionElegida.tiempoCosto;
-            estadoJuego.salud -= opcionElegida.saludCosto;
-            estadoJuego.mente -= opcionElegida.menteCosto;
+            // Extraemos los costos de forma segura con operadores de fusión nula (??)
+            let tCosto = opcionElegida.tiempoCosto ?? opcionElegida.tiempoCoste ?? opcionElegida.timeCost ?? 0;
+            let sCosto = opcionElegida.saludCosto ?? opcionElegida.saludCoste ?? opcionElegida.hpCost ?? 0;
+            let mCosto = opcionElegida.menteCosto ?? opcionElegida.menteCoste ?? opcionElegida.mentalCost ?? 0;
+
+            // Consumir recursos de forma correcta y segura
+            estadoJuego.tiempoRestanteMinutos -= tCosto;
+            estadoJuego.salud -= sCosto;
+            estadoJuego.mente -= mCosto;
 
             actualizarInterfaz();
             agregarTextoNarrador("> Elegiste: " + opcionElegida.texto);

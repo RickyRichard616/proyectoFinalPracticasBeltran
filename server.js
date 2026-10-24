@@ -42,23 +42,23 @@ app.post('/api/jugar', async (req, res) => {
               "opciones": [
                 {
                   "texto": "Descripción de la opción 1",
-                  "tiempoCoste": (Valor int que consideres apropiado dada la opcion correspondiente),
-                  "saludCoste": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
-                  "menteCoste": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
+                  "tiempoCosto": (Valor int que consideres apropiado dada la opcion correspondiente),
+                  "saludCosto": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
+                  "menteCosto": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
                   "siguienteNodoId": 1
                 },
                 {
                   "texto": "Descripción de la opción 2",
-                  "tiempoCoste": (Valor int que consideres apropiado dada la opcion correspondiente),
-                  "saludCoste": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
-                  "menteCoste": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
+                  "tiempoCosto": (Valor int que consideres apropiado dada la opcion correspondiente),
+                  "saludCosto": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
+                  "menteCosto": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
                   "siguienteNodoId": 2
                 },
                 {
                   "texto": "Descripción de la opción 3",
-                  "tiempoCoste": (Valor int que consideres apropiado dada la opcion correspondiente),
-                  "saludCoste": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
-                  "menteCoste": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
+                  "tiempoCosto": (Valor int que consideres apropiado dada la opcion correspondiente),
+                  "saludCosto": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
+                  "menteCosto": (Valor int que consideres apropiado dada la opcion en un margen de 1 a 100),
                   "siguienteNodoId": 3
                 }
               ]
