@@ -1,0 +1,335 @@
+/* ===========================
+   VARIABLES GLOBALES
+=========================== */
+
+:root{
+
+    --color-fondo:#2a2c3b;
+    --color-panel:#494c55;
+
+    --color-dorado:#b58248;
+    --color-naranja:#d88220;
+
+    --color-texto:#ffffff;
+
+    --ancho-maximo:1200px;
+
+}
+
+/* ===========================
+   RESET
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    background-color:var(--color-fondo);
+
+    color:var(--color-texto);
+
+    font-family:Arial, sans-serif;
+
+    line-height:1.6;
+}
+
+/* ===========================
+   CONTENEDOR
+=========================== */
+
+.container{
+
+    width:90%;
+    max-width:var(--ancho-maximo);
+
+    margin:auto;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px 40px;
+
+    background-color:var(--color-panel);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:100;
+}
+
+.logo-header{
+
+    height:50px;
+
+    width:auto;
+}
+
+nav{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:25px;
+}
+
+nav a{
+
+    color:var(--color-dorado);
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    transition:.3s;
+}
+
+nav a:hover{
+
+    color:var(--color-naranja);
+}
+
+/* ===========================
+   ICONO PERFIL
+=========================== */
+
+.perfil-icono{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    transition:.3s;
+}
+
+.perfil-icono:hover{
+
+    transform:scale(1.05);
+}
+
+/* ===========================
+   DROPDOWN
+=========================== */
+
+.dropdown{
+
+    position:relative;
+}
+
+.dropdown-btn{
+
+    background:none;
+
+    border:none;
+
+    color:var(--color-dorado);
+
+    font-size:1rem;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.dropdown-menu{
+
+    display:none;
+
+    position:absolute;
+
+    top:100%;
+
+    left:0;
+
+    min-width:200px;
+
+    background-color:var(--color-panel);
+
+    border-radius:8px;
+
+    overflow:hidden;
+}
+
+.dropdown-menu a{
+
+    display:block;
+
+    padding:12px;
+}
+
+.dropdown:hover .dropdown-menu{
+
+    display:block;
+}
+
+/* ===========================
+   BOTONES
+=========================== */
+
+.btn-principal,
+.btn-secundario,
+.btn-local{
+
+    display:inline-block;
+
+    text-decoration:none;
+
+    border-radius:8px;
+
+    padding:12px 24px;
+
+    font-weight:bold;
+
+    transition:.3s;
+}
+
+.btn-principal{
+
+    background-color:var(--color-dorado);
+
+    color:white;
+}
+
+.btn-principal:hover{
+
+    background-color:var(--color-naranja);
+}
+
+.btn-secundario{
+
+    border:2px solid var(--color-dorado);
+
+    color:var(--color-dorado);
+}
+
+.btn-secundario:hover{
+
+    background-color:var(--color-dorado);
+
+    color:white;
+}
+
+.btn-local{
+
+    background-color:var(--color-dorado);
+
+    color:white;
+}
+
+/* ===========================
+   ANIMACIONES
+=========================== */
+
+.oculto{
+
+    opacity:0;
+
+    transform:translateY(50px);
+
+    transition:all .8s ease;
+}
+
+.visible{
+
+    opacity:1;
+
+    transform:translateY(0);
+}
+
+@keyframes flotar{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-15px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+footer{
+
+    background-color:var(--color-panel);
+
+    padding:25px 40px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+}
+
+.logo-footer{
+
+    height:45px;
+}
+
+footer a,
+footer p{
+
+    text-decoration:none;
+
+    color:var(--color-dorado);
+}
+
+/* ===========================
+   RESPONSIVE GENERAL
+=========================== */
+
+@media(max-width:768px){
+
+    header{
+
+        flex-direction:column;
+
+        gap:15px;
+    }
+
+    nav{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+    }
+
+    footer{
+
+        flex-direction:column;
+
+        gap:15px;
+    }
+}

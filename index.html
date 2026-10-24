@@ -1,172 +1,385 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="Images/logopag.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+
+    <title>La Pinta Don Dice</title>
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="icon"
+          type="image/png"
+          href="images/logos/logopag.png">
+
 </head>
+
 <body>
 
-    <!-- 1. PRIMERA VISTA: HEADER / BARRA SUPERIOR -->
-    <header>
-        <!-- Logo (1) -->
-        <div>
-            <a href="index.html">
-               <img src="Images/logopag.png" alt="Logo de la Marca" class="logo-header">
-            </a>
-        </div>
+    <!-- ================= HEADER ================= -->
 
-        <!-- Navegacion y accesos -->
-        <nav>
-    <div class="dropdown">
-        <button class="dropdown-btn">Locales ▾</button>
-        <div class="dropdown-menu">
-            <a href="locales.html#taberna">La Taberna Medieval</a>
-            <a href="locales.html#cyberpunk">El Calabozo Cyberpunk</a>
-            <a href="locales.html#scifi">La Cantina Sci-Fi</a>
-        </div>
-    </div>
-    <div>
-        <a href="perfil.html">Iniciar Sesión</a>
-    </div>
-    <div>
-        <a href="perfil.html">Registro</a>
-    </div>
-    <div>
-        <a href="perfil.html">
-            <span>[ 2 ]</span>
+    <header>
+
+        <a href="index.html">
+
+            <img src="images/logos/logopag.png"
+                 alt="Logo de La Pinta Don Dice"
+                 class="logo-header">
+
         </a>
-    </div>
-</nav>
+
+        <nav>
+
+            <div class="dropdown">
+
+                <button class="dropdown-btn">
+
+                    Locales ▼
+
+                </button>
+
+                <div class="dropdown-menu">
+
+                    <a href="locales.html#medieval">
+                        La Pinta
+                    </a>
+
+                    <a href="locales.html#cyberpunk">
+                        El Puente
+                    </a>
+
+                    <a href="locales.html#heroes">
+                        La Torre
+                    </a>
+
+                </div>
+
+            </div>
+
+            <a href="contacto.html">
+                Contacto
+            </a>
+
+            <a href="perfil.html">
+
+                <img src="images/logos/user_base.png"
+                     alt="Perfil de usuario"
+                     class="perfil-icono">
+
+            </a>
+
+        </nav>
+
     </header>
 
-    <!-- CONTENIDO PRINCIPAL - SECCIÓN 1: BIENVENIDA Y PRESENTACIÓN -->
+    <!-- ================= MAIN ================= -->
+
     <main>
-        <section>
-            <center>
-                <div style="background-color: #363b5d;">
-                    <h1  style="margin: 1%; ">BIENVENIDOS</h1>
-                    <h2>Somos La pinta Don Dice</h2>
-                </div>
-            </center>
-            <div>
 
-                
-                <p>Queremos ofrecer una oferta de rol de mesa personalizada y para toda la familia!</p>
-                <p>¿Estas interesado en aprender sobre el rol de mesa y tener tu primer experiencia?</p>
+        <!-- ================= HERO ================= -->
+
+        <section class="hero fade-up">
+
+            <div class="hero-contenido">
+
+                <h1>
+
+                    La Pinta Don Dice
+
+                </h1>
+
+                <p>
+
+                    Mundos de fantasía, ciencia ficción y superhéroes
+                    te esperan alrededor de una mesa.
+
+                </p>
+
+                <a href="#como-funciona"
+                   class="btn-principal">
+
+                    Descubre el Rol
+
+                </a>
+
             </div>
+
         </section>
 
+        <!-- ================= COMO FUNCIONA EL ROL ================= -->
 
-        <!-- 2. SEGUNDA VISTA (Al scrollear): ¿QUÉ ES EL ROL? Y RESPUESTAS (Rta1 - Rta5) -->
-        <section>
-            <h2>¿Qué es el rol?</h2>
-            
-            <div>
-                <div>
-                    <h3>Rta1</h3>
-                    <p>Explicación o concepto inicial sobre el rol de mesa.</p>
+        <section id="como-funciona"
+                 class="parallax-rol">
+
+            <h2>
+
+                ¿Qué es un juego de rol?
+
+            </h2>
+
+            <!-- BLOQUE 1 -->
+
+            <div class="explicacion izquierda oculto">
+
+                <div class="texto">
+
+                    <h3>
+                        Crea tu personaje
+                    </h3>
+
+                    <p>
+
+                        Diseña un personaje único con habilidades,
+                        historia y motivaciones propias.
+
+                    </p>
+
                 </div>
-                <div>
-                    <h3>Rta2</h3>
-                    <p>Detalle sobre la dinámica de juego y narración.</p>
+
+                <div class="mascota">
+
+                    <img src="images/personajes/mascota.png"
+                         alt="Mascota de La Pinta Don Dice">
+
                 </div>
-                <div>
-                    <h3>Rta3</h3>
-                    <p>Información sobre los dados y las hojas de personaje.</p>
-                </div>
-                <div>
-                    <h3>Rta4</h3>
-                    <p>El papel del Director de Juego (Game Master).</p>
-                </div>
-                <div>
-                    <h3>Rta5</h3>
-                    <p>La experiencia social y comunitaria de las partidas.</p>
-                </div>
+
             </div>
+
+            <!-- BLOQUE 2 -->
+
+            <div class="explicacion derecha oculto">
+
+                <div class="mascota">
+
+                    <img src="images/personajes/mascota.png"
+                         alt="Mascota de La Pinta Don Dice">
+
+                </div>
+
+                <div class="texto">
+
+                    <h3>
+                        Toma decisiones
+                    </h3>
+
+                    <p>
+
+                        Cada elección modifica el rumbo de la historia
+                        y afecta a todo el grupo.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- BLOQUE 3 -->
+
+            <div class="explicacion izquierda oculto">
+
+                <div class="texto">
+
+                    <h3>
+                        Lanza los dados
+                    </h3>
+
+                    <p>
+
+                        Los dados decidirán si tu plan resulta un éxito
+                        memorable o una catástrofe legendaria.
+
+                    </p>
+
+                </div>
+
+                <div class="mascota">
+
+                    <img src="images/personajes/mascota.png"
+                         alt="Mascota de La Pinta Don Dice">
+
+                </div>
+
+            </div>
+
+            <!-- BLOQUE 4 -->
+
+            <div class="explicacion derecha oculto">
+
+                <div class="mascota">
+
+                    <img src="images/personajes/mascota.png"
+                         alt="Mascota de La Pinta Don Dice">
+
+                </div>
+
+                <div class="texto">
+
+                    <h3>
+                        Vive una aventura
+                    </h3>
+
+                    <p>
+
+                        Comparte historias inolvidables con otros
+                        jugadores y crea recuerdos únicos.
+
+                    </p>
+
+                </div>
+
+            </div>
+
         </section>
 
+        <!-- ================= LOCALES ================= -->
 
-        <!-- 3. TERCERA VISTA (Al scrollear más): LOCALES, LOGO PLANO, RESUMEN Y FLECHAS -->
-        <section>
-            <h2>Nuestros Locales Temáticos</h2>
-            
-            <div>
-                <!-- Logo del local con color plano de fondo (1) -->
-                <div style="background-color: #cccccc;">
-                    <span>[ 1 ] Logo Local</span>
-                </div>
+        <section class="locales-destacados">
 
-                <!-- Resumen de la temática del local -->
-                <div>
-                    <h3>Resumen Local 1, 2 o 3</h3>
-                    <p>Breve descripción de la ambientación, estética y propuesta del local seleccionado.</p>
-                    
-                    <!-- Botones de navegación / flechas -->
-                    <div>
-                        <button>&lt;</button>
-                        <button>&gt;</button>
+            <h2>
+
+                Nuestros Locales
+
+            </h2>
+
+            <div class="carrusel-locales">
+
+                <button id="anterior"
+                        class="btn-anterior">
+
+                    ◀
+
+                </button>
+
+                <div id="local-activo"
+                     class="local-destacado">
+
+                    <div class="imagen-local">
+
+                        Imagen del Local
+
                     </div>
+
+                    <div class="info-local">
+
+                        <h3>
+
+                            La Pinta
+
+                        </h3>
+
+                        <p>
+
+                            Una taberna medieval donde podrás vivir
+                            aventuras de fantasía, dragones, castillos
+                            y héroes legendarios.
+
+                        </p>
+
+                        <a href="locales.html#medieval"
+                           class="btn-local">
+
+                            Ver Local
+
+                        </a>
+
+                    </div>
+
                 </div>
 
-                <!-- Imagen de referencia lateral (Img Ref) -->
-                <div>
-                    <span>[ Img Ref ]</span>
-                </div>
+                <button id="siguiente"
+                        class="btn-siguiente">
+
+                    ▶
+
+                </button>
+
             </div>
+
         </section>
 
-        
+        <!-- ================= CTA ================= -->
 
-        <!-- 4. FINAL DEL SCROLL: TEXTO GRANDE Y BOTONES DE ACCIÓN -->
-        <section>
-            <div>
-                <h2>¿Quieres formar parte de esta experiencia?</h2>
-                <p>Toma un turno ahora mismo, registrandote en la pagina</p>
+        <section class="cta-final">
+
+            <div class="cta-texto">
+
+                <h2>
+
+                    ¿Quieres formar parte de esta experiencia?
+
+                </h2>
+
+                <p>
+
+                    Reserva tu próximo turno o crea una cuenta para
+                    comenzar tu aventura.
+
+                </p>
+
             </div>
 
-            <div>
-                <!-- Botón de Turnos -->
-                <a href="perfil.html">
-                    <button>Turnos</button>
+            <div class="cta-botones">
+
+                <a href="perfil.html#turnos"
+                   class="btn-principal">
+
+                    Reservar Turno
+
                 </a>
 
-                <!-- Botón de Crear usuario -->
-                <a href="perfil.html">
-                    <button>Crear usuario</button>
+                <a href="perfil.html#registro"
+                   class="btn-secundario">
+
+                    Crear Usuario
+
                 </a>
+
             </div>
+
         </section>
 
     </main>
 
-    <!-- PIE DE PÁGINA (FOOTER) -->
+    <!-- ================= FOOTER ================= -->
+
     <footer>
-        <!-- Logo (1) -->
-        <div>
+
+        <div class="footer-logo">
+
             <a href="index.html">
-                <img src="Images/logopag.png" alt="Logo de la Marca" class="logo-footer">
+
+                <img src="images/logos/logopag.png"
+                     alt="Logo principal"
+                     class="logo-footer">
+
             </a>
+
         </div>
 
-        <!-- Enlaces centrales -->
-        <div>
-            <span>-</span>
-            <span>-</span>
+        <div class="footer-links">
+
+            <a href="contacto.html">
+                Contacto
+            </a>
+
         </div>
 
-        <!-- Información de contacto y redes -->
-        <div>
-            <p>Correo</p>
-            <p>Número</p>
-            <div>
-                <span>[📷]</span>
-                <span>[❌]</span>
-            </div>
+        <div class="footer-contacto">
+
+            <p>
+                contacto@lapintadondice.com
+            </p>
+
+            <p>
+                0800-DON-DICE
+            </p>
+
         </div>
+
     </footer>
 
 </body>
+
 </html>

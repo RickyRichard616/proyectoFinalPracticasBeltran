@@ -1,0 +1,385 @@
+/* ===========================
+   HERO DE LOCALES
+=========================== */
+
+.hero-locales{
+
+    min-height:70vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    padding:80px 20px;
+}
+
+.hero-locales-contenido{
+
+    max-width:800px;
+}
+
+.hero-locales h1{
+
+    font-size:4rem;
+
+    color:var(--color-dorado);
+
+    margin-bottom:20px;
+}
+
+.hero-locales p{
+
+    font-size:1.3rem;
+}
+
+
+/* ===========================
+   SECCIONES GENERALES
+=========================== */
+
+.local{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:60px;
+
+    padding:100px 10%;
+}
+
+.local-info{
+
+    flex:1;
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(8px);
+
+    padding:30px;
+
+    border-radius:20px;
+}
+
+.local-info h2{
+
+    font-size:3rem;
+
+    margin-bottom:10px;
+}
+
+.local-info h3{
+
+    margin-bottom:20px;
+
+    font-size:1.5rem;
+}
+
+.local-info h4{
+
+    margin-top:30px;
+
+    margin-bottom:15px;
+}
+
+.local-info p{
+
+    margin-bottom:20px;
+}
+
+.local-info ul{
+
+    padding-left:20px;
+}
+
+.local-info li{
+
+    margin-bottom:8px;
+}
+
+
+/* ===========================
+   IMÁGENES
+=========================== */
+
+.local-imagen{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+}
+
+.local-imagen img{
+
+    width:100%;
+
+    max-width:550px;
+
+    border-radius:20px;
+
+    object-fit:cover;
+
+    transition:0.4s;
+}
+
+.local-imagen img:hover{
+
+    transform:scale(1.03);
+}
+
+
+/* ===========================
+   LA PINTA
+=========================== */
+
+.medieval{
+
+    background:
+
+    linear-gradient(
+        rgba(0,0,0,.65),
+        rgba(0,0,0,.65)
+    ),
+
+    url("../images/locales/fondopinta.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    background-attachment:fixed;
+
+}
+
+.medieval h2{
+
+    color:#f0c674;
+}
+
+.medieval h3{
+
+    color:#d8b46a;
+}
+
+.medieval .local-imagen img{
+
+    box-shadow:
+    0 0 25px rgba(240,198,116,.3);
+}
+
+
+/* ===========================
+   EL PUENTE
+=========================== */
+
+.cyberpunk{
+
+    background:
+
+    linear-gradient(
+        rgba(0,0,0,.75),
+        rgba(0,0,0,.75)
+    ),
+
+    url("../images/locales/fondopuente.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    background-attachment:fixed;
+
+}
+
+.cyberpunk h2{
+
+    color:#32dfff;
+
+    text-shadow:
+    0 0 10px #32dfff;
+}
+
+.cyberpunk h3{
+
+    color:#ff46d2;
+}
+
+.cyberpunk .local-imagen img{
+
+    box-shadow:
+    0 0 25px rgba(50,223,255,.4);
+}
+
+
+/* ===========================
+   LA TORRE
+=========================== */
+
+.heroes{
+
+    background:
+
+    linear-gradient(
+        rgba(0,0,0,.65),
+        rgba(0,0,0,.65)
+    ),
+
+    url("../images/locales/fondotorre.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    background-attachment:fixed;
+
+}
+
+.heroes h2{
+
+    color:#ffd447;
+}
+
+.heroes h3{
+
+    color:#ff5a5a;
+}
+
+.heroes .local-imagen img{
+
+    box-shadow:
+    0 0 25px rgba(255,212,71,.4);
+}
+
+
+/* ===========================
+   CTA FINAL
+=========================== */
+
+.cta-locales{
+
+    text-align:center;
+
+    padding:120px 20px;
+
+    background-color:var(--color-panel);
+}
+
+.cta-locales h2{
+
+    color:var(--color-dorado);
+
+    margin-bottom:20px;
+
+    font-size:2.5rem;
+}
+
+.cta-locales p{
+
+    margin-bottom:30px;
+
+    font-size:1.2rem;
+}
+
+
+/* ===========================
+   ANIMACIONES
+=========================== */
+
+.local{
+
+    opacity:0;
+
+    transform:translateY(50px);
+
+    animation:aparecer 1s ease forwards;
+}
+
+.medieval{
+
+    animation-delay:0.2s;
+}
+
+.cyberpunk{
+
+    animation-delay:0.4s;
+}
+
+.heroes{
+
+    animation-delay:0.6s;
+}
+
+@keyframes aparecer{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(50px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+    }
+}
+
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width:900px){
+
+    .local{
+
+        flex-direction:column;
+
+        text-align:center;
+    }
+
+    .local-info ul{
+
+        list-style-position:inside;
+    }
+
+    .hero-locales h1{
+
+        font-size:2.8rem;
+    }
+
+}
+
+@media (max-width:600px){
+
+    .hero-locales h1{
+
+        font-size:2.2rem;
+    }
+
+    .local-info h2{
+
+        font-size:2rem;
+    }
+
+}
