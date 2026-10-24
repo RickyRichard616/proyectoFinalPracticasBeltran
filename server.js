@@ -65,9 +65,9 @@ app.post('/api/jugar', async (req, res) => {
             }
         `;
 
-        // 2. LLAMADA A LA API DE GEMINI (Usando Gemini 1.5 Flash para máxima velocidad)
+        // 2. LLAMADA A LA API DE GEMINI (lite para maxima velocidad)
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-flash-lite-latest',
             contents: accionUsuario ? `El usuario decidió: "${accionUsuario}"` : "Inicia la aventura del desafío diario de hoy.",
             config: {
                 systemInstruction: systemInstruction,
