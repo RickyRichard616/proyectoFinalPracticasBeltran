@@ -323,7 +323,7 @@
 
         // Función para inicializar o reiniciar el juego (solo durante testing)
         function reiniciarJuego() {
-            estadoJuego.zonaActual = "Sótano de la Mansión";
+            estadoJuego.zonaActual = "Generando universo...";
             estadoJuego.tiempoRestanteMinutos = 120;
             estadoJuego.salud = 100;
             estadoJuego.mente = 100;
@@ -333,6 +333,7 @@
             contenedorAcciones.style.display = "flex";
             espacioNarrador.innerHTML = "";
 
+            // enviar peticion vacia para crear escenario nuevo desde 0
             enviarAccionAI("");
         }
 
@@ -354,7 +355,6 @@
                 });
 
                 const datosNarrador = await respuesta.json();
-                
                 espacioNarrador.removeChild(espacioNarrador.lastChild);
 
                 if(datosNarrador.zona){
@@ -364,12 +364,19 @@
                 actualizarInterfaz();
                 agregarTextoNarrador(datosNarrador.narracion);
 
+                // VERIFICAR SI LA IA DECRETÓ LA VICTORIA
+                if (datosNarrador.esVictoria === true) {
+                    finalizarPartida("¡VICTORIA! Has completado el desafío con éxito.", true);
+                    return;
+                }
+
                 opcionesActuales = datosNarrador.opciones || [];
                 actualizarBotonesOpciones();
+
             } catch (error) {
                 console.error("Error al conectar con la IA: ", error);
                 espacioNarrador.removeChild(espacioNarrador.lastChild);
-                agregarTextoNarrador("Error de conexion con el narrador. Intentelo de nuevo mas tarde.");
+                agregarTextoNarrador("Error de conexion con el narrador. Contacte con soporte.");
                 deshabilitarBotones(false);
             }
         }
