@@ -74,7 +74,8 @@ app.post('/api/jugar', async (req, res) => {
         // Validar unico intento por usuario
         let [filasIntentos] = await pool.query(
             'SELECT * FROM usuario_intentos_desafio WHERE id_usuario = ? AND id_desafio_diario = ?',
-            [idUsuario, desafioActual.id_desafio_diario]
+            //[idUsuario, desafioActual.id_desafio_diario]
+            [1, desafioActual.id_desafio_diario]
         );
 
         if(filasIntentos.length > 0 && filasIntentos[0].estado !== 'en_curso'){
