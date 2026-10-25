@@ -464,22 +464,6 @@
             actualizarInterfaz();
             agregarTextoNarrador("> Elegiste: " + opcionElegida.texto);
 
-            // Validar condiciones de Derrota
-            if (estadoJuego.salud <= 0) {
-                finalizarPartida("DERROTA: Has sufrido demasiados daños y tu salud llegó a 0.", false);
-                return;
-            }
-
-            if (estadoJuego.mente <= 0) {
-                finalizarPartida("DERROTA: El estrés mental te abrumó y perdiste la cordura.", false);
-                return;
-            }
-
-            if (estadoJuego.tiempoRestanteMinutos <= 0) {
-                finalizarPartida("DERROTA: El tiempo in-game se ha agotado.", false);
-                return;
-            }
-
             enviarAccionAI(opcionElegida.texto);
         }
 

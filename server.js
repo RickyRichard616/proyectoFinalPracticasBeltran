@@ -77,7 +77,10 @@ app.post('/api/jugar', async (req, res) => {
                 contents: crearPrompt,
                 config: { responseMimeType: "application/json" }
             });
-            const iaDatos = JSON.parse(iaRespuesta.text);
+
+            const iaDatosLimpio = iaResponse.text.replace(/```json/g, '').replace(/```/g, '').trim();
+            const iaDatos = JSON.parse(iaDatosLimpio);
+
             const [insertarResultado] = await pool.query(
                 'INSERT INTO desafios_diarios (fecha, titulo_premisa, id_tipo_cupon_recompensa) VALUES (?, ?, ?)',
                 [fechaHoy, iaDatos.tituloPremisa, iaDatos.idTipoCupoRecompensa]
@@ -191,7 +194,8 @@ app.post('/api/jugar', async (req, res) => {
         });
 
         // 3. Enviar la respuesta generada por la IA de vuelta al frontend
-        const resultadoJson = JSON.parse(response.text);
+        const textoLimpio = response.text.replace(/```json/g, '').replace(/```/g, '').trim();
+        const resultadoJson = JSON.parse(textoLimpio);
 
         // 5. Verificar si la IA decretó la VICTORIA en este turno
         if (resultadoJson.esVictoria === true || resultadoJson.esVictoria === "true") {
