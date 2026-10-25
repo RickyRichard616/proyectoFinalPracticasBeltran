@@ -13,7 +13,7 @@ let idUsuario = null;
 async function registrar(e){
     e.preventDefault();
     const nombre = document.getElementById("registro-usuario").value;
-    const password = document.getElementById("registro-password").value;
+    const contrasenia = document.getElementById("registro-password").value;
     try{
         const response = await fetch('https://landing-site-fufr.onrender.com/api/registro',{
             method:'POST',
@@ -23,7 +23,7 @@ async function registrar(e){
             },
             body:JSON.stringify({
                 nombre,
-                password
+                contrasenia
             })
         });
         const data = await response.json();
@@ -37,7 +37,7 @@ async function registrar(e){
 async function login(e){
     e.preventDefault();
     const nombre = document.getElementById("login-usuario").value;
-    const password = document.getElementById("login-password").value;
+    const contrasenia = document.getElementById("login-password").value;
     try{
         const response = await fetch('https://landing-site-fufr.onrender.com/api/login',{
             method:'POST',
@@ -47,7 +47,7 @@ async function login(e){
             },
             body:JSON.stringify({
                 nombre,
-                password
+                contrasenia
             })
         });
         const data = await response.json();
