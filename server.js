@@ -36,8 +36,6 @@ app.get('/', (req, res) => {
     res.json({ estado: "Backend y API listos" });
 })
 
-let intentoActual = null;
-
 // Endpoint principal del minijuego (Recibe la acción del usuario y el estado actual)
 app.post('/api/jugar', async (req, res) => {
     try {
@@ -115,10 +113,19 @@ app.post('/api/jugar', async (req, res) => {
         // 3. Evaluar si el usuario ya venía derrotado por estadísticas (salud, mente o tiempo)
         const estaDerrotadoPorStats = (salud <= 0 || mente <= 0 || tiempoRestante <= 0);
         if (estaDerrotadoPorStats) {
-            await pool.query(
-                'UPDATE usuario_intentos_desafio SET estado = ? WHERE id_intento = ?',
-                ['perdido', intentoActual.id_intento]
+            let [filasIntentos] = await pool.query(
+                'SELECT * FROM usuario_intentos_desafio WHERE id_usuario = ? AND id_desafio_diario = ?',
+                [idUsuario, desafioActual.id_desafio_diario]
             );
+            if (filasIntentos.length > 0) {
+                let intentoActual = filasIntentos[0]; // Obtenemos el objeto real de la primera fila
+
+                // 3. Actualizamos usando el id_intento correcto
+                await pool.query(
+                    'UPDATE usuario_intentos_desafio SET estado = ? WHERE id_intento = ?',
+                    ['perdido', intentoActual.id_intento]
+                );
+            }
             return res.json({ esVictoria: false, partidoTerminado: true, mensaje: "DERROTA: Has sucumbido." });
         }
 
