@@ -264,6 +264,32 @@ app.post('/api/registro', async (req, res) => {
     }
 });
 
+app.post('/api/login', async (req, res) => {
+    try{
+        const {nombre,contrasenia} = req.body;
+
+        if (!nombre || !contrasenia){
+            return res.status(400).json({ error: "Faltan datos obligatorios como Nombre y Contraseña." });
+        }
+
+        const [resultado] = await pool.query(
+            `SELECT id_usuario FROM usuarios WHERE nombre='?', contrasenia='?'`,
+            [nombre,contrasenia]
+        );
+
+        res.status(200).json({
+            idUsuario: resultado[0].id_usuario
+        });
+    }catch(error){
+        console.error("Error relacionado al log in:", error);
+        if(error.code === 'ER_DUP_ENTRY'){
+            res.status(400).json({ error: "Ese usuario ya existe." });            
+        }else{
+            res.status(500).json({ error: "Hubo un error al registrar al usuario." });
+        }
+    }
+});
+
 // 1. Servir los archivos frontend (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
