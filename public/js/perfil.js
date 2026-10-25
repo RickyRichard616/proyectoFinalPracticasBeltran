@@ -58,40 +58,6 @@ async function login(e){
     }
 }
 
-/*Registro*/
-
-app.post("/api/registro",async (req,res) => {
-    const { nombre, password } = req.body;
-    try{
-        await pool.query(`INSERT INTO usuarios(nombre, contrasenia) VALUES (?,?)`,[nombre, password]);
-        res.json({ mensaje: "Usuario creado" });
-    }catch(error){
-        console.error(error);
-        res.status(500).json({ mensaje:"Error" });
-    }
-});
-
-/*Login*/
-
-app.post("/api/login",async (req,res) => {
-    const { nombre, password } = req.body;
-    try{
-        const [usuarios] = await pool.query(`SELECT * FROM usuarios WHERE nombre = ? AND contrasenia = ?`,
-        [nombre, password]);
-        if(usuarios.length === 0){
-            return res.status(401).json({ error:"Credenciales" });
-        }
-
-        res.json({
-            idUsuario: usuarios[0].id_usuario,
-            nombre: usuarios[0].nombre
-        });
-    }catch(error){
-        console.error(error);
-        res.status(500).json({error:"Servidor"});
-    }
-});
-
 /*Botones de registrio y login*/
 function abrirLogin(){
     document
