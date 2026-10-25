@@ -17,7 +17,12 @@
     padding:80px 20px;
 }
 
-.hero h1{
+.hero-contenido{
+
+    max-width:900px;
+}
+
+.hero-titulo{
 
     font-size:4rem;
 
@@ -26,36 +31,31 @@
     margin-bottom:20px;
 }
 
-.hero p{
+.hero-texto{
 
     font-size:1.3rem;
 
     max-width:700px;
 
-    margin:auto;
+    margin:0 auto 20px;
+}
 
-    margin-bottom:30px;
+.hero-botones{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+    margin-top:30px;
 }
 
 /* ===========================
-   ROL
+   EXPLICACIONES ROL
 =========================== */
-
-.parallax-rol{
-
-    padding:100px 10%;
-}
-
-.parallax-rol h2{
-
-    text-align:center;
-
-    margin-bottom:80px;
-
-    font-size:3rem;
-
-    color:var(--color-dorado);
-}
 
 .explicacion{
 
@@ -63,16 +63,128 @@
 
     align-items:center;
 
-    justify-content:space-between;
+    justify-content:center;
 
-    gap:50px;
+    gap:40px;
 
     margin-bottom:120px;
 }
 
+.izquierda{
+}
+
+.derecha{
+    flex-direction:row-reverse;
+}
+
+/* ===========================
+   IMÁGENES
+=========================== */
+
+.imagen-container{
+
+    width:40%;
+
+    min-width:300px;
+
+    height:350px;
+
+    overflow:hidden;
+
+    border-radius:20px;
+
+    background:#20232c;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.35);
+
+    flex-shrink:0;
+
+    position:relative;
+}
+
+.imagen-parallax{
+
+    width:100%;
+
+    height:130%;
+
+    object-fit:cover;
+
+    object-position:center;
+
+    display:block;
+
+    transform:translateY(0);
+
+    will-change:transform;
+
+    transition:transform .05s linear;
+}
+
+/* ===========================
+   TARJETAS
+=========================== */
+
 .texto{
 
-    flex:1;
+    width:55%;
+
+    background:var(--color-panel);
+
+    border-radius:20px;
+
+    padding:35px;
+
+    border:2px solid rgba(201,162,39,.20);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.25);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.parallax-rol{
+
+    padding:100px 10%;
+}
+
+.overlay-rol{
+
+    width:100%;
+}
+
+.parallax-rol h2{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+    font-size:3rem;
+
+    color:var(--color-dorado);
+}
+
+.intro-rol{
+
+    text-align:center;
+
+    max-width:800px;
+
+    margin:0 auto 80px;
+
+    font-size:1.2rem;
+}
+
+.texto:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 15px 30px rgba(0,0,0,.35),
+        0 0 25px rgba(201,162,39,.15);
 }
 
 .texto h3{
@@ -87,40 +199,10 @@
 .texto p{
 
     font-size:1.1rem;
+
+    line-height:1.8;
 }
 
-.mascota{
-
-    width:250px;
-
-    height:250px;
-
-    background-color:var(--color-panel);
-
-    border-radius:15px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    animation:flotar 3s ease-in-out infinite;
-}
-
-.mascota img{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:contain;
-}
-
-.derecha{
-
-    flex-direction:row-reverse;
-}
 
 /* ===========================
    LOCALES DESTACADOS
@@ -167,7 +249,7 @@
 
     width:100%;
 
-    transition:.4s;
+    transition:0.4s;
 }
 
 .local-destacado:hover{
@@ -197,6 +279,50 @@
     flex:1;
 }
 
+.info-local h3{
+
+    color:var(--color-dorado);
+
+    margin-bottom:15px;
+}
+
+.info-local p{
+
+    line-height:1.7;
+
+    margin-bottom:20px;
+}
+
+/* ===========================
+   BOTONES DEL CARRUSEL
+=========================== */
+
+.btn-anterior,
+.btn-siguiente{
+
+    font-size:2rem;
+
+    padding:12px 18px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    background:var(--color-panel);
+
+    color:var(--color-dorado);
+
+    transition:0.3s;
+}
+
+.btn-anterior:hover,
+.btn-siguiente:hover{
+
+    transform:scale(1.1);
+}
+
 /* ===========================
    CTA FINAL
 =========================== */
@@ -222,6 +348,11 @@
     font-size:2.5rem;
 }
 
+.cta-texto p{
+
+    font-size:1.1rem;
+}
+
 .cta-botones{
 
     display:flex;
@@ -234,14 +365,33 @@
 }
 
 /* ===========================
-   RESPONSIVE INDEX
+   RESPONSIVE
 =========================== */
 
 @media(max-width:768px){
 
-    .hero h1{
+        .imagen-container{
+
+        width:100%;
+
+        min-width:auto;
+
+        height:250px;
+    }
+
+    .texto{
+
+        width:100%;
+    }
+
+    .hero-titulo{
 
         font-size:2.5rem;
+    }
+
+    .hero-texto{
+
+        font-size:1.1rem;
     }
 
     .explicacion{
@@ -262,5 +412,21 @@
     .imagen-local{
 
         width:100%;
+    }
+
+
+    .parallax-rol h2{
+
+        font-size:2rem;
+    }
+
+    .locales-destacados h2{
+
+        font-size:2rem;
+    }
+
+    .cta-texto h2{
+
+        font-size:2rem;
     }
 }
