@@ -70,8 +70,9 @@
             </p>
 
             <a
-                href="#"
+                id="btn-login"
                 class="btn-principal"
+                href="#"
                 onclick="abrirLogin(); return false;">
 
                 Iniciar Sesión
@@ -79,8 +80,10 @@
             </a>
 
             <a
-                href="#"
+            
+                id="btn-registro"
                 class="btn-secundario"
+                href="#"
                 onclick="abrirRegistro(); return false;">
 
                 Crear Cuenta
@@ -266,7 +269,8 @@
         <!-- ================= TURNO ACTUAL ================= -->
 
         <section class="panel">
-            <div id="bloqueo-cupones"
+
+            <div id="bloqueo-reserva"
                 class="mensaje-login">
 
                 <h3>
@@ -279,27 +283,31 @@
 
             </div>
 
-            <h2>
-                Próxima Reserva
-            </h2>
+            <div id="contenido-reserva">
 
-            <div class="tarjeta-turno">
+                <h2>
+                    Próxima Reserva
+                </h2>
 
-                <h3>
-                    La Pinta
-                </h3>
+                <div class="tarjeta-turno">
 
-                <p>
-                    Fecha: 12/11/2026
-                </p>
+                    <h3>
+                        La Pinta
+                    </h3>
 
-                <p>
-                    Mesa: 4
-                </p>
+                    <p>
+                        Fecha: 12/11/2026
+                    </p>
 
-                <p>
-                    Jugadores: 5
-                </p>
+                    <p>
+                        Mesa: 4
+                    </p>
+
+                    <p>
+                        Jugadores: 5
+                    </p>
+
+                </div>
 
             </div>
 
@@ -373,7 +381,7 @@
         </p>
 
         <button
-            class="btn-eliminar">
+            class="btn-principal">
 
             Eliminar Cuenta
 
