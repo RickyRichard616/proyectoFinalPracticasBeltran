@@ -355,6 +355,23 @@
                 });
 
                 const datosNarrador = await respuesta.json();
+
+                if (!respuesta.ok) {
+                    if (datos.motivo === "intentoGastado" || respuesta.status === 400) {
+                        // Mostrar el mensaje de error del backend en el banner o narrador
+                        bannerEstado.textContent = datos.error || "Ya has utilizado tu intento diario para este desafío.";
+                        bannerEstado.style.display = "block";
+                        bannerEstado.style.color = "#c62828";       // Color rojo de alerta
+                        bannerEstado.style.backgroundColor = "#ffebee";
+                        
+                        // Ocultar los botones de opciones para bloquear el juego por completo
+                        if (contenedorAcciones) {
+                            contenedorAcciones.style.display = "none";
+                        }
+                    }
+                    return; // Detenemos la ejecución para que no intente renderizar una escena vacía
+                }
+
                 espacioNarrador.removeChild(espacioNarrador.lastChild);
 
                 if(datosNarrador.zona){
@@ -378,14 +395,9 @@
 
             } catch (error) {
                 espacioNarrador.removeChild(espacioNarrador.lastChild);
-                if(datosNarrador.motivo === "intentoGastado"){
-                    agregarTextoNarrador("⚠️ " + (datos.error || "Ya has completado o utilizado tu intento para el desafío de hoy."));
-                    deshabilitarBotones(true);
-                }else{
-                    console.error("Error al conectar con la IA: ", error);
-                    agregarTextoNarrador("Error de conexion con el narrador. Contacte con soporte.");
-                    deshabilitarBotones(true);
-                }
+                console.error("Error al conectar con la IA: ", error);
+                agregarTextoNarrador("Error de conexion con el narrador. Contacte con soporte.");
+                deshabilitarBotones(true);
             }
         }
 
