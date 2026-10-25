@@ -194,8 +194,8 @@ window.addEventListener(
 
             document
                 .getElementById("btn-logout")
-                .style.display =
-                "inline-block";
+                .style.display ="inline-block"
+                .classList.remove("oculto");
 
             document
                 .getElementById("bloqueo-cupones")
