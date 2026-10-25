@@ -1,21 +1,25 @@
 const API_URL = "https://landing-site-fufr.onrender.com";
 
+                
+
 document.getElementById("form-registro")
         .addEventListener("submit", registrar);
 
 document.getElementById("form-login")
         .addEventListener("submit", login);
 
+let idUsuario = null;
+
 async function registrar(e){
     e.preventDefault();
     const nombre = document.getElementById("registro-usuario").value;
     const password = document.getElementById("registro-password").value;
     try{
-        const response = await fetch(`${API_URL}/api/registro`,{
-            method:"POST",
+        const response = await fetch('${API_URL}/api/registro',{
+            method:'POST',
             headers:{
-                "Content-Type":
-                "application/json"
+                'Content-Type':
+                'application/json'
             },
             body:JSON.stringify({
                 nombre,
