@@ -256,7 +256,11 @@ app.post('/api/registro', async (req, res) => {
         });
     }catch(error){
         console.error("Error relacionado al registrar usuario:", error);
-        res.status(500).json({ error: "Hubo un error al registrar al usuario." });
+        if(error.code === 'ER_DUP_ENTRY'){
+            res.status(201).json({ error: "Ese usuario ya existe." });            
+        }else{
+            res.status(500).json({ error: "Hubo un error al registrar al usuario." });
+        }
     }
 });
 

@@ -18,7 +18,7 @@ async function registrar(e){
             "registro-usuario"
         ).value;
 
-    const password =
+    const contrasenia =
         document.getElementById(
             "registro-password"
         ).value;
@@ -39,17 +39,18 @@ async function registrar(e){
 
                     body:JSON.stringify({
                         nombre,
-                        password
+                        contrasenia
                     })
-
                 }
             );
 
-        const data =
-            await response.json();
+        const data =await response.json();
 
-        alert(data.mensaje);
-
+        if (!data.ok) {
+            alert(data.error);
+        }else{
+            alert(data.mensaje);
+        }
     }
 
     catch(error){
@@ -73,7 +74,7 @@ async function login(e){
             "login-usuario"
         ).value;
 
-    const password =
+    const contrasenia =
         document.getElementById(
             "login-password"
         ).value;
@@ -94,7 +95,7 @@ async function login(e){
 
                     body:JSON.stringify({
                         nombre,
-                        password
+                        contrasenia
                     })
 
                 }
