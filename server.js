@@ -23,20 +23,15 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0
 });
-
-// 1. Servir los archivos frontend (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname, 'public')));
-
-//-----------------------------------
-
 // inicializar cliente de gemini con la variable de entorno en Render
 const ai = new GoogleGenAI({ apikey: process.env.GEMINI_API_KEY });
 
+// ENDPOINTS
 app.get('/', (req, res) => {
     res.json({ estado: "Backend y API listos" });
 })
 
-// Endpoint principal del minijuego (Recibe la acción del usuario y el estado actual)
+// Endpoint del minijuego
 app.post('/api/jugar', async (req, res) => {
     try {
         //const { idUsuario, accionUsuario, zonaActual, tiempoRestante, salud, mente } = req.body;
@@ -243,7 +238,31 @@ app.post('/api/jugar', async (req, res) => {
     }
 });
 
-//-----------------------------------
+app.post('/api/registro', async (req, res) => {
+    try{
+        const {nombre,contrasenia} = req.body;
+
+        if (!nombre || !contrasenia){
+            return res.status(400).json({ error: "Faltan datos obligatorios como Nombre y Contraseña." });
+        }
+
+        const [resultado] = await pool.query(
+            'INSERT INTO usuarios (nombre, contrasenia) VALUES (?,?)',
+            [nombre,contrasenia]
+        );
+
+        res.status(201).json({
+            mensaje: "Usuario ID["+resultado.insertId+"] registrado con exito.",
+            id_usuario: resultado.insertId
+        });
+    }catch(error){
+        console.error("Error relacionado al registrar usuario:", error);
+        res.status(500).json({ error: "Hubo un error al registrar al usuario." });
+    }
+});
+
+// 1. Servir los archivos frontend (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Iniciar el servidor
 app.listen(PORT, () => {
