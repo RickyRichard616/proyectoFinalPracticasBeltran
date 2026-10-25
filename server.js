@@ -36,6 +36,8 @@ app.get('/', (req, res) => {
     res.json({ estado: "Backend y API listos" });
 })
 
+let intentoActual = null;
+
 // Endpoint principal del minijuego (Recibe la acción del usuario y el estado actual)
 app.post('/api/jugar', async (req, res) => {
     try {
@@ -52,7 +54,24 @@ app.post('/api/jugar', async (req, res) => {
         let desafioActual;
 
         if(filasDesafios.length === 0){
-            const crearPrompt = `Inventa un desafío de rol diario único con un título de premisa atractivo, un tipo de cupón de recompensa (id_tipo_cupon del 1 al 5) y una introducción narrativa inicial. Responde estrictamente en formato JSON: {"tituloPremisa": "...", "idTipoCupoRecompensa": 1, "narracionInicial": "..."}`;
+            // 1. CONSULTAR DINÁMICAMENTE LOS TIPOS DE CUPONES VÁLIDOS DESDE LA BASE DE DATOS
+            // (Excluimos el id_tipo_cupon 0 si corresponde a "Sin recompensa" para que siempre gane un premio real)
+            const [tiposCuponesDB] = await pool.query(
+                'SELECT id_tipo_cupon, nombre_tipo FROM tipos_cupones WHERE id_tipo_cupon > 0'
+            );
+
+            // Si por alguna razón la tabla está vacía, definimos un respaldo por seguridad
+            if (tiposCuponesDB.length === 0) {
+                throw new Error("No hay tipos de cupones registrados en la base de datos.");
+            }
+
+            // Extraemos un arreglo con los IDs puros (ej: [1, 2, 3, 4, 5])
+            const idsValidos = tiposCuponesDB.map(t => t.id_tipo_cupon);
+
+            // Creamos un texto descriptivo para inyectarlo en el prompt de la IA
+            const descripcionTipos = tiposCuponesDB.map(t => `ID ${t.id_tipo_cupon} (${t.nombre_tipo})`).join(', ');
+
+            const crearPrompt = `Inventa un desafío de rol diario único con un título de premisa atractivo, Además, debes asignarle un 'id_tipo_cupon_recompensa' que DEBE ser obligatoriamente uno de los siguientes IDs válidos de nuestra base de datos: [${descripcionTipos}]. y una introducción narrativa inicial. Responde estrictamente en formato JSON: {"tituloPremisa": "...", "idTipoCupoRecompensa": <un_numero_de_la_lista>, "narracionInicial": "..."}`;
             const iaRespuesta = await ai.models.generateContent({
                 model: 'gemini-flash-lite-latest',
                 contents: crearPrompt,
@@ -175,7 +194,7 @@ app.post('/api/jugar', async (req, res) => {
         const resultadoJson = JSON.parse(response.text);
 
         // 5. Verificar si la IA decretó la VICTORIA en este turno
-        if (resultadoJson.esVictoria === true) {
+        if (resultadoJson.esVictoria === true || resultadoJson.esVictoria === "true") {
             // Actualizar intento a ganado y registrar el tipo de cupón obtenido
             await pool.query(
                 'UPDATE usuario_intentos_desafio SET estado = ?, id_tipo_cupon_ganado = ? WHERE id_intento = ?',
