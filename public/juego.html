@@ -357,9 +357,9 @@
                 const datosNarrador = await respuesta.json();
 
                 if (!respuesta.ok) {
-                    if (datos.motivo === "intentoGastado" || respuesta.status === 400) {
+                    if (datosNarrador.motivo === "intentoGastado" || respuesta.status === 400) {
                         // Mostrar el mensaje de error del backend en el banner o narrador
-                        bannerEstado.textContent = datos.error || "Ya has utilizado tu intento diario para este desafío.";
+                        bannerEstado.textContent = datosNarrador.error || "Ya has utilizado tu intento diario para este desafío.";
                         bannerEstado.style.display = "block";
                         bannerEstado.style.color = "#c62828";       // Color rojo de alerta
                         bannerEstado.style.backgroundColor = "#ffebee";
