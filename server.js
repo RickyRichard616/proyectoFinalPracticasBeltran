@@ -273,7 +273,7 @@ app.post('/api/login', async (req, res) => {
         }
 
         const [resultado] = await pool.query(
-            'SELECT id_usuario FROM usuarios WHERE nombre=?, contrasenia=?',
+            "SELECT id_usuario FROM usuarios WHERE nombre=?, contrasenia=?",
             [nombre,contrasenia]
         );
 
@@ -285,7 +285,7 @@ app.post('/api/login', async (req, res) => {
         if(error.code === 'ER_DUP_ENTRY'){
             res.status(400).json({ error: "Ese usuario ya existe." });            
         }else{
-            res.status(500).json({ error: "Hubo un error al registrar al usuario." });
+            res.status(500).json({ error: "Hubo un error al ingresar como usuario." });
         }
     }
 });
