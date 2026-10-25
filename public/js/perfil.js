@@ -1,5 +1,5 @@
 const API_URL =
-    "http://localhost:3000";
+    "https://landing-site-fufr.onrender.com";
 
 document
     .getElementById("form-registro")
@@ -133,7 +133,8 @@ async function login(e){
     }
 
 }
-/*Botones de registrio y login, css y html.*/
+
+/*Botones de registrio y login*/
 function abrirLogin(){
 
     document
