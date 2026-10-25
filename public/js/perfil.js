@@ -1,4 +1,4 @@
-const API_URL = "https://landing-site-fufr.onrender.com";
+const API_URL = 'https://landing-site-fufr.onrender.com/';
 
                 
 
@@ -15,6 +15,8 @@ async function registrar(e){
     const nombre = document.getElementById("registro-usuario").value;
     const password = document.getElementById("registro-password").value;
     try{
+        console.log('${API_URL}/api/registro');
+        console.log("${API_URL}/api/registro");
         const response = await fetch('${API_URL}/api/registro',{
             method:'POST',
             headers:{
