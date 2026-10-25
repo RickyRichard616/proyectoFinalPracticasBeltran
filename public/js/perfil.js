@@ -15,9 +15,7 @@ async function registrar(e){
     const nombre = document.getElementById("registro-usuario").value;
     const password = document.getElementById("registro-password").value;
     try{
-        console.log('${API_URL}/api/registro');
-        console.log("${API_URL}/api/registro");
-        const response = await fetch('${API_URL}/api/registro',{
+        const response = await fetch('https://landing-site-fufr.onrender.com/api/registro',{
             method:'POST',
             headers:{
                 'Content-Type':
@@ -41,11 +39,11 @@ async function login(e){
     const nombre = document.getElementById("login-usuario").value;
     const password = document.getElementById("login-password").value;
     try{
-        const response = await fetch(`${API_URL}/api/login`,{
-            method:"POST",
+        const response = await fetch('https://landing-site-fufr.onrender.com/api/login',{
+            method:'POST',
             headers:{
-                "Content-Type":
-                "application/json"
+                'Content-Type':
+                'application/json'
             },
             body:JSON.stringify({
                 nombre,
