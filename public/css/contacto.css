@@ -155,7 +155,7 @@
     width:90%;
     max-width:1000px;
 
-    margin: auto 80px auto;
+    margin:0 auto;
 }
 
 .faq-contacto h2{
@@ -193,4 +193,7 @@
 .extra-contacto{
 
     border-left:5px solid var(--color-dorado);
+}
+.oculto{
+    display:none;
 }
