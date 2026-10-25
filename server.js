@@ -39,7 +39,9 @@ app.get('/', (req, res) => {
 // Endpoint principal del minijuego (Recibe la acción del usuario y el estado actual)
 app.post('/api/jugar', async (req, res) => {
     try {
-        const { idUsuario, accionUsuario, zonaActual, tiempoRestante, salud, mente } = req.body;
+        //const { idUsuario, accionUsuario, zonaActual, tiempoRestante, salud, mente } = req.body;
+        const idUsuario = 1;
+        const { accionUsuario, zonaActual, tiempoRestante, salud, mente } = req.body;
         const fechaHoy = new Date().toISOString().split('T')[0]; // Obtener fecha actual
 
         let [filasDesafios] = await pool.query(
@@ -74,8 +76,7 @@ app.post('/api/jugar', async (req, res) => {
         // Validar unico intento por usuario
         let [filasIntentos] = await pool.query(
             'SELECT * FROM usuario_intentos_desafio WHERE id_usuario = ? AND id_desafio_diario = ?',
-            //[idUsuario, desafioActual.id_desafio_diario]
-            [1, desafioActual.id_desafio_diario]
+            [idUsuario, desafioActual.id_desafio_diario]
         );
 
         if(filasIntentos.length > 0 && filasIntentos[0].estado !== 'en_curso'){
