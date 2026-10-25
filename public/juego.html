@@ -355,12 +355,6 @@
                 });
 
                 const datosNarrador = await respuesta.json();
-
-                if (!respuesta.ok) {
-                    document.getElementById('narrador').innerText = "⚠️ " + (datos.error || "Ya has completado o utilizado tu intento para el desafío de hoy.");
-                    deshabilitarBotones(true);
-                }
-
                 espacioNarrador.removeChild(espacioNarrador.lastChild);
 
                 if(datosNarrador.zona){
@@ -383,10 +377,15 @@
                 actualizarBotonesOpciones();
 
             } catch (error) {
-                console.error("Error al conectar con la IA: ", error);
                 espacioNarrador.removeChild(espacioNarrador.lastChild);
-                agregarTextoNarrador("Error de conexion con el narrador. Contacte con soporte.");
-                deshabilitarBotones(false);
+                if(error.motivo === "intentoGastado"){
+                    agregarTextoNarrador("⚠️ " + (datos.error || "Ya has completado o utilizado tu intento para el desafío de hoy."));
+                    deshabilitarBotones(true);
+                }else{
+                    console.error("Error al conectar con la IA: ", error);
+                    agregarTextoNarrador("Error de conexion con el narrador. Contacte con soporte.");
+                    deshabilitarBotones(true);
+                }
             }
         }
 

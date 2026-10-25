@@ -100,7 +100,7 @@ app.post('/api/jugar', async (req, res) => {
         );
 
         if(filasIntentos.length > 0 && filasIntentos[0].estado !== 'en_curso'){
-            return res.status(400).json({ error: "Ya has utilizado tu intento diario para este desafío." });
+            return res.status(400).json({ error: "Ya has utilizado tu intento diario para este desafío.", motivo: "intentoGastado" });
         }
 
         if(filasIntentos.length === 0){
