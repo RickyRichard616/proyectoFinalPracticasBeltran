@@ -126,7 +126,12 @@ app.post('/api/jugar', async (req, res) => {
                     ['perdido', intentoActual.id_intento]
                 );
             }
-            return res.json({ esVictoria: false, partidoTerminado: true, mensaje: "DERROTA: Has sucumbido." });
+            return res.json({ 
+                zona: "Zona de Finalización",
+                narracion: "¡DERROTA! Tus fuerzas se han agotado por completo y has sucumbido ante las adversidades. Tu intento ha finalizado.",
+                esVictoria: false, 
+                opciones: [] // Opciones vacías para bloquear el juego automáticamente
+            });
         }
 
         // 1. EL SYSTEM PROMPT (Instrucciones estrictas para la IA)
