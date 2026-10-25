@@ -358,6 +358,7 @@
 
                 if (!respuesta.ok) {
                     if (datosNarrador.motivo === "intentoGastado" || respuesta.status === 400) {
+                        espacioNarrador.removeChild(espacioNarrador.lastChild);
                         // Mostrar el mensaje de error del backend en el banner o narrador
                         bannerEstado.textContent = datosNarrador.error || "Ya has utilizado tu intento diario para este desafío.";
                         bannerEstado.style.display = "block";
@@ -466,6 +467,7 @@
 
         // Manejar la elección del usuario
         function seleccionarOpcion(indiceOpcion) {
+            deshabilitarBotones(true);
             if (estadoJuego.partidaTerminada) return;
 
             let opcionElegida = opcionesActuales[indiceOpcion];
