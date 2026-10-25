@@ -252,8 +252,7 @@ app.post('/api/registro', async (req, res) => {
         );
 
         res.status(201).json({
-            mensaje: "Usuario ID["+resultado.insertId+"] registrado con exito.",
-            id_usuario: resultado.insertId
+            mensaje: "Usuario ID["+resultado.insertId+"] registrado con exito."
         });
     }catch(error){
         console.error("Error relacionado al registrar usuario:", error);
