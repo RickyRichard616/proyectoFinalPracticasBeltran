@@ -273,7 +273,7 @@ app.post('/api/login', async (req, res) => {
         }
 
         const [resultado] = await pool.query(
-            "SELECT id_usuario FROM usuarios WHERE nombre=?, contrasenia=?",
+            'SELECT id_usuario FROM usuarios WHERE nombre=? AND contrasenia=?',
             [nombre,contrasenia]
         );
 
