@@ -90,9 +90,20 @@ app.post('/api/jugar', async (req, res) => {
             );
         }
 
+        // 3. Evaluar si el usuario ya venía derrotado por estadísticas (salud, mente o tiempo)
+        const estaDerrotadoPorStats = (salud <= 0 || mente <= 0 || tiempoRestante <= 0);
+        if (estaDerrotadoPorStats) {
+            await pool.query(
+                'UPDATE usuario_intentos_desafio SET estado = ? WHERE id_intento = ?',
+                ['perdido', intentoActual.id_intento]
+            );
+            return res.json({ esVictoria: false, partidoTerminado: true, mensaje: "DERROTA: Has sucumbido." });
+        }
+
         // 1. EL SYSTEM PROMPT (Instrucciones estrictas para la IA)
         const systemInstruction = `
-            Eres el narrador experto de un juego de rol rápido.
+            Eres el narrador despiadado y experto de un juego de rol de supervivencia y terror. 
+            El juego debe ser DIFÍCIL. Los errores deben costar caros y la muerte o la locura deben ser una amenaza constante.
             
             PREMISA DEL DESAFÍO DE HOY: "${desafioActual.titulo_premisa}".
 
@@ -110,6 +121,14 @@ app.post('/api/jugar', async (req, res) => {
             2. Evalúa el progreso: si el jugador ya ha tomado varias decisiones inteligentes, la siguiente opción debe llevarlo al desenlace y escapar de la zona.
             3. Cuando se alcance la victoria, el campo "esVictoria" debe pasar a true y las opciones deben estar vacías [].
             4. Trata de mantener un balance entre la duración total de la aventura y el costo de cada acción.
+
+            REGLAS DE EQUILIBRIO Y COSTOS (¡MUY IMPORTANTE!):
+            1. Los costos de las opciones DEBEN SER ALTOS Y PUNITIVOS. 
+               - Salud y Mente: Deben costar entre 15 y 40 puntos por cada mala decisión (si el jugador toma 3 decisiones imprudentes, debe morir o perder la cordura).
+               - Tiempo: Cada acción debe consumir entre 25 y 45 minutos in-game para que el reloj sea un peligro real.
+            2. No protejas al jugador: Si elige una acción imprudente, estúpida o arriesgada, castígale severamente la salud o la mente y acércalo a la derrota.
+            3. La aventura debe resolverse en un máximo de 4 a 5 turnos bien jugados, pero si el usuario titubea o toma malas decisiones, morirá antes de llegar.
+            4. Cuando se alcance la victoria, el campo "esVictoria" debe pasar a true y las opciones deben estar vacías [].
 
             DEBES responder ÚNICAMENTE en formato JSON válido con la siguiente estructura exacta:
             {
@@ -154,6 +173,33 @@ app.post('/api/jugar', async (req, res) => {
 
         // 3. Enviar la respuesta generada por la IA de vuelta al frontend
         const resultadoJson = JSON.parse(response.text);
+
+        // 5. Verificar si la IA decretó la VICTORIA en este turno
+        if (resultadoJson.esVictoria === true) {
+            // Actualizar intento a ganado y registrar el tipo de cupón obtenido
+            await pool.query(
+                'UPDATE usuario_intentos_desafio SET estado = ?, id_tipo_cupon_ganado = ? WHERE id_intento = ?',
+                ['ganado', desafioActual.id_tipo_cupon_recompensa, intentoActual.id_intento]
+            );
+
+            // Opcional: Generar automáticamente el cupón en la tabla 'cupones' y asignarlo al perfil ('usuario_cupones')
+            const codigoUnicoCupón = `RECOMPENSA-${idUsuario}-${Date.now()}`;
+            const [resCupon] = await pool.query(
+                'INSERT INTO cupones (codigo, id_tipo_cupon, descripcion, fecha_expiracion) VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 30 DAY))',
+                [codigoUnicoCupón, desafioActual.id_tipo_cupon_recompensa, `Cupón ganado en el desafío diario: ${desafioActual.titulo_premisa}`]
+            );
+
+            await pool.query(
+                'INSERT INTO usuario_intentos_desafio SET id_tipo_cupon_ganado = ? WHERE id_intento = ?', // Asegurar registro si aplica
+                [desafioActual.id_tipo_cupon_recompensa, intentoActual.id_intento]
+            ).catch(() => {}); // Manejo defensivo
+
+            await pool.query(
+                'INSERT INTO usuario_cupones (id_usuario, id_cupon, estado) VALUES (?, ?, ?)',
+                [idUsuario, resCupon.insertId, 'disponible']
+            );
+        }
+
         res.json(resultadoJson);
 
     } catch (error) {
