@@ -249,3 +249,100 @@ app.post(
 
     }
 );
+
+/*Botones de registrio y login*/
+function abrirLogin(){
+
+    document
+        .getElementById("modal-login")
+        .classList.remove("oculto");
+
+}
+
+function abrirRegistro(){
+
+    document
+        .getElementById("modal-registro")
+        .classList.remove("oculto");
+
+}
+
+function cerrarLogin(){
+
+    document
+        .getElementById("modal-login")
+        .classList.add("oculto");
+
+}
+
+function cerrarRegistro(){
+
+    document
+        .getElementById("modal-registro")
+        .classList.add("oculto");
+
+}
+
+/*Estoy logueado o no*/
+if(idUsuario){
+
+    document
+        .getElementById("btn-login")
+        .style.display =
+        "none";
+
+    document
+        .getElementById("btn-registro")
+        .style.display =
+        "none";
+
+    document
+        .getElementById("btn-logout")
+        .style.display =
+        "inline-block";
+
+}
+
+window.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => {
+
+        const idUsuario =
+            localStorage.getItem(
+                "idUsuario"
+            );
+
+        if(idUsuario){
+
+            document
+                .getElementById(
+                    "bloqueo-cupones"
+                )
+                .classList
+                .add("oculto");
+
+        }
+
+        else{
+
+            document
+                .getElementById(
+                    "contenido-cupones"
+                )
+                .classList
+                .add("oculto");
+
+        }
+
+    }
+
+);
+/*Lo mismo pero de los cupones*/
+document
+    .getElementById("contenido-cupones")
+    .style.display = "none";
+document
+    .getElementById("bloqueo-cupones")
+    .style.display = "none";

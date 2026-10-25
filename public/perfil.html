@@ -65,38 +65,40 @@
                 Perfil del Aventurero
             </h1>
 
-            <p>
-                Gestiona tu cuenta y prepárate para tu próxima aventura.
+            <p style="margin-bottom: 30px;">
+                Inicia sesión o registra tu cuenta para iniciar tu próxima aventura.
             </p>
 
+            <a
+                href="#"
+                class="btn-principal"
+                onclick="abrirLogin(); return false;">
+
+                Iniciar Sesión
+
+            </a>
+
+            <a
+                href="#"
+                class="btn-secundario"
+                onclick="abrirRegistro(); return false;">
+
+                Crear Cuenta
+
+            </a>
+            <a
+                id="btn-logout"
+                class="btn-principal oculto"
+                href="#"
+                onclick="cerrarSesion()">
+
+                Cerrar Sesión
+
+            </a>
+
         </section>
-        <section class="panel menu-perfil">
 
-        <button onclick="mostrarPanel('login')">
-            Iniciar Sesión
-        </button>
-
-        <button onclick="mostrarPanel('registro')">
-            Crear Cuenta
-        </button>
-
-        <button onclick="mostrarPanel('mi-perfil')">
-            Mi Perfil
-        </button>
-
-        <button onclick="mostrarPanel('turnos')">
-            Turnos
-        </button>
-
-        <button onclick="mostrarPanel('cupones')">
-            Cupones
-        </button>
-
-        <button onclick="mostrarPanel('eliminar-perfil')">
-            Eliminar Cuenta
-        </button>
-
-</section>
+       
 
         <!-- ================= LOGIN Y REGISTRO ================= -->
 
@@ -104,88 +106,100 @@
 
             <!-- LOGIN -->
 
-            <form id="form-login">
+            <div id="modal-login" class="modal oculto">
 
-                <input
-                    type="text"
-                    id="login-usuario"
-                    placeholder="Usuario"
-                    required>
+                <div class="modal-contenido">
 
-                <input
-                    type="password"
-                    id="login-password"
-                    placeholder="Contraseña"
-                    required>
+                    <span
+                        class="cerrar-modal"
+                        onclick="cerrarLogin()">
 
-                <button
-                    type="submit"
-                    class="btn-principal">
+                        ✕
 
-                    Entrar
+                    </span>
 
-                </button>
+                    <h2>
+                        Iniciar Sesión
+                    </h2>
 
-            </form>
+                    <form id="form-login">
+
+                        <input
+                            type="text"
+                            id="login-usuario"
+                            placeholder="Usuario"
+                            required>
+
+                        <input
+                            type="password"
+                            id="login-password"
+                            placeholder="Contraseña"
+                            required>
+
+                        <button
+                            type="submit"
+                            class="btn-principal">
+
+                            Entrar
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
 
             <!-- REGISTRO -->
 
-            <form id="form-registro">
+            <div id="modal-registro" class="modal oculto">
 
-                <input
-                    type="text"
-                    id="registro-usuario"
-                    placeholder="Nombre de usuario"
-                    required>
+                <div class="modal-contenido">
 
-                <input
-                    type="password"
-                    id="registro-password"
-                    placeholder="Contraseña"
-                    required>
+                    <span
+                        class="cerrar-modal"
+                        onclick="cerrarRegistro()">
 
-                <button
-                    type="submit"
-                    class="btn-principal">
+                        ✕
 
-                    Registrarse
+                    </span>
 
-                </button>
+                    <h2>
+                        Crear Cuenta
+                    </h2>
 
-            </form>
+                    <form id="form-registro">
 
-            <section id="mi-perfil" class="panel">
+                        <input
+                            type="text"
+                            id="registro-usuario"
+                            placeholder="Nombre de usuario"
+                            required>
 
-                <h2>
-                    Mi Perfil
-                </h2>
+                        <input
+                            type="password"
+                            id="registro-password"
+                            placeholder="Contraseña"
+                            required>
 
-                <form>
+                        <button
+                            type="submit"
+                            class="btn-principal">
 
-                    <input
-                        type="text"
-                        placeholder="Nombre de usuario">
+                            Registrarse
 
-                    <input
-                        type="password"
-                        placeholder="Nueva contraseña">
+                        </button>
 
-                    <button
-                        type="submit"
-                        class="btn-principal">
+                    </form>
 
-                        Guardar Cambios
+                </div>
 
-                    </button>
-
-                </form>
-
-            </section>
-
+            </div>
+        </section>
         <!-- ================= TURNOS ================= -->
 
         <section id="turnos" class="panel turnos">
-
+            
             <h2>
                 Reserva de Turnos
             </h2>
@@ -252,6 +266,18 @@
         <!-- ================= TURNO ACTUAL ================= -->
 
         <section class="panel">
+            <div id="bloqueo-cupones"
+                class="mensaje-login">
+
+                <h3>
+                    🔒 Inicia sesión para continuar
+                </h3>
+
+                <p>
+                    Debes iniciar sesión para consultar tus reservas.
+                </p>
+
+            </div>
 
             <h2>
                 Próxima Reserva
@@ -282,9 +308,22 @@
     </main>
 
      <!-- CUPONES -->
-    <main>
+    <section id="cupones" class="panel">
 
-        <section id="cupones" class="panel">
+        <div id="bloqueo-cupones"
+            class="mensaje-login">
+
+            <h3>
+                🔒 Inicia sesión para continuar
+            </h3>
+
+            <p>
+                Debes iniciar sesión para consultar tus cupones.
+            </p>
+
+        </div>
+
+        <div id="contenido-cupones">
 
             <h2>
                 Mis Cupones
@@ -314,9 +353,9 @@
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
+    </section>
 
     <!-- ================= ELIMINAR PERFIL ================= -->
 
