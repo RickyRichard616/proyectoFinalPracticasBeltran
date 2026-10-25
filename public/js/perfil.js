@@ -106,6 +106,7 @@ async function login(e){
         console.log(data);
 
         if(data.idUsuario){
+            console.log('Accedido como usuario: '+data.idUsuario);
             localStorage.setItem(
                 "idUsuario",
                 data.idUsuario
