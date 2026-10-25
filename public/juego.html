@@ -364,10 +364,13 @@
                 actualizarInterfaz();
                 agregarTextoNarrador(datosNarrador.narracion);
 
-                // VERIFICAR SI LA IA DECRETÓ LA VICTORIA
-                if (datosNarrador.esVictoria === true) {
-                    finalizarPartida("¡VICTORIA! Has completado el desafío con éxito.", true);
-                    return;
+                if (datosNarrador.esVictoria === true || datosNarrador.esVictoria === "true") {
+                    // Victoria
+                    finalizarPartida("¡VICTORIA! Has completado el desafío con éxito y se ha registrado tu cupón.", true);
+                } 
+                
+                if ((datosNarrador.esVictoria === false || datosNarrador.esVictoria === "false") && (!datosNarrador.opciones || datosNarrador.opciones.length === 0)) {
+                    finalizarPartida(datosNarrador.narracion || "¡DERROTA! Tus recursos se han agotado.", false);
                 }
 
                 opcionesActuales = datosNarrador.opciones || [];
@@ -472,13 +475,16 @@
             estadoJuego.partidaTerminada = true;
             bannerEstado.textContent = mensaje;
             bannerEstado.style.display = "block";
+            console.log("pintar banner");
             
-            if (esVictoria) {
+            if (esVictoria === true || esVictoria === "true") {
                 bannerEstado.style.color = "#2e7d32";
                 bannerEstado.style.backgroundColor = "#e8f5e9";
+                console.log("pintar banner verde");
             } else {
                 bannerEstado.style.color = "#c62828";
                 bannerEstado.style.backgroundColor = "#ffebee";
+                console.log("pintar banner rojo");
             }
 
             contenedorAcciones.style.display = "none";
