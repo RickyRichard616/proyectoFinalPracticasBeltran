@@ -103,6 +103,7 @@ async function login(e){
 
         const data =
             await response.json();
+        console.log(data);
 
         if(data.idUsuario){
             console.log('Accedido como usuario: '+data.idUsuario);
