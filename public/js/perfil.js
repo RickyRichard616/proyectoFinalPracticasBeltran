@@ -47,7 +47,7 @@ async function registrar(e){
         const data =await response.json();
 
         if (!response.ok) {
-            alert(data.error);
+            alert(response.error);
         }else{
             alert(data.mensaje);
         }
