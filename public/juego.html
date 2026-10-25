@@ -378,7 +378,7 @@
 
             } catch (error) {
                 espacioNarrador.removeChild(espacioNarrador.lastChild);
-                if(error.motivo === "intentoGastado"){
+                if(datosNarrador.motivo === "intentoGastado"){
                     agregarTextoNarrador("⚠️ " + (datos.error || "Ya has completado o utilizado tu intento para el desafío de hoy."));
                     deshabilitarBotones(true);
                 }else{
