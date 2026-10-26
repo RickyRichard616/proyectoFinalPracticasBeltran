@@ -318,7 +318,7 @@ app.get('/api/mesas-disponibles', async (req, res) => {
 });
 //Endpoint para registrar reservas
 app.post('/api/reservar', async (req, res) => {
-    const {idUsuario, idLocal, fecha, hora, idMesa} = req.query;
+    const {idUsuario, idLocal, fecha, hora, idMesa} = req.body;
 
     console.log(idUsuario+'|'+idLocal+'|'+fecha+'|'+hora+'|'+idMesa);
     if(!idUsuario || !idLocal || !fecha || !hora || !idMesa){
