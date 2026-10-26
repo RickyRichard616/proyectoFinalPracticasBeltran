@@ -194,7 +194,6 @@ window.addEventListener(
 
             document
                 .getElementById("btn-logout")
-                .style.display ="inline-block"
                 .classList.remove("oculto");
 
             document
