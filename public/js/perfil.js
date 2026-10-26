@@ -272,7 +272,7 @@ document.addEventListener("DOMContentLoaded",() => {
                 .then(response => response.json())
                 .then(mesas => {
                     // Limpiamos las opciones anteriores
-                    mesaSelect.innerHTML = '<option value="">Selecciona una mesa disponible</option>';
+                    mesaSelect.innerHTML = '';
                     
                     // Añadimos las mesas que devolvió la base de datos
                     mesas.forEach(mesa => {
