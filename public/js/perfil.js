@@ -193,10 +193,15 @@ function habilitarDeslogeo(){
     document
         .getElementById("bloqueo-cupones")
         .classList.add("oculto");
-
+    document
+        .getElementById("contenido-cupones")
+        .classList.remove("oculto");
     document
         .getElementById("bloqueo-reserva")
         .classList.add("oculto");
+    document
+        .getElementById("contenido-reserva")
+        .classList.remove("oculto");
     document
         .getElementById("eliminar-perfil")
         .classList.remove("oculto");
@@ -214,8 +219,14 @@ function habilitarLogueo(){
         .getElementById("btn-registro")
         .style.display = "inline-block";
     document
+        .getElementById("bloqueo-cupones")
+        .classList.remove("oculto");
+    document
         .getElementById("contenido-cupones")
         .classList.add("oculto");
+    document
+        .getElementById("bloqueo-reserva")
+        .classList.remove("oculto");
     document
         .getElementById("contenido-reserva")
         .classList.add("oculto");
