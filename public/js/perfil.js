@@ -277,8 +277,8 @@ document.addEventListener("DOMContentLoaded",() => {
                     // Añadimos las mesas que devolvió la base de datos
                     mesas.forEach(mesa => {
                         const option = document.createElement('option');
-                        option.value = mesa.id;
-                        option.textContent = `Mesa ${mesa.numero} (Hasta ${mesa.capacidad} jugadores)`;
+                        option.value = mesa.id_mesa;
+                        option.textContent = `Mesa ${mesa.numero_mesa} (Hasta ${mesa.capacidad} jugadores)`;
                         mesaSelect.appendChild(option);
                     });
                 })
