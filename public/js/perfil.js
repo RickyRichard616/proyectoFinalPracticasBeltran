@@ -271,7 +271,17 @@ function verReservas(){
         // 3. Generar un item por cada reserva manteniendo la jerarquía
         reservas.forEach(reserva => {
             const tarjeta = document.createElement("div");
-            tarjeta.className = "tarjeta-turno";
+            
+            switch(reserva.local){
+                case "La Pinta": tarjeta.className = "tarjeta-turno tarjeta-pinta";
+                break;
+
+                case "El Puente": tarjeta.className = "tarjeta-turno tarjeta-puente";
+                break;
+
+                case "La Torre": tarjeta.className = "tarjeta-turno tarjeta-torre";
+                break;
+            }
 
             tarjeta.innerHTML = `
                 <h3>
