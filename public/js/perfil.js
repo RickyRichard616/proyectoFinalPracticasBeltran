@@ -151,6 +151,21 @@ function abrirRegistro(){
 
 }
 
+function cerrarSesion(){
+    localStorage.removeItem(("idUsuario"));
+    document
+        .getElementById("btn-logout")
+        .classList.add("oculto");
+    document
+        .getElementById("btn-login")
+        .style.display = "inline-block";
+        document
+        .getElementById("btn-registro")
+        .style.display = "inline-block";
+
+    
+}
+
 function cerrarLogin(){
 
     document
