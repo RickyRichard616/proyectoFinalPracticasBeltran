@@ -233,6 +233,9 @@ function habilitarLogueo(){
     document
         .getElementById("eliminar-perfil")
         .classList.add("oculto");
+//    document
+//        .getElementById("btn-crear-reserva")
+        
 }
 
 window.addEventListener(
