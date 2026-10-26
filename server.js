@@ -308,9 +308,9 @@ app.get('/api/mesas-disponibles', async (req, res) => {
         )
         `;
 
-        const mesasDisponibles = await pool.query(consulta, [local, fecha, hora]);
+        const [mesasDisponibles] = await pool.query(consulta, [local, fecha, hora]);
 
-        res.json(mesasDisponibles);
+        res.json(mesasDisponibles[0]);
     }catch(error){
         console.error(error);
         res.status(500).json({ error: 'Error interno del servidor al buscar mesas disponibles'});
