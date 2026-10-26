@@ -190,6 +190,50 @@ input{
    TURNOS
 =========================== */
 
+.tarjeta-pinta{
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(0,0,0,.85) 0%,
+        rgba(0,0,0,.55) 50%,
+        rgba(0,0,0,.10) 100%
+    ),
+    url("../images/locales/fondopinta.webp");
+
+    background-size:cover;
+    background-position:center;
+}
+
+.tarjeta-puente{
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(0,0,0,.85) 0%,
+        rgba(0,0,0,.55) 50%,
+        rgba(0,0,0,.10) 100%
+    ),
+    url("../images/locales/fondopuente.webp");
+
+    background-size:cover;
+    background-position:center;
+}
+
+.tarjeta-torre{
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(0,0,0,.85) 0%,
+        rgba(0,0,0,.55) 50%,
+        rgba(0,0,0,.10) 100%
+    ),
+    url("../images/locales/fondotorre.webp");
+
+    background-size:cover;
+    background-position:center;
+}
 .tarjeta-turno{
 
     position: relative;
@@ -200,22 +244,19 @@ input{
 
     padding: 20px;
 
-    background:
-    linear-gradient(
-        90deg,
-        rgba(0,0,0,.85) 0%,
-        rgba(0,0,0,.75) 25%,
-        rgba(0,0,0,.45) 45%,
-        rgba(0,0,0,.10) 65%,
-        rgba(0,0,0,0) 100%
-    ),
-    url("../images/locales/fondopinta.webp");
+    margin-bottom: 15px;
 
     background-size: cover;
 
     background-position: center;
 
-    color:white;
+    color: white;
+
+    border: 2px solid rgba(201,162,39,.60);
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.25);
+
 }
 
 .tarjeta-turno h3{
@@ -280,6 +321,17 @@ select{
     border:2px solid
         rgba(201,162,39,.25);
 }
+#lista-reservas{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
 
 
 /* ===========================
