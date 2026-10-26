@@ -202,68 +202,46 @@
         <!-- ================= TURNOS ================= -->
 
         <section id="turnos" class="panel turnos">
-            
-            <h2>
-                Reserva de Turnos
-            </h2>
-
-            <form>
-
-                <label>
-                    Local
-                </label>
-
-                <select>
-
-                    <option>La Pinta</option>
-
-                    <option>El Puente</option>
-
-                    <option>La Torre</option>
-
+            <h2>Reserva de Turnos</h2>
+            <form id="form-reserva">
+                <label for="local">Local</label>
+                <select id="local" name="local">
+                    <option value="La Pinta">La Pinta</option>
+                    <option value="El Puente">El Puente</option>
+                    <option value="La Torre">La Torre</option>
                 </select>
 
-                <label>
-                    Fecha
-                </label>
+                <label for="fecha">Fecha</label>
+                <input type="date" id="fecha" name="fecha">
 
-                <input
-                    type="date">
+                <label for="hora">Hora</label>
+                <input type="time" id="hora" name="hora">
 
-                <label>
-                    Número de mesa
-                </label>
-
-                <select>
-
-                    <option>Mesa 1</option>
-                    <option>Mesa 2</option>
-                    <option>Mesa 3</option>
-                    <option>Mesa 4</option>
-                    <option>Mesa 5</option>
-
-                </select>
-
-                <label>
-                    Cantidad de jugadores
-                </label>
-
+                <label for="jugadores">Cantidad de jugadores</label>
                 <input
                     type="number"
+                    id="jugadores"
+                    name="jugadores"
                     min="1"
                     max="10"
                     placeholder="Cantidad de jugadores">
 
+                <label for="mesa">Número de mesa</label>
+                <select id="mesa" name="mesa">
+                    <option value="1">Mesa 1</option>
+                    <option value="2">Mesa 2</option>
+                    <option value="3">Mesa 3</option>
+                    <option value="4">Mesa 4</option>
+                    <option value="5">Mesa 5</option>
+                </select>
+
                 <button
                     type="submit"
+                    id="btn-crear-reserva"
                     class="btn-principal">
-
                     Reservar Turno
-
                 </button>
-
             </form>
-
         </section>
 
         <!-- ================= TURNO ACTUAL ================= -->

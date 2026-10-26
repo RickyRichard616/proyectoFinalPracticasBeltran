@@ -30,7 +30,6 @@ const ai = new GoogleGenAI({ apikey: process.env.GEMINI_API_KEY });
 app.get('/', (req, res) => {
     res.json({ estado: "Backend y API listos" });
 })
-
 // Endpoint del minijuego
 app.post('/api/jugar', async (req, res) => {
     try {
@@ -237,7 +236,7 @@ app.post('/api/jugar', async (req, res) => {
         res.status(500).json({ error: "Hubo un error al procesar el desafio." });
     }
 });
-
+// Endpoint para registrar usuarios
 app.post('/api/registro', async (req, res) => {
     try{
         const {nombre,contrasenia} = req.body;
@@ -263,7 +262,7 @@ app.post('/api/registro', async (req, res) => {
         }
     }
 });
-
+// Endpoint para verificar login de usuario
 app.post('/api/login', async (req, res) => {
     try{
         const {nombre,contrasenia} = req.body;
@@ -287,6 +286,34 @@ app.post('/api/login', async (req, res) => {
         }else{
             res.status(500).json({ error: "Hubo un error al ingresar como usuario." });
         }
+    }
+});
+//Endpoint para obtener mesas disponibles
+app.get('/api/mesas-disponibles', async (req, res) => {
+    const {local,fecha,hora} = req.query;
+
+    if(!local || !fecha || !hora){
+        return res.status(400).json({ error: 'Faltan parametros (local, fecha, hora)'});
+    }
+
+    try{
+        const consulta = `
+        SELECT id_mesa, numero_mesa, capacidad
+        FROM mesas
+        WHERE local = ?
+        AND id NOT IN (
+            SELECT id_mesa
+            FROM reservas
+            WHERE fecha = ? AND fecha_hora = ?
+        )
+        `;
+
+        const mesasDisponibles = await pool.query(consulta, [local, fecha, hora]);
+
+        res.json(mesasDisponibles);
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Error interno del servidor al buscar mesas disponibles'});
     }
 });
 
