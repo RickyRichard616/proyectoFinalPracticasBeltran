@@ -300,7 +300,7 @@ app.get('/api/mesas-disponibles', async (req, res) => {
         const consulta = `
         SELECT id_mesa, numero_mesa, capacidad
         FROM mesas
-        WHERE local = ?
+        WHERE id_local = ?
         AND id NOT IN (
             SELECT id_mesa
             FROM reservas
