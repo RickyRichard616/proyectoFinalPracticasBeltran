@@ -301,7 +301,7 @@ app.get('/api/mesas-disponibles', async (req, res) => {
         SELECT id_mesa, numero_mesa, capacidad
         FROM mesas
         WHERE id_local = ?
-        AND id NOT IN (
+        AND id_mesa NOT IN (
             SELECT id_mesa
             FROM reservas
             WHERE fecha = ? AND fecha_hora = ?
