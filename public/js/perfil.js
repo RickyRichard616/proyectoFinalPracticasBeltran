@@ -50,6 +50,7 @@ async function registrar(e){
             alert(data.error);
         }else{
             alert(data.mensaje);
+            cerrarRegistro();
         }
     }
 
@@ -113,7 +114,8 @@ async function login(e){
             alert(
                 "Inicio de sesión correcto"
             );
-
+            cerrarLogin();
+            habilitarDeslogeo();
         }
 
         else{
@@ -152,18 +154,7 @@ function abrirRegistro(){
 }
 
 function cerrarSesion(){
-    localStorage.removeItem(("idUsuario"));
-    document
-        .getElementById("btn-logout")
-        .classList.add("oculto");
-    document
-        .getElementById("btn-login")
-        .style.display = "inline-block";
-        document
-        .getElementById("btn-registro")
-        .style.display = "inline-block";
-
-    
+    habilitarLogueo();
 }
 
 function cerrarLogin(){
@@ -184,6 +175,55 @@ function cerrarRegistro(){
 
 /*Estoy logueado o no*/
 
+function habilitarDeslogeo(){
+    document
+        .getElementById("btn-login")
+        .style.display =
+        "none";
+
+    document
+        .getElementById("btn-registro")
+        .style.display =
+        "none";
+
+    document
+        .getElementById("btn-logout")
+        .classList.remove("oculto");
+
+    document
+        .getElementById("bloqueo-cupones")
+        .classList.add("oculto");
+
+    document
+        .getElementById("bloqueo-reserva")
+        .classList.add("oculto");
+    document
+        .getElementById("eliminar-perfil")
+        .classList.remove("oculto");
+}
+
+function habilitarLogueo(){
+    localStorage.removeItem(("idUsuario"));
+    document
+        .getElementById("btn-logout")
+        .classList.add("oculto");
+    document
+        .getElementById("btn-login")
+        .style.display = "inline-block";
+    document
+        .getElementById("btn-registro")
+        .style.display = "inline-block";
+    document
+        .getElementById("contenido-cupones")
+        .classList.add("oculto");
+    document
+        .getElementById("contenido-reserva")
+        .classList.add("oculto");
+    document
+        .getElementById("eliminar-perfil")
+        .classList.add("oculto");
+}
+
 window.addEventListener(
 
     "DOMContentLoaded",
@@ -196,45 +236,9 @@ window.addEventListener(
             );
 
         if(idUsuario){
-
-            document
-                .getElementById("btn-login")
-                .style.display =
-                "none";
-
-            document
-                .getElementById("btn-registro")
-                .style.display =
-                "none";
-
-            document
-                .getElementById("btn-logout")
-                .classList.remove("oculto");
-
-            document
-                .getElementById("bloqueo-cupones")
-                .classList.add("oculto");
-
-            document
-                .getElementById("bloqueo-reserva")
-                .classList.add("oculto");
-
-        }
-
-        else{
-
-            document
-                .getElementById("contenido-cupones")
-                .classList.add("oculto");
-
-            document
-                .getElementById("contenido-reserva")
-                .classList.add("oculto");
-
-            document
-                .getElementById("eliminar-perfil")
-                .classList.add("oculto");
-
+            habilitarDeslogeo();
+        }else{
+            habilitarLogueo();
         }
 
     }
