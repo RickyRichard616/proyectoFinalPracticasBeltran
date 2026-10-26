@@ -234,6 +234,30 @@ input{
     background-size:cover;
     background-position:center;
 }
+.tarjeta-turno{
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    padding: 20px;
+
+    margin-bottom: 15px;
+
+    background-size: cover;
+
+    background-position: center;
+
+    color: white;
+
+    border: 2px solid rgba(201,162,39,.60);
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.25);
+
+}
 
 .tarjeta-turno h3{
 
@@ -297,6 +321,17 @@ select{
     border:2px solid
         rgba(201,162,39,.25);
 }
+#lista-reservas{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
 
 
 /* ===========================
