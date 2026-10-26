@@ -300,15 +300,15 @@ app.get('/api/mesas-disponibles', async (req, res) => {
         const consulta = `
         SELECT id_mesa, numero_mesa, capacidad
         FROM mesas
-        WHERE local = ?
-        AND id NOT IN (
+        WHERE id_local = ?
+        AND id_mesa NOT IN (
             SELECT id_mesa
             FROM reservas
             WHERE fecha = ? AND fecha_hora = ?
         )
         `;
 
-        const mesasDisponibles = await pool.query(consulta, [local, fecha, hora]);
+        const [mesasDisponibles] = await pool.query(consulta, [local, fecha, hora]);
 
         res.json(mesasDisponibles);
     }catch(error){

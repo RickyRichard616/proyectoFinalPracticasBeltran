@@ -272,13 +272,13 @@ document.addEventListener("DOMContentLoaded",() => {
                 .then(response => response.json())
                 .then(mesas => {
                     // Limpiamos las opciones anteriores
-                    mesaSelect.innerHTML = '<option value="">Selecciona una mesa disponible</option>';
+                    mesaSelect.innerHTML = '';
                     
                     // Añadimos las mesas que devolvió la base de datos
                     mesas.forEach(mesa => {
                         const option = document.createElement('option');
-                        option.value = mesa.id;
-                        option.textContent = `Mesa ${mesa.numero} (Hasta ${mesa.capacidad} jugadores)`;
+                        option.value = mesa.id_mesa;
+                        option.textContent = `Mesa ${mesa.numero_mesa} (Hasta ${mesa.capacidad} jugadores)`;
                         mesaSelect.appendChild(option);
                     });
                 })
