@@ -272,8 +272,17 @@ app.post('/api/login', async (req, res) => {
         }
 
         const [resultado] = await pool.query(
-            'SELECT id_usuario FROM usuarios WHERE nombre=? AND contrasenia=?',
+            'SELECT id_usuario, online FROM usuarios WHERE nombre=? AND contrasenia=?',
             [nombre,contrasenia]
+        );
+
+        if (resultado.online === 1) {
+            return res.status(400).json({ error: "El usuario ya se encuentra conectado en otra sesión." });
+        }
+
+        await pool.query(
+            'UPDATE usuarios SET online = 1 WHERE id_usuario = ?',
+            [usuario.id_usuario]
         );
 
         res.status(200).json({
