@@ -360,7 +360,7 @@ app.get('/api/ver-reservas', async (req, res) => {
         FROM reservas r
         JOIN mesas m ON r.id_mesa = m.id_mesa
         JOIN locales l ON m.id_local = l.id_local
-        WHERE r.id_usuario = 1 AND r.estado = 'confirmada'
+        WHERE r.id_usuario = ? AND r.estado = ?
         ORDER BY r.fecha ASC, r.fecha_hora ASC;
         `;
 
