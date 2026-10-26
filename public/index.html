@@ -280,43 +280,64 @@
 
     <!-- LOCALES -->
 
-    <section class="locales-destacados">
+    <section
+        id="selector-locales"
+        class="selector-locales">
 
-        <h2>
-            Nuestros Locales
-        </h2>
+        <div
+            id="selector-fondo"
+            class="selector-fondo">
 
-        <div class="carrusel-locales">
+            <div class="selector-contenido">
 
-            <button id="anterior"
-                    class="btn-anterior">
+                <div class="selector-logo">
 
-                ◀
+                    <img
+                        src="images/logos/logopag.webp"
+                        alt="Logo">
 
-            </button>
+                    <div class="selector-controles">
 
-            <div id="local-activo"
-                 class="local-destacado">
+                        <button id="anterior">
+                            ◀
+                        </button>
 
-                <div class="imagen-local">
+                        <button id="siguiente">
+                            ▶
+                        </button>
 
-                    <img src="images/locales/lapinta.webp"
-                        alt="Local medieval La Pinta">
+                    </div>
 
                 </div>
 
+                <div class="selector-imagen">
 
-                <div class="info-local">
+                    <img
+                        id="imagen-local"
+                        src="images/locales/lapinta.webp"
+                        alt="La Pinta">
 
-                    <h3>La Pinta</h3>
+                </div>
 
-                    <p>
-                        Una taberna medieval donde podrás vivir
-                        aventuras de fantasía, dragones y héroes legendarios.
+                <div class="selector-info">
+
+                    <h2 id="nombre-local">
+
+                        La Pinta
+
+                    </h2>
+
+                    <p id="texto-local">
+
+                        Taberna medieval inspirada en fantasía clásica,
+                        dragones y aventuras heroicas.
+
                     </p>
 
-                    <a href="locales.html#medieval"
-                       class="btn-local">
+                    <a
+                        id="link-local"
+                        href="locales.html#medieval"
+                        class="btn-principal">
 
                         Ver Local
 
@@ -325,13 +346,6 @@
                 </div>
 
             </div>
-
-            <button id="siguiente"
-                    class="btn-siguiente">
-
-                ▶
-
-            </button>
 
         </div>
 

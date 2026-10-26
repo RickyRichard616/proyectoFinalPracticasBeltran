@@ -101,25 +101,30 @@
     flex-shrink:0;
 
     position:relative;
+    
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
 }
 
 .imagen-parallax{
 
     width:100%;
 
-    height:130%;
+    height:100%;
 
     object-fit:cover;
 
-    object-position:center;
+    background:white;
+}
+.imagen-container:hover{
 
-    display:block;
+    transform:scale(1.03);
 
-    transform:translateY(0);
+    box-shadow:
+        0 0 20px rgba(201,162,39,.6),
+        0 0 40px rgba(201,162,39,.25);
 
-    will-change:transform;
-
-    transition:transform .05s linear;
 }
 
 /* ===========================
@@ -203,126 +208,6 @@
     line-height:1.8;
 }
 
-
-/* ===========================
-   LOCALES DESTACADOS
-=========================== */
-
-.locales-destacados{
-
-    padding:120px 10%;
-}
-
-.locales-destacados h2{
-
-    text-align:center;
-
-    margin-bottom:60px;
-
-    color:var(--color-dorado);
-
-    font-size:3rem;
-}
-
-.carrusel-locales{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:30px;
-}
-
-.local-destacado{
-
-    display:flex;
-
-    gap:40px;
-
-    background-color:var(--color-panel);
-
-    padding:30px;
-
-    border-radius:12px;
-
-    width:100%;
-
-    transition:0.4s;
-}
-
-.local-destacado:hover{
-
-    transform:translateY(-10px);
-}
-
-.imagen-local{
-
-    width:400px;
-
-    min-height:250px;
-
-    background:#3a3c49;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    border-radius:12px;
-}
-
-.info-local{
-
-    flex:1;
-}
-
-.info-local h3{
-
-    color:var(--color-dorado);
-
-    margin-bottom:15px;
-}
-
-.info-local p{
-
-    line-height:1.7;
-
-    margin-bottom:20px;
-}
-
-/* ===========================
-   BOTONES DEL CARRUSEL
-=========================== */
-
-.btn-anterior,
-.btn-siguiente{
-
-    font-size:2rem;
-
-    padding:12px 18px;
-
-    border:none;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    background:var(--color-panel);
-
-    color:var(--color-dorado);
-
-    transition:0.3s;
-}
-
-.btn-anterior:hover,
-.btn-siguiente:hover{
-
-    transform:scale(1.1);
-}
-
 /* ===========================
    CTA FINAL
 =========================== */
@@ -404,23 +289,7 @@
         flex-direction:column;
     }
 
-    .local-destacado{
-
-        flex-direction:column;
-    }
-
-    .imagen-local{
-
-        width:100%;
-    }
-
-
     .parallax-rol h2{
-
-        font-size:2rem;
-    }
-
-    .locales-destacados h2{
 
         font-size:2rem;
     }
@@ -429,4 +298,175 @@
 
         font-size:2rem;
     }
+    
+}
+/* ===========================
+   Carrusel de locales
+=========================== */
+
+.selector-locales{
+
+    padding:100px 10%;
+
+}
+
+.selector-fondo{
+
+    background-image:
+    linear-gradient(
+        rgba(0,0,0,.65),
+        rgba(0,0,0,.65)
+    ),
+    url("../images/locales/fondopinta.webp");
+
+    background-size:cover;
+
+    background-position:center;
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    transition:.5s;
+}
+
+.selector-contenido{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:40px;
+
+    padding:50px;
+}
+
+.selector-logo{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:30px;
+}
+
+.selector-logo img{
+
+    width:140px;
+}
+
+.selector-controles{
+
+    display:flex;
+
+    gap:15px;
+}
+
+.selector-controles button{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:14px 20px;
+
+    border-radius:10px;
+
+    font-size:1.2rem;
+
+    background:var(--color-panel);
+
+    color:var(--color-dorado);
+}
+
+.selector-imagen{
+
+    flex:1;
+}
+
+.selector-imagen img{
+
+    width:100%;
+
+    max-width:550px;
+
+    border-radius:20px;
+
+    display:block;
+}
+
+.selector-info{
+
+    flex:1;
+    transition:.3s ease;
+}
+
+.selector-info h2{
+
+    color:var(--color-dorado);
+
+    font-size:3rem;
+
+    margin-bottom:20px;
+}
+
+.selector-info p{
+
+    font-size:1.1rem;
+
+    line-height:1.8;
+
+    margin-bottom:30px;
+}
+.btn-anterior,
+.btn-siguiente{
+
+    font-size:2rem;
+
+    padding:12px 18px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    background:var(--color-panel);
+
+    color:var(--color-dorado);
+
+    transition:0.3s;
+}
+
+.btn-anterior:hover,
+.btn-siguiente:hover{
+
+    transform:scale(1.1);
+}
+@media(max-width:768px){
+
+    .selector-contenido{
+
+        flex-direction:column;
+
+        text-align:center;
+    }
+
+    .selector-logo img{
+
+        width:100px;
+    }
+
+    .selector-info h2{
+
+        font-size:2rem;
+    }
+
+    .selector-imagen img{
+
+        max-width:100%;
+    }
+
 }
