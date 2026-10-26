@@ -153,7 +153,7 @@
         rgba(0,0,0,.65)
     ),
 
-    url("../images/locales/fondopinta.jpg");
+    url("../images/locales/fondopinta.webp");
 
     background-size:cover;
 
@@ -195,7 +195,7 @@
         rgba(0,0,0,.75)
     ),
 
-    url("../images/locales/fondopuente.jpg");
+    url("../images/locales/fondopuente.webp");
 
     background-size:cover;
 
@@ -240,7 +240,7 @@
         rgba(0,0,0,.65)
     ),
 
-    url("../images/locales/fondotorre.jpg");
+    url("../images/locales/fondotorre.webp");
 
     background-size:cover;
 
@@ -279,7 +279,7 @@
 
     padding:120px 20px;
 
-    background-color:var(--color-panel);
+    background-color:#2a2c3b;
 }
 
 .cta-locales h2{
@@ -349,28 +349,15 @@
    RESPONSIVE
 =========================== */
 
-@media (max-width:900px){
 
-    .local{
+@media (max-width:600px){
+
+      .local{
 
         flex-direction:column;
 
         text-align:center;
     }
-
-    .local-info ul{
-
-        list-style-position:inside;
-    }
-
-    .hero-locales h1{
-
-        font-size:2.8rem;
-    }
-
-}
-
-@media (max-width:600px){
 
     .hero-locales h1{
 
