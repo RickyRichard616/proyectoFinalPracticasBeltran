@@ -320,6 +320,7 @@ app.get('/api/mesas-disponibles', async (req, res) => {
 app.post('/api/reservar', async (req, res) => {
     const {idUsuario, idLocal, fecha, hora, idMesa} = req.query;
 
+    console.log(idUsuario+'|'+idLocal+'|'+fecha+'|'+hora+'|'+idMesa);
     if(!idUsuario || !idLocal || !fecha || !hora || !idMesa){
         return res.status(400).json({ error: 'Faltan parametros para la reserva'});
     }
