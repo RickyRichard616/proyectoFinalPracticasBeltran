@@ -316,7 +316,29 @@ app.get('/api/mesas-disponibles', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor al buscar mesas disponibles'});
     }
 });
+//Endpoint para registrar reservas
+app.post('/api/reservar', async (req, res) => {
+    const {idUsuario, idLocal, fecha, hora, idMesa} = req.query;
 
+    if(!idUsuario || !idLocal || !fecha || !hora || !idMesa){
+        return res.status(400).json({ error: 'Faltan parametros para la reserva'});
+    }
+
+    try{
+        const [resultado] = await pool.query(`
+            INSERT INTO reservas
+            (id_usuario, id_mesa, fecha_hora, estado, fecha)
+            VALUES (?,?,?,'confirmada',?)`,
+            [idUsuario,idMesa,hora,fecha]
+        );
+        res.status(201).json({
+            mensaje: "Reserva registrada con exito."
+        });
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Error interno del servidor al registrar una reserva'});
+    }
+});
 // 1. Servir los archivos frontend (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
