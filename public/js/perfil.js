@@ -323,7 +323,27 @@ document.addEventListener("DOMContentLoaded",() => {
     }else{
         habilitarLogueo();
     }
+// Cerrar sesion
+    btnDeslogear.addEventListener("click", async () => {
+        const idUsuario = localStorage.getItem("idUsuario");
 
+        if (idUsuario) {
+            try {
+                // Avisamos al backend que cambie el online a 0
+                await fetch(`${API_URL}/api/cerrar-sesion`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ idUsuario })
+                });
+            } catch (error) {
+                console.error("Error al notificar cierre de sesión:", error);
+            }
+        }
+
+        // Borramos del navegador y refrescamos la interfaz
+        localStorage.removeItem("idUsuario");
+        verReservas(); // (La función que limpia la pantalla)
+    });
 
  // Consultar mesas disponibles por local, dia y hora
     const localSelect = document.getElementById('local');

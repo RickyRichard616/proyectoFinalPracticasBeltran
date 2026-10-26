@@ -297,6 +297,28 @@ app.post('/api/login', async (req, res) => {
         }
     }
 });
+//Endpoint para cerrar sesion
+app.post('/api/cerrar-sesion', async (req, res) => {
+    try {
+        const { idUsuario } = req.body;
+
+        if (!idUsuario) {
+            return res.status(400).json({ error: "Falta el ID del usuario." });
+        }
+
+        // Cambiar su estado a desconectado (0)
+        await pool.query(
+            'UPDATE usuarios SET online = 0 WHERE id_usuario = ?',
+            [idUsuario]
+        );
+
+        res.status(200).json({ mensaje: "Sesión cerrada correctamente." });
+
+    } catch (error) {
+        console.error("Error al cerrar sesión:", error);
+        res.status(500).json({ error: "Hubo un error al cerrar sesión." });
+    }
+});
 //Endpoint para obtener mesas disponibles
 app.get('/api/mesas-disponibles', async (req, res) => {
     const {local,fecha,hora} = req.query;
