@@ -208,6 +208,8 @@ function habilitarDeslogeo(){
         document
         .getElementById("btn-crear-reserva")
         .disabled = false;
+
+    verReservas();
 }
 
 function habilitarLogueo(){
@@ -239,6 +241,65 @@ function habilitarLogueo(){
     document
         .getElementById("btn-crear-reserva")
         .disabled = true;
+    
+    verReservas();
+}
+
+function verReservas(){
+    const idUsuario = localStorage.getItem("idUsuario");
+    const bloqueoReserva = document.getElementById("bloqueo-reserva");
+    const contenidoReserva = document.getElementById("contenido-reserva");
+    const listaReservas = document.getElementById("lista-reservas");
+
+    if(!idUsuario){
+        listaReservas.innerHTML = "";
+        return;
+    }
+
+    // 2. Consultar las reservas del usuario en el backend
+    fetch(`${API_URL}/api/ver-reservas?idUsuario=${idUsuario}`)
+        .then(response => response.json())
+        .then(reservas => {
+        // Limpiamos el contenedor por si acaso
+        listaReservas.innerHTML = "";
+
+        if (reservas.length === 0) {
+            listaReservas.innerHTML = "<p>No tienes reservas registradas.</p>";
+            return;
+        }
+
+        // 3. Generar un item por cada reserva manteniendo la jerarquía
+        reservas.forEach(reserva => {
+            const tarjeta = document.createElement("div");
+            tarjeta.className = "tarjeta-turno";
+
+            tarjeta.innerHTML = `
+                <h3>
+                    ${reserva.local}
+                </h3>
+                <p>
+                    Fecha: ${reserva.fecha} - ${reserva.hora} hs
+                </p>
+                <p>
+                    Mesa: ${reserva.mesaNumero}
+                </p>
+                <p>
+                    Capacidad: ${reserva.capacidad}
+                </p>
+                <div class="acciones-reserva">
+                    <button class="btn-cancelar" data-id="${reserva.id}">
+                        Cancelar Reserva
+                    </button>
+                </div>
+            `;
+
+            listaReservas.appendChild(tarjeta);
+        });
+    })
+    .catch(error => {
+        console.error("Error al obtener las reservas:", error);
+        listaReservas.innerHTML = "<p>Hubo un error al cargar tus reservas.</p>";
+    });
 }
 
 document.addEventListener("DOMContentLoaded",() => {
@@ -335,56 +396,5 @@ document.addEventListener("DOMContentLoaded",() => {
             console.error("Error al enviar la reserva:", error);
             alert("Hubo un error de conexión con el servidor.");
         }
-    });
-// Ver reservas
-    const listaReservas = document.getElementById("lista-reservas");
-
-    if(!idUsuario){
-        idUsuario = null;
-    }
-
-    // 2. Consultar las reservas del usuario en el backend
-    fetch(`${API_URL}/api/ver-reservas?idUsuario=${idUsuario}`)
-        .then(response => response.json())
-        .then(reservas => {
-        // Limpiamos el contenedor por si acaso
-        listaReservas.innerHTML = "";
-
-        if (reservas.length === 0) {
-            listaReservas.innerHTML = "<p>No tienes reservas registradas.</p>";
-            return;
-        }
-
-        // 3. Generar un item por cada reserva manteniendo la jerarquía
-        reservas.forEach(reserva => {
-            const tarjeta = document.createElement("div");
-            tarjeta.className = "tarjeta-turno";
-
-            tarjeta.innerHTML = `
-                <h3>
-                    ${reserva.local}
-                </h3>
-                <p>
-                    Fecha: ${reserva.fecha} - ${reserva.hora} hs
-                </p>
-                <p>
-                    Mesa: ${reserva.mesaNumero}
-                </p>
-                <p>
-                    Capacidad: ${reserva.capacidad}
-                </p>
-                <div class="acciones-reserva">
-                    <button class="btn-cancelar" data-id="${reserva.id}">
-                        Cancelar Reserva
-                    </button>
-                </div>
-            `;
-
-            listaReservas.appendChild(tarjeta);
-        });
-    })
-    .catch(error => {
-        console.error("Error al obtener las reservas:", error);
-        listaReservas.innerHTML = "<p>Hubo un error al cargar tus reservas.</p>";
     });
 });
