@@ -4,520 +4,358 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Módulo de Juego Narrativo | La pinta Don Dice</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/juego.css">
     <link rel="icon"
           type="image/png"
           href="images/logos/logopagicon.png">
-    <style>
-        /* 
-          ESTILOS BÁSICOS Y EXPLÍCITOS
-        */
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f0f0f0;
-            color: #222222;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        /* Contenedor principal */
-        #modulo-juego {
-            width: 100%;
-            max-width: 750px;
-            background-color: #ffffff;
-            border: 2px solid #333333;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        /* Fila superior para los indicadores 1, 2 y 3 */
-        .fila-indicadores {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 12px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #dddddd;
-            padding-bottom: 15px;
-        }
-
-        /* 1. Indicador de Zona */
-        .caja-zona {
-            flex: 1;
-            border: 1px solid #555555;
-            background-color: #fafafa;
-            padding: 10px;
-        }
-
-        .caja-zona h3 {
-            font-size: 11px;
-            margin: 0 0 5px 0;
-            color: #666666;
-            text-transform: uppercase;
-        }
-
-        .caja-zona p {
-            font-size: 14px;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        /* 2. Indicador de Hora */
-        .caja-tiempo {
-            flex: 1;
-            border: 1px solid #555555;
-            background-color: #fafafa;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .caja-tiempo h3 {
-            font-size: 11px;
-            margin: 0 0 5px 0;
-            color: #666666;
-            text-transform: uppercase;
-        }
-
-        .caja-tiempo p {
-            font-size: 16px;
-            font-weight: bold;
-            margin: 0;
-            font-family: monospace;
-        }
-
-        /* 3. Indicadores Custom (Salud y Mente) */
-        .caja-barras {
-            flex: 1.2;
-            border: 1px solid #555555;
-            background-color: #fafafa;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .fila-barra {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-        }
-
-        .fila-barra span {
-            width: 45px;
-            font-weight: bold;
-        }
-
-        .barra-externa {
-            flex: 1;
-            height: 10px;
-            border: 1px solid #333333;
-            background-color: #e0e0e0;
-        }
-
-        .barra-interna-salud {
-            height: 100%;
-            width: 100%;
-            background-color: #d9534f; /* salud */
-        }
-
-        .barra-interna-mente {
-            height: 100%;
-            width: 100%;
-            background-color: #0275d8; /* mente */
-        }
-
-        .texto-valor-barra {
-            width: 35px;
-            text-align: right;
-            font-family: monospace;
-        }
-
-        /* 5. El Narrador */
-        .seccion-narrador {
-            border: 1px solid #555555;
-            background-color: #fafafa;
-            padding: 15px;
-            height: 200px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            line-height: 1.5;
-            font-size: 14px;
-        }
-
-        .seccion-narrador p {
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        /* Banner de Estado (Victoria o Derrota) */
-        .banner-estado {
-            border: 2px solid #333333;
-            background-color: #eeeeee;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
-
-        /* 4. Botones de Acción (3 opciones) */
-        .contenedor-botones {
-            display: flex;
-            gap: 12px;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .boton-accion {
-            flex: 1;
-            border: 1px solid #333333;
-            background-color: #ffffff;
-            padding: 12px 10px;
-            cursor: pointer;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 8px;
-            font-size: 13px;
-        }
-
-        .boton-accion:hover {
-            background-color: #eeeeee;
-        }
-
-        /* Podrian quitarse */
-        .etiqueta-costo {
-            font-size: 11px;
-            color: #666666;
-            border-top: 1px dashed #cccccc;
-            padding-top: 5px;
-        }
-
-        /* Pie de página del módulo */
-        .pie-modulo {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: #666666;
-            border-top: 1px solid #dddddd;
-            padding-top: 10px;
-        }
-
-        /* Solo para testeo */
-        .boton-reiniciar {
-            padding: 6px 12px;
-            background-color: #dddddd;
-            border: 1px solid #333333;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .boton-reiniciar:hover {
-            background-color: #cccccc;
-        }
-    </style>
 </head>
 <body>
+    <!--CABEZA-->
 
-    <!-- CONTENEDOR PRINCIPAL DEL MÓDULO -->
-    <div id="modulo-juego">
+   <header>
 
-        <!-- FILA SUPERIOR: INDICADORES 1, 2 Y 3 -->
-        <div class="fila-indicadores">
-            
-            <!-- 1. Indicador de Zona -->
-            <div class="caja-zona">
-                <h3>Zona Actual</h3>
-                <p id="texto-zona">Cargando...</p>
-            </div>
+        <a href="index.html">
 
-            <!-- 2. Indicador de Hora -->
-            <div class="caja-tiempo">
-                <h3>Tiempo Restante</h3>
-                <p id="texto-tiempo">00:00</p>
-            </div>
+            <img src="images/logos/logopag.webp"
+                alt="Logo de La Pinta Don Dice"
+                class="logo-header">
 
-            <!-- 3. Indicadores Custom (Salud y Mente) -->
-            <div class="caja-barras">
-                <div class="fila-barra">
-                    <span>Salud</span>
-                    <div class="barra-externa">
-                        <div id="barra-salud-interna" class="barra-interna-salud"></div>
-                    </div>
-                    <span id="valor-salud" class="texto-valor-barra">100</span>
+        </a>
+
+        <nav>
+
+            <div class="dropdown">
+
+                <button class="dropdown-btn">
+                    Locales ▼
+                </button>
+
+                <div class="dropdown-menu">
+
+                    <a href="locales.html#medieval">
+                        La Pinta
+                    </a>
+
+                    <a href="locales.html#cyberpunk">
+                        El Puente
+                    </a>
+
+                    <a href="locales.html#heroes">
+                        La Torre
+                    </a>
+
                 </div>
-                <div class="fila-barra">
-                    <span>Mente</span>
-                    <div class="barra-externa">
-                        <div id="barra-mente-interna" class="barra-interna-mente"></div>
-                    </div>
-                    <span id="valor-mente" class="texto-valor-barra">100</span>
+
+            </div>
+
+            <a href="perfil.html">
+
+                <img src="images/logos/user_base.png"
+                    alt="Perfil de usuario"
+                    class="perfil-icono">
+
+            </a>
+
+        </nav>
+
+    </header>
+    <main>
+        
+        </div>
+
+        <!-- CONTENEDOR PRINCIPAL DEL MÓDULO -->
+        <div id="modulo-juego">
+
+            <!-- FILA SUPERIOR: INDICADORES 1, 2 Y 3 -->
+            <div class="fila-indicadores">
+                
+                <!-- 1. Indicador de Zona -->
+                <div class="caja-zona">
+                    <h3>Zona Actual</h3>
+                    <p id="texto-zona">Cargando...</p>
                 </div>
+
+                <!-- 2. Indicador de Hora -->
+                <div class="caja-tiempo">
+                    <h3>Tiempo Restante</h3>
+                    <p id="texto-tiempo">00:00</p>
+                </div>
+
+                <!-- 3. Indicadores Custom (Salud y Mente) -->
+                <div class="caja-barras">
+                    <div class="fila-barra">
+                        <span>Salud</span>
+                        <div class="barra-externa">
+                            <div id="barra-salud-interna" class="barra-interna-salud"></div>
+                        </div>
+                        <span id="valor-salud" class="texto-valor-barra">100</span>
+                    </div>
+                    <div class="fila-barra">
+                        <span>Mente</span>
+                        <div class="barra-externa">
+                            <div id="barra-mente-interna" class="barra-interna-mente"></div>
+                        </div>
+                        <span id="valor-mente" class="texto-valor-barra">100</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 5. El narrador -->
+            <div id="espacio-narrador" class="seccion-narrador">
+                <!-- Los textos de la historia se cargarán aquí dinámicamente -->
+            </div>
+
+            <!-- Banner de Estado (Victoria / Derrota) -->
+            <div id="banner-estado" class="banner-estado" style="display: none;"></div>
+
+            <!-- 4. Botones de accion (3 opciones) -->
+            <div id="contenedor-acciones" class="contenedor-botones">
+                <button id="boton-opcion-0" class="boton-accion" onclick="seleccionarOpcion(0)">
+                    <span id="texto-opcion-0">Opción 1</span>
+                    <span id="costo-opcion-0" class="etiqueta-costo">Costo: -- min</span>
+                </button>
+                <button id="boton-opcion-1" class="boton-accion" onclick="seleccionarOpcion(1)">
+                    <span id="texto-opcion-1">Opción 2</span>
+                    <span id="costo-opcion-1" class="etiqueta-costo">Costo: -- min</span>
+                </button>
+                <button id="boton-opcion-2" class="boton-accion" onclick="seleccionarOpcion(2)">
+                    <span id="texto-opcion-2">Opción 3</span>
+                    <span id="costo-opcion-2" class="etiqueta-costo">Costo: -- min</span>
+                </button>
+            </div>
+
+            <!-- Pie del modulo -->
+            <div class="pie-modulo">
+                <span>Módulo de Aventura Interactiva</span>
+                <!-- Reinicio (solo durante testing) -->
+                <button class="boton-reiniciar" onclick="reiniciarJuego()">Reiniciar Partida</button>
             </div>
 
         </div>
 
-        <!-- 5. El narrador -->
-        <div id="espacio-narrador" class="seccion-narrador">
-            <!-- Los textos de la historia se cargarán aquí dinámicamente -->
-        </div>
+        <script>
+            /* 
+            ESTADO DEL JUEGO
+            Objeto principal que almacena los valores actuales de la partida.
+            */
+            let estadoJuego = {
+                zonaActual: "Entrada",
+                tiempoRestanteMinutos: 120, // 2 horas de tiempo límite in-game
+                salud: 100,
+                mente: 100,
+                partidaTerminada: false
+            };
 
-        <!-- Banner de Estado (Victoria / Derrota) -->
-        <div id="banner-estado" class="banner-estado" style="display: none;"></div>
+            let opcionesActuales = [];
 
-        <!-- 4. Botones de accion (3 opciones) -->
-        <div id="contenedor-acciones" class="contenedor-botones">
-            <button id="boton-opcion-0" class="boton-accion" onclick="seleccionarOpcion(0)">
-                <span id="texto-opcion-0">Opción 1</span>
-                <span id="costo-opcion-0" class="etiqueta-costo">Costo: -- min</span>
-            </button>
-            <button id="boton-opcion-1" class="boton-accion" onclick="seleccionarOpcion(1)">
-                <span id="texto-opcion-1">Opción 2</span>
-                <span id="costo-opcion-1" class="etiqueta-costo">Costo: -- min</span>
-            </button>
-            <button id="boton-opcion-2" class="boton-accion" onclick="seleccionarOpcion(2)">
-                <span id="texto-opcion-2">Opción 3</span>
-                <span id="costo-opcion-2" class="etiqueta-costo">Costo: -- min</span>
-            </button>
-        </div>
+            // Referencias a elementos del DOM (cosas en pantalla)
+            const elementoZona = document.getElementById("texto-zona");
+            const elementoTiempo = document.getElementById("texto-tiempo");
+            const barraSaludInterna = document.getElementById("barra-salud-interna");
+            const barraMenteInterna = document.getElementById("barra-mente-interna");
+            const valorSalud = document.getElementById("valor-salud");
+            const valorMente = document.getElementById("valor-mente");
+            const espacioNarrador = document.getElementById("espacio-narrador");
+            const contenedorAcciones = document.getElementById("contenedor-acciones");
+            const bannerEstado = document.getElementById("banner-estado");
 
-        <!-- Pie del modulo -->
-        <div class="pie-modulo">
-            <span>Módulo de Aventura Interactiva</span>
-            <!-- Reinicio (solo durante testing) -->
-            <button class="boton-reiniciar" onclick="reiniciarJuego()">Reiniciar Partida</button>
-        </div>
+            // Función para inicializar o reiniciar el juego (solo durante testing)
+            function reiniciarJuego() {
+                estadoJuego.zonaActual = "Generando universo...";
+                estadoJuego.tiempoRestanteMinutos = 120;
+                estadoJuego.salud = 100;
+                estadoJuego.mente = 100;
+                estadoJuego.partidaTerminada = false;
 
-    </div>
+                bannerEstado.style.display = "none";
+                contenedorAcciones.style.display = "flex";
+                espacioNarrador.innerHTML = "";
 
-    <script>
-        /* 
-          ESTADO DEL JUEGO
-          Objeto principal que almacena los valores actuales de la partida.
-        */
-        let estadoJuego = {
-            zonaActual: "Entrada",
-            tiempoRestanteMinutos: 120, // 2 horas de tiempo límite in-game
-            salud: 100,
-            mente: 100,
-            partidaTerminada: false
-        };
+                // enviar peticion vacia para crear escenario nuevo desde 0
+                enviarAccionAI("");
+            }
 
-        let opcionesActuales = [];
+            async function enviarAccionAI(accionElegida) {
+                deshabilitarBotones("true");
+                agregarTextoNarrador("El narrador esta escribiendo los sucesos...");
 
-        // Referencias a elementos del DOM (cosas en pantalla)
-        const elementoZona = document.getElementById("texto-zona");
-        const elementoTiempo = document.getElementById("texto-tiempo");
-        const barraSaludInterna = document.getElementById("barra-salud-interna");
-        const barraMenteInterna = document.getElementById("barra-mente-interna");
-        const valorSalud = document.getElementById("valor-salud");
-        const valorMente = document.getElementById("valor-mente");
-        const espacioNarrador = document.getElementById("espacio-narrador");
-        const contenedorAcciones = document.getElementById("contenedor-acciones");
-        const bannerEstado = document.getElementById("banner-estado");
+                try{
+                    const respuesta = await fetch('https://landing-site-fufr.onrender.com/api/jugar', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            accionUsuario: accionElegida,
+                            zonaActual: estadoJuego.zonaActual,
+                            tiempoRestante: estadoJuego.tiempoRestanteMinutos,
+                            salud: estadoJuego.salud,
+                            mente: estadoJuego.mente
+                        })
+                    });
 
-        // Función para inicializar o reiniciar el juego (solo durante testing)
-        function reiniciarJuego() {
-            estadoJuego.zonaActual = "Generando universo...";
-            estadoJuego.tiempoRestanteMinutos = 120;
-            estadoJuego.salud = 100;
-            estadoJuego.mente = 100;
-            estadoJuego.partidaTerminada = false;
+                    const datosNarrador = await respuesta.json();
 
-            bannerEstado.style.display = "none";
-            contenedorAcciones.style.display = "flex";
-            espacioNarrador.innerHTML = "";
-
-            // enviar peticion vacia para crear escenario nuevo desde 0
-            enviarAccionAI("");
-        }
-
-        async function enviarAccionAI(accionElegida) {
-            deshabilitarBotones("true");
-            agregarTextoNarrador("El narrador esta escribiendo los sucesos...");
-
-            try{
-                const respuesta = await fetch('https://landing-site-fufr.onrender.com/api/jugar', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        accionUsuario: accionElegida,
-                        zonaActual: estadoJuego.zonaActual,
-                        tiempoRestante: estadoJuego.tiempoRestanteMinutos,
-                        salud: estadoJuego.salud,
-                        mente: estadoJuego.mente
-                    })
-                });
-
-                const datosNarrador = await respuesta.json();
-
-                if (!respuesta.ok) {
-                    if (datosNarrador.motivo === "intentoGastado" || respuesta.status === 400) {
-                        espacioNarrador.removeChild(espacioNarrador.lastChild);
-                        // Mostrar el mensaje de error del backend en el banner o narrador
-                        bannerEstado.textContent = datosNarrador.error || "Ya has utilizado tu intento diario para este desafío.";
-                        bannerEstado.style.display = "block";
-                        bannerEstado.style.color = "#c62828";       // Color rojo de alerta
-                        bannerEstado.style.backgroundColor = "#ffebee";
-                        
-                        // Ocultar los botones de opciones para bloquear el juego por completo
-                        if (contenedorAcciones) {
-                            contenedorAcciones.style.display = "none";
+                    if (!respuesta.ok) {
+                        if (datosNarrador.motivo === "intentoGastado" || respuesta.status === 400) {
+                            espacioNarrador.removeChild(espacioNarrador.lastChild);
+                            // Mostrar el mensaje de error del backend en el banner o narrador
+                            bannerEstado.textContent = datosNarrador.error || "Ya has utilizado tu intento diario para este desafío.";
+                            bannerEstado.style.display = "block";
+                            bannerEstado.style.color = "#c62828";       // Color rojo de alerta
+                            bannerEstado.style.backgroundColor = "#ffebee";
+                            
+                            // Ocultar los botones de opciones para bloquear el juego por completo
+                            if (contenedorAcciones) {
+                                contenedorAcciones.style.display = "none";
+                            }
                         }
+                        return; // Detenemos la ejecución para que no intente renderizar una escena vacía
                     }
-                    return; // Detenemos la ejecución para que no intente renderizar una escena vacía
-                }
 
-                espacioNarrador.removeChild(espacioNarrador.lastChild);
+                    espacioNarrador.removeChild(espacioNarrador.lastChild);
 
-                if(datosNarrador.zona){
-                    estadoJuego.zonaActual = datosNarrador.zona;
+                    if(datosNarrador.zona){
+                        estadoJuego.zonaActual = datosNarrador.zona;
+                    }
+
+                    actualizarInterfaz();
+                    agregarTextoNarrador(datosNarrador.narracion);
+
+                    if (datosNarrador.esVictoria === true || datosNarrador.esVictoria === "true") {
+                        // Victoria
+                        finalizarPartida("¡VICTORIA! Has completado el desafío con éxito y se ha registrado tu cupón.", true);
+                    } 
+                    
+                    if ((datosNarrador.esVictoria === false || datosNarrador.esVictoria === "false") && (!datosNarrador.opciones || datosNarrador.opciones.length === 0)) {
+                        finalizarPartida(datosNarrador.narracion || "¡DERROTA! Tus recursos se han agotado.", false);
+                    }
+
+                    opcionesActuales = datosNarrador.opciones || [];
+                    actualizarBotonesOpciones();
+
+                } catch (error) {
+                    espacioNarrador.removeChild(espacioNarrador.lastChild);
+                    console.error("Error al conectar con la IA: ", error);
+                    agregarTextoNarrador("Error de conexion con el narrador. Contacte con soporte.");
+                    deshabilitarBotones(true);
                 }
+            }
+
+            // Refrescar los indicadores visuales (1, 2 y 3)
+            function actualizarInterfaz() {
+                // 1. Zona actual
+                elementoZona.textContent = estadoJuego.zonaActual;
+
+                // 2. Hora / Tiempo restante (Formato HH:MM)
+                let horas = Math.floor(estadoJuego.tiempoRestanteMinutos / 60);
+                let minutos = estadoJuego.tiempoRestanteMinutos % 60;
+                let textoHoras = horas < 10 ? "0" + horas : horas;
+                let textoMinutos = minutos < 10 ? "0" + minutos : minutos;
+                elementoTiempo.textContent = textoHoras + ":" + textoMinutos;
+
+                // 3. Barras Custom (Salud y Mente)
+                let saludClamped = estadoJuego.salud < 0 ? 0 : estadoJuego.salud;
+                let menteClamped = estadoJuego.mente < 0 ? 0 : estadoJuego.mente;
+
+                barraSaludInterna.style.width = saludClamped + "%";
+                barraMenteInterna.style.width = menteClamped + "%";
+
+                valorSalud.textContent = saludClamped;
+                valorMente.textContent = menteClamped;
+            }
+
+            // Añadir texto al narrador central
+            function agregarTextoNarrador(texto) {
+                let parrafo = document.createElement("p");
+                parrafo.textContent = texto;
+                espacioNarrador.appendChild(parrafo);
+                espacioNarrador.scrollTop = espacioNarrador.scrollHeight;
+            }
+
+            // Mostrar las opciones en los botones de acción
+            function actualizarBotonesOpciones() {
+                for (let i = 0; i < 3; i++) {
+                    let boton = document.getElementById("boton-opcion-" + i);
+                    let textoSpan = document.getElementById("texto-opcion-" + i);
+                    let costoSpan = document.getElementById("costo-opcion-" + i);
+                    let opcion = opcionesActuales[i];
+
+                    if (opcion) {
+                        boton.style.display = "flex";
+                        textoSpan.textContent = (i + 1) + ". " + opcion.texto;
+                        
+                        // Protegemos la lectura comprobando diferentes variantes que la IA pueda enviar
+                        let tCosto = opcion.tiempoCosto ?? opcion.tiempoCoste ?? opcion.timeCost ?? 0;
+                        let sCosto = opcion.saludCosto ?? opcion.saludCoste ?? opcion.hpCost ?? 0;
+                        let mCosto = opcion.menteCosto ?? opcion.menteCoste ?? opcion.mentalCost ?? 0;
+
+                        costoSpan.textContent = "Tiempo: -" + tCosto + " min | Salud: -" + sCosto + " | Mente: -" + mCosto;
+                        boton.disabled = false;
+                    } else {
+                        boton.style.display = "none";
+                    }
+                }
+            }
+
+            function deshabilitarBotones(bloquear){
+                for(let i = 0; i < 3; i++){
+                    let boton = document.getElementById("boton-opcion-" + i);
+                    boton.disabled = bloquear;
+                }
+            }
+
+            // Manejar la elección del usuario
+            function seleccionarOpcion(indiceOpcion) {
+                deshabilitarBotones(true);
+                if (estadoJuego.partidaTerminada) return;
+
+                let opcionElegida = opcionesActuales[indiceOpcion];
+                if (!opcionElegida) return;
+
+                // Extraemos los costos de forma segura con operadores de fusión nula (??)
+                let tCosto = opcionElegida.tiempoCosto ?? opcionElegida.tiempoCoste ?? opcionElegida.timeCost ?? 0;
+                let sCosto = opcionElegida.saludCosto ?? opcionElegida.saludCoste ?? opcionElegida.hpCost ?? 0;
+                let mCosto = opcionElegida.menteCosto ?? opcionElegida.menteCoste ?? opcionElegida.mentalCost ?? 0;
+
+                // Consumir recursos de forma correcta y segura
+                estadoJuego.tiempoRestanteMinutos -= tCosto;
+                estadoJuego.salud -= sCosto;
+                estadoJuego.mente -= mCosto;
 
                 actualizarInterfaz();
-                agregarTextoNarrador(datosNarrador.narracion);
+                agregarTextoNarrador("> Elegiste: " + opcionElegida.texto);
 
-                if (datosNarrador.esVictoria === true || datosNarrador.esVictoria === "true") {
-                    // Victoria
-                    finalizarPartida("¡VICTORIA! Has completado el desafío con éxito y se ha registrado tu cupón.", true);
-                } 
+                enviarAccionAI(opcionElegida.texto);
+            }
+
+            // Finalizar partida (Victoria o Derrota)
+            function finalizarPartida(mensaje, esVictoria) {
+                estadoJuego.partidaTerminada = true;
+                bannerEstado.textContent = mensaje;
+                bannerEstado.style.display = "block";
+                console.log("pintar banner");
                 
-                if ((datosNarrador.esVictoria === false || datosNarrador.esVictoria === "false") && (!datosNarrador.opciones || datosNarrador.opciones.length === 0)) {
-                    finalizarPartida(datosNarrador.narracion || "¡DERROTA! Tus recursos se han agotado.", false);
-                }
-
-                opcionesActuales = datosNarrador.opciones || [];
-                actualizarBotonesOpciones();
-
-            } catch (error) {
-                espacioNarrador.removeChild(espacioNarrador.lastChild);
-                console.error("Error al conectar con la IA: ", error);
-                agregarTextoNarrador("Error de conexion con el narrador. Contacte con soporte.");
-                deshabilitarBotones(true);
-            }
-        }
-
-        // Refrescar los indicadores visuales (1, 2 y 3)
-        function actualizarInterfaz() {
-            // 1. Zona actual
-            elementoZona.textContent = estadoJuego.zonaActual;
-
-            // 2. Hora / Tiempo restante (Formato HH:MM)
-            let horas = Math.floor(estadoJuego.tiempoRestanteMinutos / 60);
-            let minutos = estadoJuego.tiempoRestanteMinutos % 60;
-            let textoHoras = horas < 10 ? "0" + horas : horas;
-            let textoMinutos = minutos < 10 ? "0" + minutos : minutos;
-            elementoTiempo.textContent = textoHoras + ":" + textoMinutos;
-
-            // 3. Barras Custom (Salud y Mente)
-            let saludClamped = estadoJuego.salud < 0 ? 0 : estadoJuego.salud;
-            let menteClamped = estadoJuego.mente < 0 ? 0 : estadoJuego.mente;
-
-            barraSaludInterna.style.width = saludClamped + "%";
-            barraMenteInterna.style.width = menteClamped + "%";
-
-            valorSalud.textContent = saludClamped;
-            valorMente.textContent = menteClamped;
-        }
-
-        // Añadir texto al narrador central
-        function agregarTextoNarrador(texto) {
-            let parrafo = document.createElement("p");
-            parrafo.textContent = texto;
-            espacioNarrador.appendChild(parrafo);
-            espacioNarrador.scrollTop = espacioNarrador.scrollHeight;
-        }
-
-        // Mostrar las opciones en los botones de acción
-        function actualizarBotonesOpciones() {
-            for (let i = 0; i < 3; i++) {
-                let boton = document.getElementById("boton-opcion-" + i);
-                let textoSpan = document.getElementById("texto-opcion-" + i);
-                let costoSpan = document.getElementById("costo-opcion-" + i);
-                let opcion = opcionesActuales[i];
-
-                if (opcion) {
-                    boton.style.display = "flex";
-                    textoSpan.textContent = (i + 1) + ". " + opcion.texto;
-                    
-                    // Protegemos la lectura comprobando diferentes variantes que la IA pueda enviar
-                    let tCosto = opcion.tiempoCosto ?? opcion.tiempoCoste ?? opcion.timeCost ?? 0;
-                    let sCosto = opcion.saludCosto ?? opcion.saludCoste ?? opcion.hpCost ?? 0;
-                    let mCosto = opcion.menteCosto ?? opcion.menteCoste ?? opcion.mentalCost ?? 0;
-
-                    costoSpan.textContent = "Tiempo: -" + tCosto + " min | Salud: -" + sCosto + " | Mente: -" + mCosto;
-                    boton.disabled = false;
+                if (esVictoria === true || esVictoria === "true") {
+                    bannerEstado.style.color = "#2e7d32";
+                    bannerEstado.style.backgroundColor = "#e8f5e9";
+                    console.log("pintar banner verde");
                 } else {
-                    boton.style.display = "none";
+                    bannerEstado.style.color = "#c62828";
+                    bannerEstado.style.backgroundColor = "#ffebee";
+                    console.log("pintar banner rojo");
                 }
-            }
-        }
 
-        function deshabilitarBotones(bloquear){
-            for(let i = 0; i < 3; i++){
-                let boton = document.getElementById("boton-opcion-" + i);
-                boton.disabled = bloquear;
-            }
-        }
-
-        // Manejar la elección del usuario
-        function seleccionarOpcion(indiceOpcion) {
-            deshabilitarBotones(true);
-            if (estadoJuego.partidaTerminada) return;
-
-            let opcionElegida = opcionesActuales[indiceOpcion];
-            if (!opcionElegida) return;
-
-            // Extraemos los costos de forma segura con operadores de fusión nula (??)
-            let tCosto = opcionElegida.tiempoCosto ?? opcionElegida.tiempoCoste ?? opcionElegida.timeCost ?? 0;
-            let sCosto = opcionElegida.saludCosto ?? opcionElegida.saludCoste ?? opcionElegida.hpCost ?? 0;
-            let mCosto = opcionElegida.menteCosto ?? opcionElegida.menteCoste ?? opcionElegida.mentalCost ?? 0;
-
-            // Consumir recursos de forma correcta y segura
-            estadoJuego.tiempoRestanteMinutos -= tCosto;
-            estadoJuego.salud -= sCosto;
-            estadoJuego.mente -= mCosto;
-
-            actualizarInterfaz();
-            agregarTextoNarrador("> Elegiste: " + opcionElegida.texto);
-
-            enviarAccionAI(opcionElegida.texto);
-        }
-
-        // Finalizar partida (Victoria o Derrota)
-        function finalizarPartida(mensaje, esVictoria) {
-            estadoJuego.partidaTerminada = true;
-            bannerEstado.textContent = mensaje;
-            bannerEstado.style.display = "block";
-            console.log("pintar banner");
-            
-            if (esVictoria === true || esVictoria === "true") {
-                bannerEstado.style.color = "#2e7d32";
-                bannerEstado.style.backgroundColor = "#e8f5e9";
-                console.log("pintar banner verde");
-            } else {
-                bannerEstado.style.color = "#c62828";
-                bannerEstado.style.backgroundColor = "#ffebee";
-                console.log("pintar banner rojo");
+                contenedorAcciones.style.display = "none";
             }
 
-            contenedorAcciones.style.display = "none";
-        }
+            // Iniciar el juego al cargar la página
+            window.onload = function() {
+                reiniciarJuego();
+            };
 
-        // Iniciar el juego al cargar la página
-        window.onload = function() {
-            reiniciarJuego();
-        };
-
-    </script>
-
+        </script>
+    </main>
+<script src="js/juego.js"></script>
 </body>
 </html>

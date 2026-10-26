@@ -70,9 +70,6 @@
     margin-bottom:120px;
 }
 
-.izquierda{
-}
-
 .derecha{
     flex-direction:row-reverse;
 }
@@ -115,7 +112,6 @@
 
     object-fit:cover;
 
-    background:white;
 }
 .imagen-container:hover{
 

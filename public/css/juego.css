@@ -1,0 +1,314 @@
+/* 
+    ESTILOS BÁSICOS Y EXPLÍCITOS
+*/
+
+body {
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background-color: var(--color-fondo);
+
+    color: var(--color-texto);
+
+    margin: 0;
+
+    min-height: 100vh;
+
+}
+main{
+
+    display:flex;
+
+    justify-content:center;
+
+    padding:40px 20px;
+
+    padding-top:30px;
+}
+
+/* Contenedor principal */
+#modulo-juego {
+
+    width: 100%;
+
+    max-width: 900px;
+
+    background: var(--color-panel);
+
+    border: 2px solid rgba(201,162,39,.25);
+
+    border-radius: 20px;
+
+    color: white;
+
+    padding: 25px;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 15px 30px rgba(0,0,0,.25);
+
+    margin: 30px auto;
+}
+
+
+/* Fila superior para los indicadores 1, 2 y 3 */
+.fila-indicadores {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #dddddd;
+    padding-bottom: 15px;
+}
+
+/* 1. Indicador de Zona */
+.caja-zona {
+    flex: 1;
+    border: 1px solid rgba(201,162,39,.25);
+    background-color: rgba(0,0,0,.20);
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.caja-zona h3 {
+    font-size: 11px;
+    margin: 0 0 5px 0;
+    color: var(--color-dorado);
+    text-transform: uppercase;
+}
+
+.caja-zona p {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+
+/* 2. Indicador de Hora */
+.caja-tiempo {
+        flex: 1;
+        border: 1px solid rgba(201,162,39,.25);
+        background-color: rgba(0,0,0,.20);
+        padding: 10px;
+        text-align: center;
+        border-radius: 12px;
+}
+
+.caja-tiempo h3 {
+    font-size: 11px;
+    margin: 0 0 5px 0;
+    color: var(--color-dorado);
+    text-transform: uppercase;
+}
+
+.caja-tiempo p {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    font-family: monospace;
+    color: white;
+}
+
+/* 3. Indicadores Custom (Salud y Mente) */
+.caja-barras {
+    flex: 1.2;
+    border: 1px solid rgba(201,162,39,.25);
+    background-color: rgba(0,0,0,.20);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 12px;
+    color: white;
+    
+}
+
+.fila-barra {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: white;
+}
+
+.fila-barra span {
+    width: 45px;
+    font-weight: bold;
+}
+
+.barra-externa {
+    flex: 1;
+    height: 10px;
+    border: 1px solid #333333;
+    background-color: #e0e0e0;
+}
+
+.barra-interna-salud {
+    height: 100%;
+    width: 100%;
+    background-color: #d83a35; /* salud */
+}
+
+.barra-interna-mente {
+    height: 100%;
+    width: 100%;
+    background-color: #0275d8; /* mente */
+}
+
+.texto-valor-barra {
+    width: 35px;
+    text-align: right;
+    font-family: monospace;
+}
+
+/* 5. El Narrador */
+.seccion-narrador {
+    border: 1px solid rgba(201,162,39,.25);
+    background-color: rgba(0,0,0,.20);
+    padding: 15px;
+    height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    line-height: 1.8;
+    font-size: 1rem;
+    border-radius: 12px;
+    color: white;
+}
+
+.seccion-narrador p {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Banner de Estado (Victoria o Derrota) */
+.banner-estado {
+    border: 2px solid #333333;
+    background-color: #d3b52f;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+/* 4. Botones de Acción (3 opciones) */
+.contenedor-botones {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.boton-accion {
+    flex: 1;
+    border: 1px solid rgba(201,162,39,.25);
+    background-color: #1e212b;
+    padding: 12px 10px;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 13px;
+    color: white;
+    border-radius: 10px;
+    transition: .3s;
+}
+
+.boton-accion:hover {
+    background-color: #e7891c;
+    color: black;
+    transform: translateY(-3px);
+}
+
+/* Podrian quitarse */
+.etiqueta-costo {
+    font-size: 11px;
+    color: #666666;
+    border-top: 1px dashed #cccccc;
+    padding-top: 5px;
+}
+
+/* Pie de página del módulo */
+.pie-modulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #666666;
+    border-top: 1px solid #dddddd;
+    padding-top: 10px;
+}
+
+/* Solo para testeo */
+.boton-reiniciar {
+    padding: 6px 12px;
+    background-color: #dddddd;
+    border: 1px solid #333333;
+    cursor: pointer;
+    font-size: 12px;
+    display: none; /* Oculto para entrega, cambiar si se necesita testear */
+}
+
+.boton-reiniciar:hover {
+    background-color: #cccccc;
+}
+/* Estilos header*/
+.logo-header{
+
+    height: 60px;
+
+    width: auto;
+
+}
+header{
+    height: 80px;
+
+        padding: 0 30px;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        background: var(--color-panel);
+
+        margin-bottom: 30px;
+        
+        position: sticky;
+
+        top: 0;
+
+        z-index: 1000;
+
+        transition: transform .3s ease;
+}
+
+.header-oculto{
+
+    transform: translateY(-100%);
+}
+
+
+nav{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:25px;
+
+}
+.perfil-icono{
+
+    width: 40px;
+
+    height: 40px;
+
+    object-fit: cover;
+}
