@@ -100,25 +100,25 @@ document.addEventListener("DOMContentLoaded",() => {
     btnLogout.addEventListener("click", async (e) => {
         e.preventDefault();
         const idUsuario = localStorage.getItem("idUsuario");
-
-        console.log("Saliendo de la sesion")
-
         if (idUsuario) {
             try {
                 // Avisamos al backend que cambie el online a 0
-                await fetch(`${API_URL}/api/cerrar-sesion`, {
+                const response = await fetch(`${API_URL}/api/cerrar-sesion`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ idUsuario })
                 });
+                if(!response.ok){
+                    console.log(response.error);
+                }else{
+                    console.log(response.mensaje);
+                    localStorage.removeItem("idUsuario");
+                    verReservas();
+                }
             } catch (error) {
                 console.error("Error al notificar cierre de sesión:", error);
             }
         }
-
-        // Borramos del navegador y refrescamos la interfaz
-        localStorage.removeItem("idUsuario");
-        verReservas(); // (La función que limpia la pantalla)
     });
 });
 
