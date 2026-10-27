@@ -86,6 +86,7 @@ document.addEventListener("DOMContentLoaded",() => {
                 alert("¡Reserva creada con éxito!");
                 formReserva.reset(); // Limpia el formulario
                 actualizarMesasDisponibles();
+                verReservas();
             } else {
                 alert("No se pudo completar la reserva: " + (resultado.error || "Inténtalo de nuevo."));
             }
