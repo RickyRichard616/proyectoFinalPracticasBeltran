@@ -327,7 +327,6 @@ function habilitarDeslogeo(){
 }
 
 function habilitarLogueo(){
-    localStorage.removeItem(("idUsuario"));
     document
         .getElementById("btn-logout")
         .classList.add("oculto");
