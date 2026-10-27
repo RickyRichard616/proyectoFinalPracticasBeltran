@@ -299,23 +299,22 @@ app.post('/api/login', async (req, res) => {
 });
 //Endpoint para cerrar sesion
 app.post('/api/cerrar-sesion', async (req, res) => {
+    console.log("llega llamado a cerrar sesion |"+req.body);
     const { idUsuario } = req.body;
-    console.log("llega llamado a cerrar sesion");
-
+    console.log("id: "+idUsuario);
     if (!idUsuario) {
         console.log("Falta id del usuario");
         return res.status(400).json({ error: "Falta el ID del usuario." });
     }
     try {
+        console.log("Lanzando query");
         // Cambiar su estado a desconectado (0)
         await pool.query(
             'UPDATE usuarios SET online = 0 WHERE id_usuario = ?',
             [idUsuario]
         );
-
         console.log("sesion cerrada");
         res.status(200).json({ mensaje: "Sesión cerrada correctamente." });
-
     } catch (error) {
         console.error("Error al cerrar sesión:", error);
         res.status(500).json({ error: "Hubo un error al cerrar sesión." });

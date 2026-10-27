@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded",() => {
     btnLogout.addEventListener("click", async (e) => {
         e.preventDefault();
         const idUsuario = localStorage.getItem("idUsuario");
+        console.log("id: "+idUsuario);
         if (idUsuario) {
             try {
                 // Avisamos al backend que cambie el online a 0
@@ -108,10 +109,12 @@ document.addEventListener("DOMContentLoaded",() => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ idUsuario })
                 });
+                const resultado = await response.json();
+                console.log(resultado);
                 if(!response.ok){
-                    console.log(response.error);
+                    console.log(resultado.error);
                 }else{
-                    console.log(response.mensaje);
+                    console.log(resultado.mensaje);
                     localStorage.removeItem("idUsuario");
                     verReservas();
                 }
