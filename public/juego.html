@@ -198,7 +198,6 @@
 
                     if (!respuesta.ok) {
                         if (datosNarrador.motivo === "intentoGastado" || respuesta.status === 400) {
-                            espacioNarrador.removeChild(espacioNarrador.lastChild);
                             // Mostrar el mensaje de error del backend en el banner o narrador
                             bannerEstado.textContent = datosNarrador.error || "Ya has utilizado tu intento diario para este desafío.";
                             bannerEstado.style.display = "block";
@@ -212,8 +211,6 @@
                         }
                         return; // Detenemos la ejecución para que no intente renderizar una escena vacía
                     }
-
-                    espacioNarrador.removeChild(espacioNarrador.lastChild);
 
                     if(datosNarrador.zona){
                         estadoJuego.zonaActual = datosNarrador.zona;
@@ -267,7 +264,6 @@
 
             // Añadir texto al narrador central
             function agregarTextoNarrador(texto) {
-                espacioNarrador.removeChild(espacioNarrador.lastChild);
                 let parrafo = document.createElement("p");
                 parrafo.textContent = texto;
                 espacioNarrador.appendChild(parrafo);
