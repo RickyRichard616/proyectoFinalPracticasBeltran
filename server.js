@@ -57,13 +57,10 @@ app.post('/api/jugar', async (req, res) => {
                 throw new Error("No hay tipos de cupones registrados en la base de datos.");
             }
 
-            // Extraemos un arreglo con los IDs puros (ej: [1, 2, 3, 4, 5])
-            const idsValidos = tiposCuponesDB.map(t => t.id_tipo_cupon);
-
             // Creamos un texto descriptivo para inyectarlo en el prompt de la IA
             const descripcionTipos = tiposCuponesDB.map(t => `ID ${t.id_tipo_cupon} (${t.nombre_tipo})`).join(', ');
 
-            const crearPrompt = `Inventa un desafío de rol diario único con un título de premisa atractivo, Además, debes asignarle un 'id_tipo_cupon_recompensa' que DEBE ser obligatoriamente uno de los siguientes IDs válidos de nuestra base de datos: [${descripcionTipos}]. y una introducción narrativa inicial. Responde estrictamente en formato JSON: {"tituloPremisa": "...", "idTipoCupoRecompensa": <un_numero_de_la_lista>, "narracionInicial": "..."}`;
+            const crearPrompt = `Inventa un desafío de rol diario único con un título de premisa atractivo, Además, debes asignarle un 'id_tipo_cupon_recompensa' que DEBE ser obligatoriamente uno de los siguientes IDs válidos de nuestra base de datos: [${descripcionTipos}]. y una introducción narrativa inicial. Responde estrictamente en formato JSON: {"tituloPremisa": "...", "idTipoCupoRecompensa": <un_numero_de_la_lista_otorgada>, "narracionInicial": "..."}`;
             const iaRespuesta = await ai.models.generateContent({
                 model: 'gemini-flash-lite-latest',
                 contents: crearPrompt,
@@ -208,7 +205,7 @@ app.post('/api/jugar', async (req, res) => {
             // Actualizar intento a ganado y registrar el tipo de cupón obtenido
             await pool.query(
                 'UPDATE usuario_intentos_desafio SET estado = ?, id_tipo_cupon_ganado = ? WHERE id_intento = ?',
-                ['ganado', desafioActual.id_tipo_cupon_recompensa, intentoActual.id_intento]
+                ['ganado', desafioActual.id_tipo_cupon_recompensa, filasIntentos[0].id_intento]
             );
 
             // Opcional: Generar automáticamente el cupón en la tabla 'cupones' y asignarlo al perfil ('usuario_cupones')
