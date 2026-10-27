@@ -359,9 +359,6 @@ function habilitarDeslogeo(){
         .getElementById("contenido-reserva")
         .classList.remove("oculto");
     document
-        .getElementById("eliminar-perfil")
-        .classList.remove("oculto");
-        document
         .getElementById("btn-crear-reserva")
         .disabled = false;
 
@@ -388,9 +385,6 @@ function habilitarLogueo(){
         .classList.remove("oculto");
     document
         .getElementById("contenido-reserva")
-        .classList.add("oculto");
-    document
-        .getElementById("eliminar-perfil")
         .classList.add("oculto");
     document
         .getElementById("btn-crear-reserva")
