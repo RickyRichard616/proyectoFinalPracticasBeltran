@@ -480,7 +480,7 @@ async function cargarCupones() {
     if (!idUsuario || !listaCupones) return;
 
     try {
-        const response = await fetch(`${API_URL}/api/mis-cupones?idUsuario=${idUsuario}`);
+        const response = await fetch(`${API_URL}/api/ver-cupones?idUsuario=${idUsuario}`);
         
         if (!response.ok) {
             throw new Error("No se pudieron obtener los cupones.");
