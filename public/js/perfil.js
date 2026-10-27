@@ -98,25 +98,28 @@ document.addEventListener("DOMContentLoaded",() => {
 // Cerrar sesion
     const btnLogout = document.getElementById('btn-logout');
     btnLogout.addEventListener("click", async () => {
-    const idUsuario = localStorage.getItem("idUsuario");
+        e.preventDefault();
+        const idUsuario = localStorage.getItem("idUsuario");
 
-    if (idUsuario) {
-        try {
-            // Avisamos al backend que cambie el online a 0
-            await fetch(`${API_URL}/api/cerrar-sesion`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ idUsuario })
-            });
-        } catch (error) {
-            console.error("Error al notificar cierre de sesión:", error);
+        console.log("Saliendo de la sesion")
+
+        if (idUsuario) {
+            try {
+                // Avisamos al backend que cambie el online a 0
+                await fetch(`${API_URL}/api/cerrar-sesion`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ idUsuario })
+                });
+            } catch (error) {
+                console.error("Error al notificar cierre de sesión:", error);
+            }
         }
-    }
 
-    // Borramos del navegador y refrescamos la interfaz
-    localStorage.removeItem("idUsuario");
-    verReservas(); // (La función que limpia la pantalla)
-});
+        // Borramos del navegador y refrescamos la interfaz
+        localStorage.removeItem("idUsuario");
+        verReservas(); // (La función que limpia la pantalla)
+    });
 });
 
 async function registrar(e){
