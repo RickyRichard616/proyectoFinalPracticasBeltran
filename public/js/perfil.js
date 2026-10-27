@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded",() => {
         habilitarLogueo();
     }
 // Generar select de horas
-    const selectHora = document.getElementById("select-hora");
+    const selectHora = document.getElementById("hora");
     if (selectHora) {
         // Ciclo desde las 6 AM (6) hasta las 9 PM (21)
         for (let i = 6; i <= 21; i++) {
