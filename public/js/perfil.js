@@ -119,13 +119,12 @@ async function login(e){
         }
 
         else{
-
-            alert(
-                "Usuario o contraseña incorrectos"
-            );
-
+            if(data.error){
+                alert("El usuario se encuentra en uso");
+            }else{
+                alert("Usuario o contraseña incorrectos");
+            }
         }
-
     }
 
     catch(error){
