@@ -297,7 +297,9 @@ footer{
 
 .logo-footer{
 
-    height:45px;
+    height: 60px;
+    transform: scale(1.4);
+
 }
 
 footer a,
