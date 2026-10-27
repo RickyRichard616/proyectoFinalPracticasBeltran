@@ -264,7 +264,9 @@
 
             // Añadir texto al narrador central
             function agregarTextoNarrador(texto) {
-                espacioNarrador.removeChild(espacioNarrador.lastChild);
+                if(espacioNarrador.lastChild){
+                    espacioNarrador.removeChild(espacioNarrador.lastChild);
+                }
                 let parrafo = document.createElement("p");
                 parrafo.textContent = texto;
                 espacioNarrador.appendChild(parrafo);
