@@ -149,6 +149,7 @@ app.post('/api/jugar', async (req, res) => {
             2. Evalúa el progreso: si el jugador ya ha tomado varias decisiones inteligentes, la siguiente opción debe llevarlo al desenlace donde supera el desafio.
             3. Cuando se alcance la victoria, el campo "esVictoria" debe pasar a true y las opciones deben estar vacías [].
             4. Ten cuidado de que el costo de cada accion corresponda a sacrificar algun recurso sobre otro y considera cuanto falta para superar el reto, no deberian sentirse como poco ni demasiado.
+            5. En el momento donde determines que "esVictoria" sea verdadero, debes usar ese mismo mensaje para concluir por completo la aventura, no habran mas mensajes despues de ese.
 
             REGLAS DE EQUILIBRIO Y COSTOS (¡MUY IMPORTANTE!):
             1. Los costos de las opciones, si no tienen sentido o son demasiado arriesgadas, DEBEN SER ALTOS Y PUNITIVOS.
