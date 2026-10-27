@@ -181,6 +181,8 @@ main{
 .seccion-narrador p {
     margin-top: 0;
     margin-bottom: 10px;
+    font-style: italic;
+    color: #cccccc;
 }
 
 /* Banner de Estado (Victoria o Derrota) */
