@@ -405,6 +405,11 @@ app.get('/api/ver-reservas', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor al buscar reservas'});
     }
 });
+
+app.use((req, res, next) => {
+    console.log(`[PETICIÓN ENTRANTE] Método: ${req.method} | Ruta: ${req.url}`);
+    next();
+});
 // 1. Servir los archivos frontend (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
