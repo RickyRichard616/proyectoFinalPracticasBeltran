@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 3000;
 // Habilitar CORS y lectura de JSON
 app.use(cors());
 app.use(express.json());
+// 1. Servir los archivos frontend (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Establecer coneccion con la base de datos
 const pool = mysql.createPool({
@@ -29,6 +31,7 @@ const ai = new GoogleGenAI({ apikey: process.env.GEMINI_API_KEY });
 // ENDPOINTS
 app.get('/', (req, res) => {
     res.json({ estado: "Backend y API listos" });
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 })
 // Endpoint del minijuego
 app.post('/api/jugar', async (req, res) => {
@@ -454,9 +457,6 @@ app.get('/api/ver-cupones', async (req, res) => {
         res.status(500).json({ error: "Hubo un error al obtener los cupones." });
     }
 });
-
-// 1. Servir los archivos frontend (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Iniciar el servidor
 app.listen(PORT, () => {
