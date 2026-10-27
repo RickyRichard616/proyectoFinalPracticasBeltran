@@ -299,15 +299,14 @@ app.post('/api/login', async (req, res) => {
 });
 //Endpoint para cerrar sesion
 app.post('/api/cerrar-sesion', async (req, res) => {
+    const { idUsuario } = req.body;
+    console.log("llega llamado a cerrar sesion");
+
+    if (!idUsuario) {
+        console.log("Falta id del usuario");
+        return res.status(400).json({ error: "Falta el ID del usuario." });
+    }
     try {
-        const { idUsuario } = req.body;
-        console.log("llega llamado a cerrar sesion");
-
-        if (!idUsuario) {
-            console.log("Falta id del usuario");
-            return res.status(400).json({ error: "Falta el ID del usuario." });
-        }
-
         // Cambiar su estado a desconectado (0)
         await pool.query(
             'UPDATE usuarios SET online = 0 WHERE id_usuario = ?',
