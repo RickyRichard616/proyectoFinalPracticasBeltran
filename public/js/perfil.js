@@ -20,8 +20,20 @@ document.addEventListener("DOMContentLoaded",() => {
     }else{
         habilitarLogueo();
     }
-
- // Consultar mesas disponibles por local, dia y hora
+// Generar select de horas
+    const selectHora = document.getElementById("select-hora");
+    if (selectHora) {
+        // Ciclo desde las 6 AM (6) hasta las 9 PM (21)
+        for (let i = 6; i <= 21; i++) {
+            // Aseguramos formato de dos dígitos (ej: "06:00", "09:00", "14:00")
+            const horaTexto = i < 10 ? `0${i}:00` : `${i}:00`;
+            const option = document.createElement("option");
+            option.value = horaTexto;
+            option.textContent = `${horaTexto} hs`;
+            selectHora.appendChild(option);
+        }
+    }
+// Consultar mesas disponibles por local, dia y hora
     const localSelect = document.getElementById('local');
     const fechaInput = document.getElementById('fecha');
     const horaInput = document.getElementById('hora');

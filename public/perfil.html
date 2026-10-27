@@ -212,14 +212,16 @@
                 </select>
 
                 <label for="fecha">Fecha</label>
-                <input type="date" id="fecha" name="fecha">
+                <input type="date" id="fecha" name="fecha" required>
 
                 <label for="hora">Hora</label>
-                <input type="time" id="hora" name="hora" step="3600">
+                <select id="hora" name="hora" required>
+                    <option value="" disabled selected>Elige una hora...</option>
+                </select>
 
                 <label for="mesa">Número de mesa</label>
-                <select id="mesa" name="mesa">
-                    <option>Selecciona dia y hora</option>
+                <select id="mesa" name="mesa" required>
+                    <option value="" disabled selected>Selecciona dia y hora</option>
                 </select>
 
                 <button
