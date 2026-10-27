@@ -142,226 +142,6 @@
 
         </div>
 
-        <script>
-            /* 
-            ESTADO DEL JUEGO
-            Objeto principal que almacena los valores actuales de la partida.
-            */
-            let estadoJuego = {
-                zonaActual: "Entrada",
-                tiempoRestanteMinutos: 120, // 2 horas de tiempo límite in-game
-                salud: 100,
-                mente: 100,
-                partidaTerminada: false
-            };
-
-            let opcionesActuales = [];
-
-            // Referencias a elementos del DOM (cosas en pantalla)
-            const elementoZona = document.getElementById("texto-zona");
-            const elementoTiempo = document.getElementById("texto-tiempo");
-            const barraSaludInterna = document.getElementById("barra-salud-interna");
-            const barraMenteInterna = document.getElementById("barra-mente-interna");
-            const valorSalud = document.getElementById("valor-salud");
-            const valorMente = document.getElementById("valor-mente");
-            const espacioNarrador = document.getElementById("espacio-narrador");
-            const contenedorAcciones = document.getElementById("contenedor-acciones");
-            const bannerEstado = document.getElementById("banner-estado");
-
-            // Función para inicializar o reiniciar el juego (solo durante testing)
-            function reiniciarJuego() {
-                estadoJuego.zonaActual = "Generando universo...";
-                estadoJuego.tiempoRestanteMinutos = 120;
-                estadoJuego.salud = 100;
-                estadoJuego.mente = 100;
-                estadoJuego.partidaTerminada = false;
-
-                bannerEstado.style.display = "none";
-                contenedorAcciones.style.display = "flex";
-                espacioNarrador.innerHTML = "";
-
-                // enviar peticion vacia para crear escenario nuevo desde 0
-                enviarAccionAI("");
-            }
-
-            async function enviarAccionAI(accionElegida) {
-                deshabilitarBotones("true");
-                agregarTextoNarrador("El narrador esta escribiendo los sucesos...");
-
-                try{
-                    const respuesta = await fetch('https://landing-site-fufr.onrender.com/api/jugar', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            accionUsuario: accionElegida,
-                            zonaActual: estadoJuego.zonaActual,
-                            tiempoRestante: estadoJuego.tiempoRestanteMinutos,
-                            salud: estadoJuego.salud,
-                            mente: estadoJuego.mente
-                        })
-                    });
-
-                    const datosNarrador = await respuesta.json();
-
-                    if (!respuesta.ok) {
-                        if (datosNarrador.motivo === "intentoGastado" || respuesta.status === 400) {
-                            // Mostrar el mensaje de error del backend en el banner o narrador
-                            bannerEstado.textContent = datosNarrador.error || "Ya has utilizado tu intento diario para este desafío.";
-                            bannerEstado.style.display = "block";
-                            bannerEstado.style.color = "#c62828";       // Color rojo de alerta
-                            bannerEstado.style.backgroundColor = "#ffebee";
-                            
-                            // Ocultar los botones de opciones para bloquear el juego por completo
-                            if (contenedorAcciones) {
-                                contenedorAcciones.style.display = "none";
-                            }
-                        }
-                        return; // Detenemos la ejecución para que no intente renderizar una escena vacía
-                    }
-
-                    if(datosNarrador.zona){
-                        estadoJuego.zonaActual = datosNarrador.zona;
-                    }
-
-                    actualizarInterfaz();
-                    agregarTextoNarrador(datosNarrador.narracion);
-
-                    if (datosNarrador.esVictoria === true || datosNarrador.esVictoria === "true") {
-                        // Victoria
-                        finalizarPartida("¡VICTORIA! Has completado el desafío con éxito y se ha registrado tu cupón.", true);
-                    } 
-                    
-                    if ((datosNarrador.esVictoria === false || datosNarrador.esVictoria === "false") && (!datosNarrador.opciones || datosNarrador.opciones.length === 0)) {
-                        finalizarPartida(datosNarrador.narracion || "¡DERROTA! Tus recursos se han agotado.", false);
-                    }
-
-                    opcionesActuales = datosNarrador.opciones || [];
-                    actualizarBotonesOpciones();
-
-                } catch (error) {
-                    espacioNarrador.removeChild(espacioNarrador.lastChild);
-                    console.error("Error al conectar con la IA: ", error);
-                    agregarTextoNarrador("Error de conexion con el narrador. Contacte con soporte.");
-                    deshabilitarBotones(true);
-                }
-            }
-
-            // Refrescar los indicadores visuales (1, 2 y 3)
-            function actualizarInterfaz() {
-                // 1. Zona actual
-                elementoZona.textContent = estadoJuego.zonaActual;
-
-                // 2. Hora / Tiempo restante (Formato HH:MM)
-                let horas = Math.floor(estadoJuego.tiempoRestanteMinutos / 60);
-                let minutos = estadoJuego.tiempoRestanteMinutos % 60;
-                let textoHoras = horas < 10 ? "0" + horas : horas;
-                let textoMinutos = minutos < 10 ? "0" + minutos : minutos;
-                elementoTiempo.textContent = textoHoras + ":" + textoMinutos;
-
-                // 3. Barras Custom (Salud y Mente)
-                let saludClamped = estadoJuego.salud < 0 ? 0 : estadoJuego.salud;
-                let menteClamped = estadoJuego.mente < 0 ? 0 : estadoJuego.mente;
-
-                barraSaludInterna.style.width = saludClamped + "%";
-                barraMenteInterna.style.width = menteClamped + "%";
-
-                valorSalud.textContent = saludClamped;
-                valorMente.textContent = menteClamped;
-            }
-
-            // Añadir texto al narrador central
-            function agregarTextoNarrador(texto) {
-                if(espacioNarrador.lastChild){
-                    espacioNarrador.removeChild(espacioNarrador.lastChild);
-                }
-                let parrafo = document.createElement("p");
-                parrafo.textContent = texto;
-                espacioNarrador.appendChild(parrafo);
-                espacioNarrador.scrollTop = espacioNarrador.scrollHeight;
-            }
-
-            // Mostrar las opciones en los botones de acción
-            function actualizarBotonesOpciones() {
-                for (let i = 0; i < 3; i++) {
-                    let boton = document.getElementById("boton-opcion-" + i);
-                    let textoSpan = document.getElementById("texto-opcion-" + i);
-                    let costoSpan = document.getElementById("costo-opcion-" + i);
-                    let opcion = opcionesActuales[i];
-
-                    if (opcion) {
-                        boton.style.display = "flex";
-                        textoSpan.textContent = (i + 1) + ". " + opcion.texto;
-                        
-                        // Protegemos la lectura comprobando diferentes variantes que la IA pueda enviar
-                        let tCosto = opcion.tiempoCosto ?? opcion.tiempoCoste ?? opcion.timeCost ?? 0;
-                        let sCosto = opcion.saludCosto ?? opcion.saludCoste ?? opcion.hpCost ?? 0;
-                        let mCosto = opcion.menteCosto ?? opcion.menteCoste ?? opcion.mentalCost ?? 0;
-
-                        costoSpan.textContent = "Tiempo: -" + tCosto + " min | Salud: -" + sCosto + " | Mente: -" + mCosto;
-                        boton.disabled = false;
-                    } else {
-                        boton.style.display = "none";
-                    }
-                }
-            }
-
-            function deshabilitarBotones(bloquear){
-                for(let i = 0; i < 3; i++){
-                    let boton = document.getElementById("boton-opcion-" + i);
-                    boton.disabled = bloquear;
-                }
-            }
-
-            // Manejar la elección del usuario
-            function seleccionarOpcion(indiceOpcion) {
-                deshabilitarBotones(true);
-                if (estadoJuego.partidaTerminada) return;
-
-                let opcionElegida = opcionesActuales[indiceOpcion];
-                if (!opcionElegida) return;
-
-                // Extraemos los costos de forma segura con operadores de fusión nula (??)
-                let tCosto = opcionElegida.tiempoCosto ?? opcionElegida.tiempoCoste ?? opcionElegida.timeCost ?? 0;
-                let sCosto = opcionElegida.saludCosto ?? opcionElegida.saludCoste ?? opcionElegida.hpCost ?? 0;
-                let mCosto = opcionElegida.menteCosto ?? opcionElegida.menteCoste ?? opcionElegida.mentalCost ?? 0;
-
-                // Consumir recursos de forma correcta y segura
-                estadoJuego.tiempoRestanteMinutos -= tCosto;
-                estadoJuego.salud -= sCosto;
-                estadoJuego.mente -= mCosto;
-
-                actualizarInterfaz();
-                agregarTextoNarrador("> Elegiste: " + opcionElegida.texto);
-
-                enviarAccionAI(opcionElegida.texto);
-            }
-
-            // Finalizar partida (Victoria o Derrota)
-            function finalizarPartida(mensaje, esVictoria) {
-                estadoJuego.partidaTerminada = true;
-                bannerEstado.textContent = mensaje;
-                bannerEstado.style.display = "block";
-                console.log("pintar banner");
-                
-                if (esVictoria === true || esVictoria === "true") {
-                    bannerEstado.style.color = "#2e7d32";
-                    bannerEstado.style.backgroundColor = "#e8f5e9";
-                    console.log("pintar banner verde");
-                } else {
-                    bannerEstado.style.color = "#c62828";
-                    bannerEstado.style.backgroundColor = "#ffebee";
-                    console.log("pintar banner rojo");
-                }
-
-                contenedorAcciones.style.display = "none";
-            }
-
-            // Iniciar el juego al cargar la página
-            window.onload = function() {
-                reiniciarJuego();
-            };
-
-        </script>
     </main>
     <!-- PIE DE PÁGINA -->
     <footer>
@@ -400,6 +180,225 @@
 
     </footer>
     
-<script src="js/juego.js"></script>
+    <script>
+        /* 
+        ESTADO DEL JUEGO
+        Objeto principal que almacena los valores actuales de la partida.
+        */
+        let estadoJuego = {
+            zonaActual: "Entrada",
+            tiempoRestanteMinutos: 120, // 2 horas de tiempo límite in-game
+            salud: 100,
+            mente: 100,
+            partidaTerminada: false
+        };
+
+        let opcionesActuales = [];
+
+        // Referencias a elementos del DOM (cosas en pantalla)
+        const elementoZona = document.getElementById("texto-zona");
+        const elementoTiempo = document.getElementById("texto-tiempo");
+        const barraSaludInterna = document.getElementById("barra-salud-interna");
+        const barraMenteInterna = document.getElementById("barra-mente-interna");
+        const valorSalud = document.getElementById("valor-salud");
+        const valorMente = document.getElementById("valor-mente");
+        const espacioNarrador = document.getElementById("espacio-narrador");
+        const contenedorAcciones = document.getElementById("contenedor-acciones");
+        const bannerEstado = document.getElementById("banner-estado");
+
+        // Función para inicializar o reiniciar el juego (solo durante testing)
+        function reiniciarJuego() {
+            estadoJuego.zonaActual = "Generando universo...";
+            estadoJuego.tiempoRestanteMinutos = 120;
+            estadoJuego.salud = 100;
+            estadoJuego.mente = 100;
+            estadoJuego.partidaTerminada = false;
+
+            bannerEstado.style.display = "none";
+            contenedorAcciones.style.display = "flex";
+            espacioNarrador.innerHTML = "";
+
+            // enviar peticion vacia para crear escenario nuevo desde 0
+            enviarAccionAI("");
+        }
+
+        async function enviarAccionAI(accionElegida) {
+            deshabilitarBotones("true");
+            agregarTextoNarrador("El narrador esta escribiendo los sucesos...");
+
+            try{
+                const respuesta = await fetch('https://landing-site-fufr.onrender.com/api/jugar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accionUsuario: accionElegida,
+                        zonaActual: estadoJuego.zonaActual,
+                        tiempoRestante: estadoJuego.tiempoRestanteMinutos,
+                        salud: estadoJuego.salud,
+                        mente: estadoJuego.mente
+                    })
+                });
+
+                const datosNarrador = await respuesta.json();
+
+                if (!respuesta.ok) {
+                    if (datosNarrador.motivo === "intentoGastado" || respuesta.status === 400) {
+                        // Mostrar el mensaje de error del backend en el banner o narrador
+                        bannerEstado.textContent = datosNarrador.error || "Ya has utilizado tu intento diario para este desafío.";
+                        bannerEstado.style.display = "block";
+                        bannerEstado.style.color = "#c62828";       // Color rojo de alerta
+                        bannerEstado.style.backgroundColor = "#ffebee";
+                        
+                        // Ocultar los botones de opciones para bloquear el juego por completo
+                        if (contenedorAcciones) {
+                            contenedorAcciones.style.display = "none";
+                        }
+                    }
+                    return; // Detenemos la ejecución para que no intente renderizar una escena vacía
+                }
+
+                if(datosNarrador.zona){
+                    estadoJuego.zonaActual = datosNarrador.zona;
+                }
+
+                actualizarInterfaz();
+                agregarTextoNarrador(datosNarrador.narracion);
+
+                if (datosNarrador.esVictoria === true || datosNarrador.esVictoria === "true") {
+                    // Victoria
+                    finalizarPartida("¡VICTORIA! Has completado el desafío con éxito y se ha registrado tu cupón.", true);
+                } 
+                
+                if ((datosNarrador.esVictoria === false || datosNarrador.esVictoria === "false") && (!datosNarrador.opciones || datosNarrador.opciones.length === 0)) {
+                    finalizarPartida(datosNarrador.narracion || "¡DERROTA! Tus recursos se han agotado.", false);
+                }
+
+                opcionesActuales = datosNarrador.opciones || [];
+                actualizarBotonesOpciones();
+
+            } catch (error) {
+                espacioNarrador.removeChild(espacioNarrador.lastChild);
+                console.error("Error al conectar con la IA: ", error);
+                agregarTextoNarrador("Error de conexion con el narrador. Contacte con soporte.");
+                deshabilitarBotones(true);
+            }
+        }
+
+        // Refrescar los indicadores visuales (1, 2 y 3)
+        function actualizarInterfaz() {
+            // 1. Zona actual
+            elementoZona.textContent = estadoJuego.zonaActual;
+
+            // 2. Hora / Tiempo restante (Formato HH:MM)
+            let horas = Math.floor(estadoJuego.tiempoRestanteMinutos / 60);
+            let minutos = estadoJuego.tiempoRestanteMinutos % 60;
+            let textoHoras = horas < 10 ? "0" + horas : horas;
+            let textoMinutos = minutos < 10 ? "0" + minutos : minutos;
+            elementoTiempo.textContent = textoHoras + ":" + textoMinutos;
+
+            // 3. Barras Custom (Salud y Mente)
+            let saludClamped = estadoJuego.salud < 0 ? 0 : estadoJuego.salud;
+            let menteClamped = estadoJuego.mente < 0 ? 0 : estadoJuego.mente;
+
+            barraSaludInterna.style.width = saludClamped + "%";
+            barraMenteInterna.style.width = menteClamped + "%";
+
+            valorSalud.textContent = saludClamped;
+            valorMente.textContent = menteClamped;
+        }
+
+        // Añadir texto al narrador central
+        function agregarTextoNarrador(texto) {
+            if(espacioNarrador.lastChild){
+                espacioNarrador.removeChild(espacioNarrador.lastChild);
+            }
+            let parrafo = document.createElement("p");
+            parrafo.textContent = texto;
+            espacioNarrador.appendChild(parrafo);
+            espacioNarrador.scrollTop = espacioNarrador.scrollHeight;
+        }
+
+        // Mostrar las opciones en los botones de acción
+        function actualizarBotonesOpciones() {
+            for (let i = 0; i < 3; i++) {
+                let boton = document.getElementById("boton-opcion-" + i);
+                let textoSpan = document.getElementById("texto-opcion-" + i);
+                let costoSpan = document.getElementById("costo-opcion-" + i);
+                let opcion = opcionesActuales[i];
+
+                if (opcion) {
+                    boton.style.display = "flex";
+                    textoSpan.textContent = (i + 1) + ". " + opcion.texto;
+                    
+                    // Protegemos la lectura comprobando diferentes variantes que la IA pueda enviar
+                    let tCosto = opcion.tiempoCosto ?? opcion.tiempoCoste ?? opcion.timeCost ?? 0;
+                    let sCosto = opcion.saludCosto ?? opcion.saludCoste ?? opcion.hpCost ?? 0;
+                    let mCosto = opcion.menteCosto ?? opcion.menteCoste ?? opcion.mentalCost ?? 0;
+
+                    costoSpan.textContent = "Tiempo: -" + tCosto + " min | Salud: -" + sCosto + " | Mente: -" + mCosto;
+                    boton.disabled = false;
+                } else {
+                    boton.style.display = "none";
+                }
+            }
+        }
+
+        function deshabilitarBotones(bloquear){
+            for(let i = 0; i < 3; i++){
+                let boton = document.getElementById("boton-opcion-" + i);
+                boton.disabled = bloquear;
+            }
+        }
+
+        // Manejar la elección del usuario
+        function seleccionarOpcion(indiceOpcion) {
+            deshabilitarBotones(true);
+            if (estadoJuego.partidaTerminada) return;
+
+            let opcionElegida = opcionesActuales[indiceOpcion];
+            if (!opcionElegida) return;
+
+            // Extraemos los costos de forma segura con operadores de fusión nula (??)
+            let tCosto = opcionElegida.tiempoCosto ?? opcionElegida.tiempoCoste ?? opcionElegida.timeCost ?? 0;
+            let sCosto = opcionElegida.saludCosto ?? opcionElegida.saludCoste ?? opcionElegida.hpCost ?? 0;
+            let mCosto = opcionElegida.menteCosto ?? opcionElegida.menteCoste ?? opcionElegida.mentalCost ?? 0;
+
+            // Consumir recursos de forma correcta y segura
+            estadoJuego.tiempoRestanteMinutos -= tCosto;
+            estadoJuego.salud -= sCosto;
+            estadoJuego.mente -= mCosto;
+
+            actualizarInterfaz();
+            agregarTextoNarrador("> Elegiste: " + opcionElegida.texto);
+
+            enviarAccionAI(opcionElegida.texto);
+        }
+
+        // Finalizar partida (Victoria o Derrota)
+        function finalizarPartida(mensaje, esVictoria) {
+            estadoJuego.partidaTerminada = true;
+            bannerEstado.textContent = mensaje;
+            bannerEstado.style.display = "block";
+            console.log("pintar banner");
+            
+            if (esVictoria === true || esVictoria === "true") {
+                bannerEstado.style.color = "#2e7d32";
+                bannerEstado.style.backgroundColor = "#e8f5e9";
+                console.log("pintar banner verde");
+            } else {
+                bannerEstado.style.color = "#c62828";
+                bannerEstado.style.backgroundColor = "#ffebee";
+                console.log("pintar banner rojo");
+            }
+
+            contenedorAcciones.style.display = "none";
+        }
+
+        // Iniciar el juego al cargar la página
+        window.onload = function() {
+            reiniciarJuego();
+        };
+    </script>
+    <script src="js/juego.js"></script>
 </body>
 </html>
