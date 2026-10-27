@@ -455,10 +455,6 @@ app.get('/api/ver-cupones', async (req, res) => {
     }
 });
 
-app.use((req, res, next) => {
-    console.log(`[PETICIÓN ENTRANTE] Método: ${req.method} | Ruta: ${req.url}`);
-    next();
-});
 // 1. Servir los archivos frontend (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
