@@ -130,8 +130,8 @@ app.post('/api/jugar', async (req, res) => {
 
         // 1. EL SYSTEM PROMPT (Instrucciones estrictas para la IA)
         const systemInstruction = `
-            Eres el narrador despiadado y experto de un juego de rol de supervivencia y terror. 
-            El juego debe ser DIFÍCIL. Los errores deben costar caros y la muerte o la locura deben ser una amenaza constante.
+            Eres el narrador despiadado y experto de un juego de rol desenfadado y divertido. 
+            El juego debe ser DIFÍCIL. Los errores deben costar caros y la posibilidad de perder el desafio es una amenaza constante.
             
             PREMISA DEL DESAFÍO DE HOY: "${desafioActual.titulo_premisa}".
 
@@ -145,15 +145,15 @@ app.post('/api/jugar', async (req, res) => {
             Tu objetivo es continuar la historia basándote en la acción que eligió el usuario.
 
             REGLAS DE PROGRESIÓN OBLIGATORIAS:
-            1. La aventura tiene un arco narrativo corto. Debe resolverse y llegar a un punto de VICTORIA en un máximo de 6 o 7 elecciones del usuario.
-            2. Evalúa el progreso: si el jugador ya ha tomado varias decisiones inteligentes, la siguiente opción debe llevarlo al desenlace y escapar de la zona.
+            1. La aventura tiene un arco narrativo corto. Debe resolverse y llegar a un punto de VICTORIA en un máximo de 4 o 5 elecciones del usuario.
+            2. Evalúa el progreso: si el jugador ya ha tomado varias decisiones inteligentes, la siguiente opción debe llevarlo al desenlace donde supera el desafio.
             3. Cuando se alcance la victoria, el campo "esVictoria" debe pasar a true y las opciones deben estar vacías [].
-            4. Trata de mantener un balance entre la duración total de la aventura y el costo de cada acción.
+            4. Ten cuidado de que el costo de cada accion corresponda a sacrificar algun recurso sobre otro y considera cuanto falta para superar el reto, no deberian sentirse como poco ni demasiado.
 
             REGLAS DE EQUILIBRIO Y COSTOS (¡MUY IMPORTANTE!):
-            1. Los costos de las opciones DEBEN SER ALTOS Y PUNITIVOS. 
-               - Salud y Mente: Deben costar entre 15 y 40 puntos por cada mala decisión (si el jugador toma 3 decisiones imprudentes, debe morir o perder la cordura).
-               - Tiempo: Cada acción debe consumir entre 25 y 45 minutos in-game para que el reloj sea un peligro real.
+            1. Los costos de las opciones, si no tienen sentido o son demasiado arriesgadas, DEBEN SER ALTOS Y PUNITIVOS.
+               - Salud y Mente: Deben costar entre 15 y 40 puntos por cada mala decisión (si el jugador toma 3 decisiones imprudentes, debe desmayarse o perder la cordura).
+               - Tiempo: Cada acción debe consumir entre 15 y 45 minutos in-game para que el reloj sea un peligro real.
             2. No protejas al jugador: Si elige una acción imprudente, estúpida o arriesgada, castígale severamente la salud o la mente y acércalo a la derrota.
             3. La aventura debe resolverse en un máximo de 4 a 5 turnos bien jugados, pero si el usuario titubea o toma malas decisiones, morirá antes de llegar.
             4. Cuando se alcance la victoria, el campo "esVictoria" debe pasar a true y las opciones deben estar vacías [].
@@ -211,7 +211,7 @@ app.post('/api/jugar', async (req, res) => {
                 ['ganado', desafioActual.id_tipo_cupon_recompensa, filasIntentos[0].id_intento]
             );
 
-            // Opcional: Generar automáticamente el cupón en la tabla 'cupones' y asignarlo al perfil ('usuario_cupones')
+            // Generar automáticamente el cupón en la tabla 'cupones' y asignarlo al perfil ('usuario_cupones')
             const codigoUnicoCupón = `RECOMPENSA-${idUsuario}-${Date.now()}`;
             const [resCupon] = await pool.query(
                 'INSERT INTO cupones (codigo, id_tipo_cupon, descripcion, fecha_expiracion) VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 30 DAY))',
@@ -219,9 +219,9 @@ app.post('/api/jugar', async (req, res) => {
             );
 
             await pool.query(
-                'INSERT INTO usuario_intentos_desafio SET id_tipo_cupon_ganado = ? WHERE id_intento = ?', // Asegurar registro si aplica
+                'INSERT INTO usuario_intentos_desafio SET id_tipo_cupon_ganado = ? WHERE id_intento = ?',
                 [desafioActual.id_tipo_cupon_recompensa, filasIntentos[0].id_intento]
-            ).catch(() => {}); // Manejo defensivo
+            ).catch(() => {});
 
             await pool.query(
                 'INSERT INTO usuario_cupones (id_usuario, id_cupon, estado) VALUES (?, ?, ?)',
