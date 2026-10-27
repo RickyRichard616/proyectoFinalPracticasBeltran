@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded",() => {
 
 // Cerrar sesion
     const btnLogout = document.getElementById('btn-logout');
-    btnLogout.addEventListener("click", async () => {
+    btnLogout.addEventListener("click", async (e) => {
         e.preventDefault();
         const idUsuario = localStorage.getItem("idUsuario");
 
