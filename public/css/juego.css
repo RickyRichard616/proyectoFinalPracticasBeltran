@@ -1,20 +1,6 @@
 /* 
     ESTILOS BÁSICOS Y EXPLÍCITOS
 */
-
-body {
-
-    font-family: Arial, Helvetica, sans-serif;
-
-    background-color: var(--color-fondo);
-
-    color: var(--color-texto);
-
-    margin: 0;
-
-    min-height: 100vh;
-
-}
 main{
 
     display:flex;
@@ -267,36 +253,10 @@ main{
     width: auto;
 
 }
-header{
-    height: 80px;
-
-        padding: 0 30px;
-
-        display: flex;
-
-        justify-content: space-between;
-
-        align-items: center;
-
-        background: var(--color-panel);
-
-        margin-bottom: 30px;
-        
-        position: sticky;
-
-        top: 0;
-
-        z-index: 1000;
-
-        transition: transform .3s ease;
-}
-
 .header-oculto{
 
     transform: translateY(-100%);
 }
-
-
 nav{
 
     display:flex;
