@@ -70,7 +70,7 @@ app.post('/api/jugar', async (req, res) => {
                 config: { responseMimeType: "application/json" }
             });
 
-            const iaDatosLimpio = iaResponse.text.replace(/```json/g, '').replace(/```/g, '').trim();
+            const iaDatosLimpio = iaRespuesta.text.replace(/```json/g, '').replace(/```/g, '').trim();
             const iaDatos = JSON.parse(iaDatosLimpio);
 
             const [insertarResultado] = await pool.query(
