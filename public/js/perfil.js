@@ -169,6 +169,8 @@ document.addEventListener("DOMContentLoaded",() => {
             }
         });
     }
+// Ver cupones
+    cargarCupones();
 });
 
 async function registrar(e){
@@ -470,4 +472,51 @@ function verReservas(){
         console.error("Error al obtener las reservas:", error);
         listaReservas.innerHTML = "<p>Hubo un error al cargar tus reservas.</p>";
     });
+}
+async function cargarCupones() {
+    const idUsuario = localStorage.getItem("idUsuario");
+    const listaCupones = document.getElementById("lista-cupones");
+
+    if (!idUsuario || !listaCupones) return;
+
+    try {
+        const response = await fetch(`${API_URL}/api/mis-cupones?idUsuario=${idUsuario}`);
+        
+        if (!response.ok) {
+            throw new Error("No se pudieron obtener los cupones.");
+        }
+
+        const cupones = await response.json();
+        
+        // Limpiamos el contenedor antes de pintar
+        listaCupones.innerHTML = "";
+
+        if (cupones.length === 0) {
+            listaCupones.innerHTML = "<p>No tienes cupones disponibles en este momento.</p>";
+            return;
+        }
+
+        // Generamos dinámicamente una tarjeta por cada cupón
+        cupones.forEach(cupon => {
+            const tarjeta = document.createElement("div");
+            tarjeta.className = "tarjeta-cupon"; // Clase CSS para darle diseño
+
+            tarjeta.innerHTML = `
+                <div class="cupon-header">
+                    <h3>${cupon.codigo}</h3>
+                    <span class="badge-descuento">${cupon.descuento}% OFF</span>
+                </div>
+                <p>${cupon.descripcion}</p>
+                <p class="vencimiento">Válido hasta: ${cupon.fecha_vencimiento || 'Sin fecha límite'}</p>
+            `;
+            
+            listaCupones.appendChild(tarjeta);
+        });
+
+    } catch (error) {
+        console.error("Error al cargar cupones:", error);
+        if (listaCupones) {
+            listaCupones.innerHTML = "<p>Hubo un error al cargar tus cupones.</p>";
+        }
+    }
 }
