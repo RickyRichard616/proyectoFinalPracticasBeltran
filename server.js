@@ -63,7 +63,7 @@ app.post('/api/jugar', async (req, res) => {
             // Creamos un texto descriptivo para inyectarlo en el prompt de la IA
             const descripcionTipos = tiposCuponesDB.map(t => `ID ${t.id_tipo_cupon} (${t.nombre_tipo})`).join(', ');
 
-            const crearPrompt = `Inventa un desafío de rol diario único con un título de premisa atractivo, Además, debes asignarle un 'id_tipo_cupon_recompensa' que DEBE ser obligatoriamente uno de los siguientes IDs válidos de nuestra base de datos: [${descripcionTipos}]. y una introducción narrativa inicial. Responde estrictamente en formato JSON: {"tituloPremisa": "...", "idTipoCupoRecompensa": <un_numero_de_la_lista_otorgada>, "narracionInicial": "..."}`;
+            const crearPrompt = `Inventa un desafío de rol diario único con un título de premisa atractivo, Además, debes asignarle un 'id_tipo_cupon_recompensa' que DEBE ser aleatorio pero obligatoriamente uno de los siguientes IDs válidos de nuestra base de datos: [1,2,3,4,5,6,7]. y una narrativa inicial. Responde estrictamente en formato JSON: {"tituloPremisa": "...", "idTipoCupoRecompensa": <un_numero_de_la_lista_otorgada>, "narracionInicial": "..."}`;
             const iaRespuesta = await ai.models.generateContent({
                 model: 'gemini-flash-lite-latest',
                 contents: crearPrompt,
@@ -130,7 +130,7 @@ app.post('/api/jugar', async (req, res) => {
 
         // 1. EL SYSTEM PROMPT (Instrucciones estrictas para la IA)
         const systemInstruction = `
-            Eres el narrador despiadado y experto de un juego de rol desenfadado y divertido. 
+            Eres el narrador experto de un juego de rol desenfadado y divertido. 
             El juego debe ser DIFÍCIL. Los errores deben costar caros y la posibilidad de perder el desafio es una amenaza constante.
             
             PREMISA DEL DESAFÍO DE HOY: "${desafioActual.titulo_premisa}".
@@ -150,6 +150,7 @@ app.post('/api/jugar', async (req, res) => {
             3. Cuando se alcance la victoria, el campo "esVictoria" debe pasar a true y las opciones deben estar vacías [].
             4. Ten cuidado de que el costo de cada accion corresponda a sacrificar algun recurso sobre otro y considera cuanto falta para superar el reto, no deberian sentirse como poco ni demasiado.
             5. Solo declara la victoria LUEGO de que el usuario tome la decision que lo haga ganar, en ese mismo mensaje del narrador DEBES cerrar la historia, darle una conclusion.
+            6. El desafio DEBE poder resolverse por diferentes medios, caminos que difieran enormemente segun las decisiones del usuario.
 
             REGLAS DE EQUILIBRIO Y COSTOS (¡MUY IMPORTANTE!):
             1. Los costos de las opciones, si no tienen sentido o son demasiado arriesgadas, DEBEN SER ALTOS Y PUNITIVOS.
@@ -216,7 +217,7 @@ app.post('/api/jugar', async (req, res) => {
             const codigoUnicoCupón = `RECOMPENSA-${idUsuario}-${Date.now()}`;
             const [resCupon] = await pool.query(
                 'INSERT INTO cupones (codigo, id_tipo_cupon, descripcion, fecha_expiracion) VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 30 DAY))',
-                [codigoUnicoCupón, desafioActual.id_tipo_cupon_recompensa, `Cupón ganado en el desafío diario: ${desafioActual.titulo_premisa}`]
+                [codigoUnicoCupón, desafioActual.id_tipo_cupon_recompensa, `Ganado en el desafío diario: ${desafioActual.titulo_premisa}`]
             );
 
             await pool.query(
