@@ -276,13 +276,13 @@ app.post('/api/login', async (req, res) => {
             [nombre,contrasenia]
         );
 
-        if (resultado.online === 1) {
+        if (resultado[0].online === 1) {
             return res.status(400).json({ error: "El usuario ya se encuentra conectado en otra sesión." });
         }
 
         await pool.query(
             'UPDATE usuarios SET online = 1 WHERE id_usuario = ?',
-            [usuario.id_usuario]
+            [resultado[0].id_usuario]
         );
 
         res.status(200).json({
