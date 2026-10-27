@@ -99,7 +99,6 @@ document.addEventListener("DOMContentLoaded",() => {
     const btnLogout = document.getElementById('btn-logout');
     btnLogout.addEventListener("click", async (e) => {
         e.preventDefault();
-        console.log("id: "+idUsuario);
         if (idUsuario) {
             try {
                 // Avisamos al backend que cambie el online a 0
@@ -109,7 +108,6 @@ document.addEventListener("DOMContentLoaded",() => {
                     body: JSON.stringify({ idUsuario })
                 });
                 const resultado = await response.json();
-                console.log(resultado);
                 if(!response.ok){
                     console.log(resultado.error);
                 }else{
@@ -122,6 +120,41 @@ document.addEventListener("DOMContentLoaded",() => {
             }
         }
     });
+
+// Cancelar reservas
+    const listaReservas = document.getElementById("lista-reservas");
+    if (listaReservas) {
+        listaReservas.addEventListener("click", async (e) => {
+            // Verificamos si el elemento clickeado es el botón de cancelar
+            if (e.target.classList.contains("btn-cancelar")) {
+                const idReserva = e.target.getAttribute("data-id");
+                // Opcional: una confirmación rápida antes de cancelar
+                if (!confirm("¿Estás seguro de que deseas cancelar esta reserva?")) {
+                    return;
+                }
+                try {
+                    // Hacemos la petición al backend
+                    const response = await fetch(`${API_URL}/api/reservas/${idReserva}/cancelar`, {
+                        method: 'PATCH', // Usamos PATCH para actualizaciones parciales
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    if (response.ok) {
+                        // Eliminamos la tarjeta visualmente de inmediato
+                        const tarjeta = e.target.closest('.tarjeta-turno');
+                        if (tarjeta) {
+                            tarjeta.remove();
+                        }
+                        alert("¡Reserva cancelada con éxito!");
+                    } else {
+                        alert("No se pudo cancelar la reserva.");
+                    }
+                } catch (error) {
+                    console.error("Error de conexión al cancelar reserva:", error);
+                    alert("Hubo un error al comunicarse con el servidor.");
+                }
+            }
+        });
+    }
 });
 
 async function registrar(e){
@@ -180,7 +213,6 @@ async function registrar(e){
     }
 
 }
-
 async function login(e){
 
     e.preventDefault();
@@ -258,7 +290,6 @@ function abrirLogin(){
         .classList.remove("oculto");
 
 }
-
 function abrirRegistro(){
 
     document
@@ -266,11 +297,9 @@ function abrirRegistro(){
         .classList.remove("oculto");
 
 }
-
 function cerrarSesion(){
     habilitarLogueo();
 }
-
 function cerrarLogin(){
 
     document
@@ -278,7 +307,6 @@ function cerrarLogin(){
         .classList.add("oculto");
 
 }
-
 function cerrarRegistro(){
 
     document
@@ -286,8 +314,6 @@ function cerrarRegistro(){
         .classList.add("oculto");
 
 }
-
-/*Estoy logueado o no*/
 
 function habilitarDeslogeo(){
     document
@@ -325,7 +351,6 @@ function habilitarDeslogeo(){
 
     verReservas();
 }
-
 function habilitarLogueo(){
     document
         .getElementById("btn-logout")

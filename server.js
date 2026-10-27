@@ -404,6 +404,24 @@ app.get('/api/ver-reservas', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor al buscar reservas'});
     }
 });
+//Endpoint para cancelar reservas
+app.patch('/api/reservas/:id/cancelar', async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ error: "Falta el ID de la reserva." });
+        }
+        // Actualizamos el estado de la reserva en la base de datos
+        await pool.query(
+            "UPDATE reservas SET estado = 'cancelada' WHERE id_reserva = ?",
+            [id]
+        );
+        res.status(200).json({ mensaje: "Reserva cancelada correctamente." });
+    } catch (error) {
+        console.error("Error al cancelar la reserva:", error);
+        res.status(500).json({ error: "Hubo un error al cancelar la reserva." });
+    }
+});
 
 app.use((req, res, next) => {
     console.log(`[PETICIÓN ENTRANTE] Método: ${req.method} | Ruta: ${req.url}`);
@@ -416,4 +434,3 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
-
