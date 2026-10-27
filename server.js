@@ -145,12 +145,12 @@ app.post('/api/jugar', async (req, res) => {
             Tu objetivo es continuar la historia basándote en la acción que eligió el usuario.
 
             REGLAS DE PROGRESIÓN OBLIGATORIAS:
-            1. La aventura tiene un arco narrativo corto. Debe resolverse y llegar a un punto de VICTORIA en un máximo de 4 o 5 elecciones del usuario.
+            1. La aventura tiene un arco narrativo corto. Debe resolverse y llegar a un punto de VICTORIA en un aproximado de 4 o 5 elecciones del usuario.
             2. Evalúa el progreso: si el jugador ya ha tomado varias decisiones inteligentes, la siguiente opción debe llevarlo al desenlace donde supera el desafio.
             3. Cuando se alcance la victoria, el campo "esVictoria" debe pasar a true y las opciones deben estar vacías [].
             4. Ten cuidado de que el costo de cada accion corresponda a sacrificar algun recurso sobre otro y considera cuanto falta para superar el reto, no deberian sentirse como poco ni demasiado.
-            5. Solo declara la victoria LUEGO de que el usuario tome la decision que lo haga ganar, en ese mismo mensaje del narrador DEBES cerrar la historia, darle una conclusion.
-            6. El desafio DEBE poder resolverse por diferentes medios, caminos que difieran enormemente segun las decisiones del usuario.
+            5. El desafio DEBE poder resolverse por diferentes medios, caminos que difieran enormemente segun las decisiones del usuario.
+            6. Solo declara la victoria LUEGO de que el usuario tome la decision que lo haga ganar, en ese mismo mensaje del narrador DEBES cerrar la historia, darle una conclusion.
 
             REGLAS DE EQUILIBRIO Y COSTOS (¡MUY IMPORTANTE!):
             1. Los costos de las opciones, si no tienen sentido o son demasiado arriesgadas, DEBEN SER ALTOS Y PUNITIVOS.
@@ -159,6 +159,7 @@ app.post('/api/jugar', async (req, res) => {
             2. No protejas al jugador: Si elige una acción imprudente, estúpida o arriesgada, castígale severamente la salud o la mente y acércalo a la derrota.
             3. La aventura debe resolverse en un máximo de 4 a 5 turnos bien jugados, pero si el usuario titubea o toma malas decisiones, morirá antes de llegar.
             4. Cuando se alcance la victoria, el campo "esVictoria" debe pasar a true y las opciones deben estar vacías [].
+            5. El mismo turno donde el campo esVictoria sea verdadero, debes aprovechar la narracion para cerrar la historia, si o si.
 
             DEBES responder ÚNICAMENTE en formato JSON válido con la siguiente estructura exacta:
             {
