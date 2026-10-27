@@ -500,6 +500,7 @@ async function cargarCupones() {
         cupones.forEach(cupon => {
             // 1. Formatear la fecha de YYYY-MM-DD a DD/MM/YYYY de forma segura
             const soloFecha = cupon.fecha_expiracion ? cupon.fecha_expiracion.split('T')[0] : "";
+            const [anio, mes, dia] = soloFecha.split('-');
             const fechaFormateada = soloFecha ? `${dia}/${mes}/${anio}` : "";
 
             const tarjeta = document.createElement("div");
