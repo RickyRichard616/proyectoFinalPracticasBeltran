@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded",() => {
             selectHora.appendChild(option);
         }
     }
+
 // Consultar mesas disponibles por local, dia y hora
     const localSelect = document.getElementById('local');
     const fechaInput = document.getElementById('fecha');
@@ -434,12 +435,20 @@ function verReservas(){
                 break;
             }
 
+            // 1. Formatear la fecha de YYYY-MM-DD a DD/MM/YYYY de forma segura
+            const soloFecha = reserva.fecha ? reserva.fecha.split('T')[0] : "";
+            const [anio, mes, dia] = soloFecha.split('-');
+            const fechaFormateada = soloFecha ? `${dia}/${mes}/${anio}` : "";
+
+            // 2. Recortar los segundos de la hora (de "06:00:00" a "06:00")
+            const horaFormateada = reserva.hora ? reserva.hora.slice(0, 5) : "";
+
             tarjeta.innerHTML = `
                 <h3>
                     ${reserva.local}
                 </h3>
                 <p>
-                    Fecha: ${reserva.fecha} - ${reserva.hora} hs
+                    Fecha: ${fechaFormateada} - ${horaFormateada} hs
                 </p>
                 <p>
                     Mesa: ${reserva.mesaNumero}
