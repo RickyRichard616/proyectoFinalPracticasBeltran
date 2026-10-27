@@ -422,6 +422,41 @@ app.patch('/api/reservas/:id/cancelar', async (req, res) => {
         res.status(500).json({ error: "Hubo un error al cancelar la reserva." });
     }
 });
+//Endpoint para ver cupones
+app.get('/api/ver-cupones', async (req, res) => {
+    try {
+        const { idUsuario } = req.query;
+
+        if (!idUsuario) {
+            return res.status(400).json({ error: "Falta el ID del usuario." });
+        }
+//codigo,descuento,descripcion,fecha vencimiento
+        // Consultamos los cupones activos asignados a este usuario
+        const [cupones] = await pool.query(`
+            SELECT
+                c.codigo,
+                c.descripcion,
+                c.fecha_expiracion,
+                t.tipo_beneficio,
+                t.nombre_tipo,
+                t.valor_descuento
+            FROM cupones c
+            JOIN usuario_cupones u ON c.id_cupon = u.id_cupon
+            JOIN tipos_cupones t ON c.id_tipo_cupon = t.id_tipo_cupon
+            WHERE
+                u.id_usuario = ?
+                AND 
+                u.estado = ?`,
+            [idUsuario, "disponible"]
+        );
+
+        res.status(200).json(cupones);
+
+    } catch (error) {
+        console.error("Error al obtener los cupones:", error);
+        res.status(500).json({ error: "Hubo un error al obtener los cupones." });
+    }
+});
 
 app.use((req, res, next) => {
     console.log(`[PETICIÓN ENTRANTE] Método: ${req.method} | Ruta: ${req.url}`);

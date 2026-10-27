@@ -501,10 +501,15 @@ async function cargarCupones() {
             const tarjeta = document.createElement("div");
             tarjeta.className = "tarjeta-cupon"; // Clase CSS para darle diseño
 
+            const esPorcentaje = cupon.tipo === 'porcentaje';
+            const textoDescuento = esPorcentaje 
+                ? `${cupon.valor}% OFF` 
+                : `$${cupon.valor} OFF`;
+
             tarjeta.innerHTML = `
                 <div class="cupon-header">
                     <h3>${cupon.codigo}</h3>
-                    <span class="badge-descuento">${cupon.descuento}% OFF</span>
+                    <span class="badge-descuento">${textoDescuento}</span>
                 </div>
                 <p>${cupon.descripcion}</p>
                 <p class="vencimiento">Válido hasta: ${cupon.fecha_vencimiento || 'Sin fecha límite'}</p>
