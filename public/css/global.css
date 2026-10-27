@@ -7,8 +7,8 @@
     --color-fondo:#2a2c3b;
     --color-panel:#494c55;
 
-    --color-dorado:#b58248;
-    --color-naranja:#d88220;
+    --color-dorado:#fc9038;
+    --color-naranja:#fc5f2b;
 
     --color-texto:#ffffff;
 
@@ -78,9 +78,11 @@ header{
 
 .logo-header{
 
-    height:50px;
+    height: 60px;
 
     width:auto;
+
+    transform: scale(1.75);
 }
 
 nav{
