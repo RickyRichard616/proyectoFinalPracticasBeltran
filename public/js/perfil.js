@@ -498,6 +498,10 @@ async function cargarCupones() {
 
         // Generamos dinámicamente una tarjeta por cada cupón
         cupones.forEach(cupon => {
+            // 1. Formatear la fecha de YYYY-MM-DD a DD/MM/YYYY de forma segura
+            const soloFecha = cupon.fecha_expiracion ? cupon.fecha_expiracion.split('T')[0] : "";
+            const fechaFormateada = soloFecha ? `${dia}/${mes}/${anio}` : "";
+
             const tarjeta = document.createElement("div");
             tarjeta.className = "tarjeta-cupon"; // Clase CSS para darle diseño
 
@@ -512,7 +516,7 @@ async function cargarCupones() {
                     <span class="badge-descuento">${textoDescuento}</span>
                 </div>
                 <p>${cupon.descripcion}</p>
-                <p class="vencimiento">Válido hasta: ${cupon.fecha_expiracion || 'Sin fecha límite'}</p>
+                <p class="vencimiento">Válido hasta el: ${fechaFormateada || 'Sin fecha límite'}</p>
             `;
             
             listaCupones.appendChild(tarjeta);
