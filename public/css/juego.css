@@ -241,36 +241,3 @@ main{
     font-size: 12px;
     display: none; /* Oculto para entrega, cambiar si se necesita testear */
 }
-
-.boton-reiniciar:hover {
-    background-color: #cccccc;
-}
-/* Estilos header*/
-.logo-header{
-
-    height: 60px;
-
-    width: auto;
-
-}
-.header-oculto{
-
-    transform: translateY(-100%);
-}
-nav{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:25px;
-
-}
-.perfil-icono{
-
-    width: 40px;
-
-    height: 40px;
-
-    object-fit: cover;
-}
