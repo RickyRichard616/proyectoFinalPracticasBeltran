@@ -301,8 +301,10 @@ app.post('/api/login', async (req, res) => {
 app.post('/api/cerrar-sesion', async (req, res) => {
     try {
         const { idUsuario } = req.body;
+        console.log("llega llamado a cerrar sesion");
 
         if (!idUsuario) {
+            console.log("Falta id del usuario");
             return res.status(400).json({ error: "Falta el ID del usuario." });
         }
 
@@ -312,6 +314,7 @@ app.post('/api/cerrar-sesion', async (req, res) => {
             [idUsuario]
         );
 
+        console.log("sesion cerrada");
         res.status(200).json({ mensaje: "Sesión cerrada correctamente." });
 
     } catch (error) {
