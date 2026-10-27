@@ -99,7 +99,6 @@ document.addEventListener("DOMContentLoaded",() => {
     const btnLogout = document.getElementById('btn-logout');
     btnLogout.addEventListener("click", async (e) => {
         e.preventDefault();
-        const idUsuario = localStorage.getItem("idUsuario");
         console.log("id: "+idUsuario);
         if (idUsuario) {
             try {
