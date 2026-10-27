@@ -9,6 +9,116 @@ document
     .getElementById("form-login")
     .addEventListener("submit", login);
 
+document.addEventListener("DOMContentLoaded",() => {
+// Esconder o mostrar contenido segun si estas logeado
+    const idUsuario =
+        localStorage.getItem(
+            "idUsuario"
+        );
+    if(idUsuario){
+        habilitarDeslogeo();
+    }else{
+        habilitarLogueo();
+    }
+
+ // Consultar mesas disponibles por local, dia y hora
+    const localSelect = document.getElementById('local');
+    const fechaInput = document.getElementById('fecha');
+    const horaInput = document.getElementById('hora');
+    const mesaSelect = document.getElementById('mesa');
+    function actualizarMesasDisponibles() {
+        const local = localSelect.value;
+        const fecha = fechaInput.value;
+        const hora = horaInput.value;
+        // Solo consultamos si los tres campos están completos
+        if (local && fecha && hora) {
+            // Petición a tu API o backend
+            fetch(`${API_URL}/api/mesas-disponibles?local=${local}&fecha=${fecha}&hora=${hora}`)
+                .then(response => response.json())
+                .then(mesas => {
+                    // Limpiamos las opciones anteriores
+                    mesaSelect.innerHTML = '';
+                    
+                    // Añadimos las mesas que devolvió la base de datos
+                    mesas.forEach(mesa => {
+                        const option = document.createElement('option');
+                        option.value = mesa.id_mesa;
+                        option.textContent = `Mesa ${mesa.numero_mesa} (Hasta ${mesa.capacidad} jugadores)`;
+                        mesaSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error al obtener las mesas:', error));
+        }
+    }
+    // Escuchamos cambios en los tres campos clave
+    localSelect.addEventListener('change', actualizarMesasDisponibles);
+    fechaInput.addEventListener('change', actualizarMesasDisponibles);
+    horaInput.addEventListener('change', actualizarMesasDisponibles);
+
+// Envio de formulario para crear reservas
+    const formReserva = document.getElementById('form-reserva');
+    formReserva.addEventListener('submit', async (e) => {
+        // 1. Evitamos que la página se recargue por defecto
+        e.preventDefault();
+        // 2. Verificamos que el usuario esté logueado
+        const idUsuario = localStorage.getItem("idUsuario");
+        if (!idUsuario) {
+            alert("Debes iniciar sesión para poder realizar una reserva.");
+            return;
+        }
+        // 3. Recolectamos los datos de los inputs
+        const datosReserva = {
+            idUsuario: idUsuario,
+            idLocal: document.getElementById('local').value,
+            fecha: document.getElementById('fecha').value,
+            hora: document.getElementById('hora').value,
+            idMesa: document.getElementById('mesa').value,
+        };
+        try {
+            // 4. Enviamos los datos al backend mediante POST
+            const response = await fetch('/api/reservar', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(datosReserva)
+            });
+            const resultado = await response.json();
+            if (response.ok) {
+                alert("¡Reserva creada con éxito!");
+                formReserva.reset(); // Limpia el formulario
+                actualizarMesasDisponibles();
+            } else {
+                alert("No se pudo completar la reserva: " + (resultado.error || "Inténtalo de nuevo."));
+            }
+        } catch (error) {
+            console.error("Error al enviar la reserva:", error);
+            alert("Hubo un error de conexión con el servidor.");
+        }
+    });
+
+// Cerrar sesion
+    const btnLogout = document.getElementById('btn-logout');
+    btnLogout.addEventListener("click", async () => {
+    const idUsuario = localStorage.getItem("idUsuario");
+
+    if (idUsuario) {
+        try {
+            // Avisamos al backend que cambie el online a 0
+            await fetch(`${API_URL}/api/cerrar-sesion`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idUsuario })
+            });
+        } catch (error) {
+            console.error("Error al notificar cierre de sesión:", error);
+        }
+    }
+
+    // Borramos del navegador y refrescamos la interfaz
+    localStorage.removeItem("idUsuario");
+    verReservas(); // (La función que limpia la pantalla)
+});
+});
+
 async function registrar(e){
 
     e.preventDefault();
@@ -310,120 +420,3 @@ function verReservas(){
         listaReservas.innerHTML = "<p>Hubo un error al cargar tus reservas.</p>";
     });
 }
-
-document.addEventListener("DOMContentLoaded",() => {
-// Esconder o mostrar contenido segun si estas logeado
-    const idUsuario =
-        localStorage.getItem(
-            "idUsuario"
-        );
-    if(idUsuario){
-        habilitarDeslogeo();
-    }else{
-        habilitarLogueo();
-    }
-// Cerrar sesion
-    btnDeslogear.addEventListener("click", async () => {
-        const idUsuario = localStorage.getItem("idUsuario");
-
-        if (idUsuario) {
-            try {
-                // Avisamos al backend que cambie el online a 0
-                await fetch(`${API_URL}/api/cerrar-sesion`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ idUsuario })
-                });
-            } catch (error) {
-                console.error("Error al notificar cierre de sesión:", error);
-            }
-        }
-
-        // Borramos del navegador y refrescamos la interfaz
-        localStorage.removeItem("idUsuario");
-        verReservas(); // (La función que limpia la pantalla)
-    });
-
- // Consultar mesas disponibles por local, dia y hora
-    const localSelect = document.getElementById('local');
-    const fechaInput = document.getElementById('fecha');
-    const horaInput = document.getElementById('hora');
-    const mesaSelect = document.getElementById('mesa');
-
-    function actualizarMesasDisponibles() {
-        const local = localSelect.value;
-        const fecha = fechaInput.value;
-        const hora = horaInput.value;
-
-        // Solo consultamos si los tres campos están completos
-        if (local && fecha && hora) {
-            // Petición a tu API o backend
-            fetch(`${API_URL}/api/mesas-disponibles?local=${local}&fecha=${fecha}&hora=${hora}`)
-                .then(response => response.json())
-                .then(mesas => {
-                    // Limpiamos las opciones anteriores
-                    mesaSelect.innerHTML = '';
-                    
-                    // Añadimos las mesas que devolvió la base de datos
-                    mesas.forEach(mesa => {
-                        const option = document.createElement('option');
-                        option.value = mesa.id_mesa;
-                        option.textContent = `Mesa ${mesa.numero_mesa} (Hasta ${mesa.capacidad} jugadores)`;
-                        mesaSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error al obtener las mesas:', error));
-        }
-    }
-
-    // Escuchamos cambios en los tres campos clave
-    localSelect.addEventListener('change', actualizarMesasDisponibles);
-    fechaInput.addEventListener('change', actualizarMesasDisponibles);
-    horaInput.addEventListener('change', actualizarMesasDisponibles);
-
-// Envio de formulario para crear reservas
-    const formReserva = document.getElementById('form-reserva');
-
-    formReserva.addEventListener('submit', async (e) => {
-        // 1. Evitamos que la página se recargue por defecto
-        e.preventDefault();
-
-        // 2. Verificamos que el usuario esté logueado
-        const idUsuario = localStorage.getItem("idUsuario");
-        if (!idUsuario) {
-            alert("Debes iniciar sesión para poder realizar una reserva.");
-            return;
-        }
-
-        // 3. Recolectamos los datos de los inputs
-        const datosReserva = {
-            idUsuario: idUsuario,
-            idLocal: document.getElementById('local').value,
-            fecha: document.getElementById('fecha').value,
-            hora: document.getElementById('hora').value,
-            idMesa: document.getElementById('mesa').value,
-        };
-
-        try {
-            // 4. Enviamos los datos al backend mediante POST
-            const response = await fetch('/api/reservar', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(datosReserva)
-            });
-
-            const resultado = await response.json();
-
-            if (response.ok) {
-                alert("¡Reserva creada con éxito!");
-                formReserva.reset(); // Limpia el formulario
-                actualizarMesasDisponibles();
-            } else {
-                alert("No se pudo completar la reserva: " + (resultado.error || "Inténtalo de nuevo."));
-            }
-        } catch (error) {
-            console.error("Error al enviar la reserva:", error);
-            alert("Hubo un error de conexión con el servidor.");
-        }
-    });
-});
