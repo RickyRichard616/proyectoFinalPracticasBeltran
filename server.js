@@ -217,7 +217,7 @@ app.post('/api/jugar', async (req, res) => {
 
             await pool.query(
                 'INSERT INTO usuario_intentos_desafio SET id_tipo_cupon_ganado = ? WHERE id_intento = ?', // Asegurar registro si aplica
-                [desafioActual.id_tipo_cupon_recompensa, intentoActual.id_intento]
+                [desafioActual.id_tipo_cupon_recompensa, filasIntentos[0].id_intento]
             ).catch(() => {}); // Manejo defensivo
 
             await pool.query(
