@@ -37,8 +37,7 @@ app.get('/', (req, res) => {
 app.post('/api/jugar', async (req, res) => {
     try {
         //const { idUsuario, accionUsuario, zonaActual, tiempoRestante, salud, mente } = req.body;
-        const idUsuario = 1;
-        const { accionUsuario, zonaActual, tiempoRestante, salud, mente } = req.body;
+        const { idUsuario, accionUsuario, zonaActual, tiempoRestante, salud, mente } = req.body;
         const fechaHoy = new Date().toISOString().split('T')[0]; // Obtener fecha actual
 
         let [filasDesafios] = await pool.query(
