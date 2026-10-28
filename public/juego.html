@@ -126,6 +126,8 @@
         ESTADO DEL JUEGO
         Objeto principal que almacena los valores actuales de la partida.
         */
+        const idUsuario.localStorage.getItem("idUsuario");
+        
         let estadoJuego = {
             zonaActual: "Entrada",
             tiempoRestanteMinutos: 120, // 2 horas de tiempo límite in-game
@@ -172,6 +174,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
+                        idUsuario: idUsuario,
                         accionUsuario: accionElegida,
                         zonaActual: estadoJuego.zonaActual,
                         tiempoRestante: estadoJuego.tiempoRestanteMinutos,
